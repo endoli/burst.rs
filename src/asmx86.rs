@@ -1425,6 +1425,12 @@ impl InstructionOperation {
     }
 }
 
+impl Default for InstructionOperation {
+    fn default() -> Self {
+        InstructionOperation::INVALID
+    }
+}
+
 
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 #[repr(i32)]
@@ -1651,7 +1657,7 @@ impl Clone for InstructionOperand {
     }
 }
 
-#[derive(Copy)]
+#[derive(Copy, Default)]
 #[repr(C)]
 pub struct Instruction {
     pub operation: InstructionOperation,
