@@ -9319,23 +9319,23 @@ unsafe extern "C" fn WriteOperand(
     }
 }
 
-unsafe extern "C" fn GetSizeString(size: u16) -> *const u8 {
+unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
     if size == 16 {
-        (*b"oword \0").as_ptr()
+        "oword "
     } else if size == 10 {
-        (*b"tword \0").as_ptr()
+        "tword "
     } else if size == 8 {
-        (*b"qword \0").as_ptr()
+        "qword "
     } else if size == 6 {
-        (*b"fword \0").as_ptr()
+        "fword "
     } else if size == 4 {
-        (*b"dword \0").as_ptr()
+        "dword "
     } else if size == 2 {
-        (*b"word \0").as_ptr()
+        "word "
     } else if size == 1 {
-        (*b"byte \0").as_ptr()
+        "byte "
     } else {
-        (*b"\0").as_ptr()
+        ""
     }
 }
 
@@ -9459,7 +9459,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                         WriteString(
                             &mut out as (*mut *mut u8),
                             &mut outMaxLen as (*mut usize),
-                            GetSizeString((*instr).operands[i as (usize)].size),
+                            GetSizeString((*instr).operands[i as (usize)].size).as_ptr(),
                         );
                         if (*instr).segment != SegmentRegister::SEG_DEFAULT ||
                             (*instr).operands[i as (usize)].segment == SegmentRegister::SEG_ES
