@@ -7466,40 +7466,36 @@ unsafe extern "C" fn ProcessEncoding(state: &mut DecodeState, encoding: &Instruc
             state.finalOpSize = 2u16;
         }
         if state.flags & 0x1000u32 != 0 {
-            if state.finalOpSize as (i32) == 4i32 {
-                (*state.result).operation = InstructionOperation::from_i32(
-                    ((*state.result).operation as (i32) + 1i32) as (i32),
-                );
-            } else if state.finalOpSize as (i32) == 8i32 {
-                (*state.result).operation = InstructionOperation::from_i32(
-                    ((*state.result).operation as (i32) + 2i32) as (i32),
-                );
+            if state.finalOpSize == 4 {
+                (*state.result).operation =
+                    InstructionOperation::from_i32(((*state.result).operation as (i32) + 1));
+            } else if state.finalOpSize == 8 {
+                (*state.result).operation =
+                    InstructionOperation::from_i32(((*state.result).operation as (i32) + 2));
             }
         }
         if state.flags & 0x40u32 != 0 {
-            if state.rep as (i32) != RepPrefix::REP_PREFIX_NONE as (i32) {
+            if state.rep != RepPrefix::REP_PREFIX_NONE {
                 (*state.result).flags = (*state.result).flags | 2u32;
             }
         } else if state.flags & 0x80u32 != 0 {
-            if state.rep as (i32) == RepPrefix::REP_PREFIX_REPNE as (i32) {
+            if state.rep == RepPrefix::REP_PREFIX_REPNE {
                 (*state.result).flags = (*state.result).flags | 4u32;
-            } else if state.rep as (i32) == RepPrefix::REP_PREFIX_REPE as (i32) {
+            } else if state.rep == RepPrefix::REP_PREFIX_REPE {
                 (*state.result).flags = (*state.result).flags | 8u32;
             }
         }
         ((*encoding).func)(state);
-        if (*state.result).operation as (i32) == InstructionOperation::INVALID as (i32) {
+        if (*state.result).operation == InstructionOperation::INVALID {
             state.invalid = true;
         }
         if (*state.result).flags & 1u32 != 0 {
             if state.flags & 0x20u32 == 0 {
                 state.invalid = true;
-            } else if (*state.result).operation as (i32) == InstructionOperation::CMP as (i32) {
+            } else if (*state.result).operation == InstructionOperation::CMP {
                 state.invalid = true;
-            } else if (*state.result).operands[0usize].operand as (i32) !=
-                       OperandType::MEM as (i32) &&
-                       ((*state.result).operands[1usize].operand as (i32) !=
-                            OperandType::MEM as (i32))
+            } else if (*state.result).operands[0usize].operand != OperandType::MEM &&
+                       ((*state.result).operands[1usize].operand != OperandType::MEM)
             {
                 state.invalid = true;
             }
@@ -7558,7 +7554,7 @@ unsafe extern "C" fn SetOperandToImm8(state: &mut DecodeState, oper: *mut Instru
 
 unsafe extern "C" fn DecodeTwoByte(state: &mut DecodeState) {
     let opcode: u8 = Read8(state);
-    if opcode as (i32) == 0x38i32 {
+    if opcode == 0x38 {
         let next_opcode = Read8(state);
         ProcessSparseOpcode(
             state,
@@ -7567,7 +7563,7 @@ unsafe extern "C" fn DecodeTwoByte(state: &mut DecodeState) {
                 .wrapping_div(::std::mem::size_of::<SparseInstructionEncoding>()),
             next_opcode,
         );
-    } else if opcode as (i32) == 0x3ai32 {
+    } else if opcode == 0x3a {
         let next_opcode = Read8(state);
         ProcessSparseOpcode(
             state,
@@ -7616,13 +7612,13 @@ unsafe extern "C" fn GetByteRegList(state: &DecodeState) -> &'static [OperandTyp
 
 unsafe extern "C" fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
     let switch1 = state.finalOpSize;
-    if switch1 as (i32) == 8i32 {
+    if switch1 == 8 {
         &REG64_LIST
-    } else if switch1 as (i32) == 4i32 {
+    } else if switch1 == 4 {
         &REG32_LIST
-    } else if switch1 as (i32) == 2i32 {
+    } else if switch1 == 2 {
         &REG16_LIST
-    } else if switch1 as (i32) == 1i32 {
+    } else if switch1 == 1 {
         GetByteRegList(state)
     } else {
         &INVALID_REG_LIST
@@ -7631,11 +7627,11 @@ unsafe extern "C" fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [
 
 unsafe extern "C" fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
     let switch3 = state.addrSize;
-    if switch3 as (i32) == 8i32 {
+    if switch3 == 8 {
         &REG64_LIST
-    } else if switch3 as (i32) == 4i32 {
+    } else if switch3 == 4 {
         &REG32_LIST
-    } else if switch3 as (i32) == 2i32 {
+    } else if switch3 == 2 {
         &REG16_LIST
     } else {
         &INVALID_REG_LIST
@@ -7644,15 +7640,15 @@ unsafe extern "C" fn GetRegListForAddrSize(state: &DecodeState) -> &'static [Ope
 
 unsafe extern "C" fn Read32(state: &mut DecodeState) -> u32 {
     let val: u32;
-    if state.len < 4usize {
+    if state.len < 4 {
         state.invalid = true;
         state.insufficientLength = true;
-        state.len = 0usize;
-        0u32
+        state.len = 0;
+        0
     } else {
         val = *(state.opcode as (*mut u32));
-        state.opcode = state.opcode.offset(4isize);
-        state.len = state.len.wrapping_sub(4usize);
+        state.opcode = state.opcode.offset(4);
+        state.len = state.len.wrapping_sub(4);
         val
     }
 }
@@ -7737,7 +7733,7 @@ unsafe extern "C" fn DecodeRM(
         rmOper = &mut temp as (*mut InstructionOperand);
     }
     (*rmOper).size = rmSize;
-    if state.addrSize as (i32) == 2i32 {
+    if state.addrSize == 2 {
         static mut RM16_COMPONENTS: [RMDef; 9] = [
             RMDef {
                 first: OperandType::REG_BX,
@@ -7785,9 +7781,9 @@ unsafe extern "C" fn DecodeRM(
                 segment: SegmentRegister::SEG_DS,
             },
         ];
-        if mod_ as (i32) == 3i32 {
+        if mod_ == 3 {
             (*rmOper).operand = regList[rm as usize];
-        } else if mod_ as (i32) == 2i32 {
+        } else if mod_ == 2 {
             let immediate = ReadSigned16(state);
             SetMemOperand(
                 state,
@@ -7795,7 +7791,7 @@ unsafe extern "C" fn DecodeRM(
                 &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
                 immediate,
             );
-        } else if mod_ as (i32) == 1i32 {
+        } else if mod_ == 1 {
             let immediate = ReadSigned8(state);
             SetMemOperand(
                 state,
@@ -7803,9 +7799,9 @@ unsafe extern "C" fn DecodeRM(
                 &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
                 immediate,
             );
-        } else if mod_ as (i32) == 0i32 {
-            if rm as (i32) == 6i32 {
-                rm = 8u8;
+        } else if mod_ == 0 {
+            if rm == 6 {
+                rm = 8;
                 let immediate = Read16(state);
                 SetMemOperand(
                     state,
@@ -7822,7 +7818,7 @@ unsafe extern "C" fn DecodeRM(
                 );
             }
         }
-        if (*rmOper).components[0usize] as (i32) == OperandType::NONE as (i32) {
+        if (*rmOper).components[0usize] == OperandType::NONE {
             (*rmOper).immediate = (*rmOper).immediate & 0xffffisize;
         }
     } else {
@@ -7831,7 +7827,7 @@ unsafe extern "C" fn DecodeRM(
         let rmReg2Offset: u8 = (if state.rexRM2 { 8i32 } else { 0i32 }) as (u8);
         let mut seg: SegmentRegister = SegmentRegister::SEG_DEFAULT;
         (*rmOper).operand = OperandType::MEM;
-        if mod_ as (i32) != 3i32 && (rm as (i32) == 4i32) {
+        if mod_ != 3 && rm == 4 {
             let sibByte: u8 = Read8(state);
             let base: u8 = (sibByte as (i32) & 7i32) as (u8);
             let index: u8 = (sibByte as (i32) >> 3i32 & 7i32) as (u8);
@@ -7844,12 +7840,12 @@ unsafe extern "C" fn DecodeRM(
                 (*rmOper).components[1usize] =
                     addrRegList[(index as (i32) + rmReg2Offset as (i32)) as (usize)];
             }
-            if mod_ as (i32) == 2i32 {
+            if mod_ == 2 {
                 (*rmOper).immediate = ReadSigned32(state);
-            } else if mod_ as (i32) == 1i32 {
+            } else if mod_ == 1 {
                 (*rmOper).immediate = ReadSigned8(state);
-            } else if mod_ as (i32) == 0i32 {
-                if base as (i32) == 5i32 {
+            } else if mod_ == 0 {
+                if base == 5 {
                     (*rmOper).immediate = ReadSigned32(state);
                 }
             }
@@ -8164,11 +8160,11 @@ unsafe extern "C" fn DecodeDxEsi(state: &mut DecodeState) {
 
 unsafe extern "C" fn ReadSignedFinalOpSize(state: &mut DecodeState) -> isize {
     let switch5 = state.finalOpSize;
-    if switch5 as (i32) == 8i32 || switch5 as (i32) == 4i32 {
+    if switch5 == 8 || switch5 == 4 {
         ReadSigned32(state)
-    } else if switch5 as (i32) == 2i32 {
+    } else if switch5 == 2 {
         ReadSigned16(state)
-    } else if switch5 as (i32) == 1i32 {
+    } else if switch5 == 1 {
         ReadSigned8(state)
     } else {
         0isize
@@ -8188,10 +8184,10 @@ unsafe extern "C" fn DecodeRelImm(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn UpdateOperationForAddrSize(state: &mut DecodeState) {
-    if state.addrSize as (i32) == 4i32 {
+    if state.addrSize == 4 {
         (*state.result).operation =
             InstructionOperation::from_i32(((*state.result).operation as (i32) + 1i32) as (i32));
-    } else if state.addrSize as (i32) == 8i32 {
+    } else if state.addrSize == 8 {
         (*state.result).operation =
             InstructionOperation::from_i32(((*state.result).operation as (i32) + 2i32) as (i32));
     }
@@ -8247,7 +8243,7 @@ unsafe extern "C" fn DecodeGroupRMCl(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeGroupF6F7(state: &mut DecodeState) {
     DecodeGroupRM(state);
-    if (*state.result).operation as (i32) == InstructionOperation::TEST as (i32) {
+    if (*state.result).operation == InstructionOperation::TEST {
         let operand1 = state.operand1;
         SetOperandToImm(state, operand1);
     }
@@ -8340,7 +8336,7 @@ unsafe extern "C" fn DecodeGroup0FAE(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn Decode0FB8(state: &mut DecodeState) {
-    if state.rep as (i32) != RepPrefix::REP_PREFIX_REPE as (i32) {
+    if state.rep != RepPrefix::REP_PREFIX_REPE {
         if state.using64 {
             state.opSize = if state.opPrefix { 4i32 } else { 8i32 } as (u16);
         }
@@ -8353,11 +8349,11 @@ unsafe extern "C" fn Decode0FB8(state: &mut DecodeState) {
 
 unsafe extern "C" fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
     let switch6 = state.opSize;
-    if switch6 as (i32) == 8i32 {
+    if switch6 == 8 {
         &REG64_LIST
-    } else if switch6 as (i32) == 4i32 {
+    } else if switch6 == 4 {
         &REG32_LIST
-    } else if switch6 as (i32) == 2i32 {
+    } else if switch6 == 2 {
         &REG16_LIST
     } else {
         &INVALID_REG_LIST
@@ -8376,13 +8372,13 @@ unsafe extern "C" fn DecodeRMSRegV(state: &mut DecodeState) {
         regSize,
         &mut regField as (*mut u8),
     );
-    if regField as (i32) >= 6i32 {
+    if regField >= 6 {
         state.invalid = true;
     }
     (*state.operand1).operand =
-        OperandType::from_i32((OperandType::REG_ES as (i32) + regField as (i32)) as (i32));
-    (*state.operand1).size = 2u16;
-    if (*state.result).operands[0usize].operand as (i32) == OperandType::REG_CS as (i32) {
+        OperandType::from_i32(OperandType::REG_ES as (i32) + regField as (i32));
+    (*state.operand1).size = 2;
+    if (*state.result).operands[0].operand == OperandType::REG_CS {
         state.invalid = true;
     }
 }
@@ -8421,9 +8417,9 @@ unsafe extern "C" fn DecodeFarImm(state: &mut DecodeState) {
 
 unsafe extern "C" fn ReadAddrSize(state: &mut DecodeState) -> isize {
     let switch7 = state.addrSize;
-    if switch7 as (i32) == 8i32 || switch7 as (i32) == 4i32 {
+    if switch7 == 8 || switch7 == 4 {
         Read32(state) as (isize)
-    } else if switch7 as (i32) == 2i32 {
+    } else if switch7 == 2 {
         Read16(state) as (isize)
     } else {
         0isize
@@ -8533,10 +8529,10 @@ unsafe extern "C" fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
     if state.opPrefix {
         state.opPrefix = false;
         1u8
-    } else if state.rep as (i32) == RepPrefix::REP_PREFIX_REPNE as (i32) {
+    } else if state.rep == RepPrefix::REP_PREFIX_REPNE {
         state.rep = RepPrefix::REP_PREFIX_NONE;
         2u8
-    } else if state.rep as (i32) == RepPrefix::REP_PREFIX_REPE as (i32) {
+    } else if state.rep == RepPrefix::REP_PREFIX_REPE {
         state.rep = RepPrefix::REP_PREFIX_NONE;
         3u8
     } else {
@@ -8652,21 +8648,21 @@ unsafe extern "C" fn DecodeSSETableImm8(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeSSETableMem8(state: &mut DecodeState) {
     DecodeSSETable(state);
-    if (*state.operand0).operand as (i32) == OperandType::MEM as (i32) {
-        (*state.operand0).size = 1u16;
+    if (*state.operand0).operand == OperandType::MEM {
+        (*state.operand0).size = 1;
     }
-    if (*state.operand1).operand as (i32) == OperandType::MEM as (i32) {
-        (*state.operand1).size = 1u16;
+    if (*state.operand1).operand == OperandType::MEM {
+        (*state.operand1).size = 1;
     }
 }
 
 unsafe extern "C" fn GetSizeForSSEType(type_: u8) -> u16 {
-    if type_ as (i32) == 2i32 {
-        8u16
-    } else if type_ as (i32) == 3i32 {
-        4u16
+    if type_ == 2 {
+        8
+    } else if type_ == 3 {
+        4
     } else {
-        16u16
+        16
     }
 }
 
@@ -8721,7 +8717,7 @@ unsafe extern "C" fn DecodeSSESingle(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeSSEPacked(state: &mut DecodeState) {
     let type_: u8 = DecodeSSEPrefix(state);
-    if type_ as (i32) == 2i32 || type_ as (i32) == 3i32 {
+    if type_ == 2 || type_ == 3 {
         state.invalid = true;
     } else {
         (*state.result).operation = InstructionOperation::from_i32(
@@ -8798,8 +8794,7 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
             &mut regField as (*mut u8),
         );
         (*state.result).operation = InstructionOperation::from_i32(
-            MMX_GROUP_OPERATIONS[(*state.result).operation as (i32) as
-                                     (usize)]
+            MMX_GROUP_OPERATIONS[(*state.result).operation as usize]
                 [regField as (usize)]
                 [1usize] as (i32),
         );
@@ -8813,8 +8808,7 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
             &mut regField as (*mut u8),
         );
         (*state.result).operation = InstructionOperation::from_i32(
-            MMX_GROUP_OPERATIONS[(*state.result).operation as (i32) as
-                                     (usize)]
+            MMX_GROUP_OPERATIONS[(*state.result).operation as usize]
                 [regField as (usize)]
                 [0usize] as (i32),
         );
@@ -8825,14 +8819,14 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodePinsrw(state: &mut DecodeState) {
     DecodeSSETableImm8(state);
-    if (*state.operand1).operand as (i32) == OperandType::MEM as (i32) {
-        (*state.operand1).size = 2u16;
+    if (*state.operand1).operand == OperandType::MEM {
+        (*state.operand1).size = 2;
     }
 }
 
 unsafe extern "C" fn DecodeRegCR(state: &mut DecodeState) {
-    if state.opSize as (i32) == 2i32 {
-        state.opSize = 4u16;
+    if state.opSize == 2 {
+        state.opSize = 4;
     }
     let regList = GetRegListForOpSize(state);
     let reg = Read8(state);
@@ -9007,7 +9001,7 @@ unsafe extern "C" fn DecodeCmpXch8B(state: &mut DecodeState) {
     } else if regField as (i32) == 6i32 {
         if state.opPrefix {
             (*state.result).operation = InstructionOperation::VMCLEAR;
-        } else if state.rep as (i32) == RepPrefix::REP_PREFIX_REPE as (i32) {
+        } else if state.rep == RepPrefix::REP_PREFIX_REPE {
             (*state.result).operation = InstructionOperation::VMXON;
         } else {
             (*state.result).operation = InstructionOperation::VMPTRLD;
@@ -9319,26 +9313,26 @@ unsafe extern "C" fn WriteOperand(
         WriteString(out, outMaxLen, (*b"+\0").as_ptr());
     }
     WriteString(out, outMaxLen, OPERAND_STRING[type_ as (usize)].as_ptr());
-    if scale as (i32) != 1i32 {
+    if scale != 1 {
         WriteChar(out, outMaxLen, b'*');
         WriteChar(out, outMaxLen, (scale as (i32) + b'0' as (i32)) as (u8));
     }
 }
 
 unsafe extern "C" fn GetSizeString(size: u16) -> *const u8 {
-    if size as (i32) == 16i32 {
+    if size == 16 {
         (*b"oword \0").as_ptr()
-    } else if size as (i32) == 10i32 {
+    } else if size == 10 {
         (*b"tword \0").as_ptr()
-    } else if size as (i32) == 8i32 {
+    } else if size == 8 {
         (*b"qword \0").as_ptr()
-    } else if size as (i32) == 6i32 {
+    } else if size == 6 {
         (*b"fword \0").as_ptr()
-    } else if size as (i32) == 4i32 {
+    } else if size == 4 {
         (*b"dword \0").as_ptr()
-    } else if size as (i32) == 2i32 {
+    } else if size == 2 {
         (*b"word \0").as_ptr()
-    } else if size as (i32) == 1i32 {
+    } else if size == 1 {
         (*b"byte \0").as_ptr()
     } else {
         (*b"\0").as_ptr()
@@ -9442,9 +9436,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                     if !(i < 3u32) {
                         break;
                     }
-                    if (*instr).operands[i as (usize)].operand as (i32) ==
-                        OperandType::NONE as (i32)
-                    {
+                    if (*instr).operands[i as (usize)].operand == OperandType::NONE {
                         break;
                     }
                     if i != 0u32 {
@@ -9454,9 +9446,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                             (*b", \0").as_ptr(),
                         );
                     }
-                    if (*instr).operands[i as (usize)].operand as (i32) ==
-                        OperandType::IMM as (i32)
-                    {
+                    if (*instr).operands[i as (usize)].operand == OperandType::IMM {
                         WriteHex(
                             &mut out as (*mut *mut u8),
                             &mut outMaxLen as (*mut usize),
@@ -9464,18 +9454,15 @@ pub unsafe extern "C" fn FormatInstructionString(
                             ((*instr).operands[i as (usize)].size as (i32) * 2i32) as (u32),
                             true,
                         );
-                    } else if (*instr).operands[i as (usize)].operand as (i32) ==
-                               OperandType::MEM as (i32)
-                    {
+                    } else if (*instr).operands[i as (usize)].operand == OperandType::MEM {
                         let mut plus: bool = false;
                         WriteString(
                             &mut out as (*mut *mut u8),
                             &mut outMaxLen as (*mut usize),
                             GetSizeString((*instr).operands[i as (usize)].size),
                         );
-                        if (*instr).segment as (i32) != SegmentRegister::SEG_DEFAULT as (i32) ||
-                            (*instr).operands[i as (usize)].segment as (i32) ==
-                                SegmentRegister::SEG_ES as (i32)
+                        if (*instr).segment != SegmentRegister::SEG_DEFAULT ||
+                            (*instr).operands[i as (usize)].segment == SegmentRegister::SEG_ES
                         {
                             WriteOperand(
                                 &mut out as (*mut *mut u8),
@@ -9499,21 +9486,17 @@ pub unsafe extern "C" fn FormatInstructionString(
                             &mut outMaxLen as (*mut usize),
                             b'[',
                         );
-                        if (*instr).operands[i as (usize)].components[0usize] as (i32) !=
-                            OperandType::NONE as (i32)
-                        {
+                        if (*instr).operands[i as (usize)].components[0] != OperandType::NONE {
                             WriteOperand(
                                 &mut out as (*mut *mut u8),
                                 &mut outMaxLen as (*mut usize),
-                                (*instr).operands[i as (usize)].components[0usize],
+                                (*instr).operands[i as (usize)].components[0],
                                 1u8,
                                 false,
                             );
                             plus = true;
                         }
-                        if (*instr).operands[i as (usize)].components[1usize] as (i32) !=
-                            OperandType::NONE as (i32)
-                        {
+                        if (*instr).operands[i as (usize)].components[1] != OperandType::NONE {
                             WriteOperand(
                                 &mut out as (*mut *mut u8),
                                 &mut outMaxLen as (*mut usize),
@@ -9524,10 +9507,10 @@ pub unsafe extern "C" fn FormatInstructionString(
                             plus = true;
                         }
                         if (*instr).operands[i as (usize)].immediate != 0isize ||
-                            (*instr).operands[i as (usize)].components[0usize] as (i32) ==
-                                OperandType::NONE as (i32) &&
-                                ((*instr).operands[i as (usize)].components[1usize] as (i32) ==
-                                     OperandType::NONE as (i32))
+                            (*instr).operands[i as (usize)].components[0usize] ==
+                                OperandType::NONE &&
+                                ((*instr).operands[i as (usize)].components[1usize] ==
+                                     OperandType::NONE)
                         {
                             if plus && ((*instr).operands[i as (usize)].immediate >= -0x80isize) &&
                                 ((*instr).operands[i as (usize)].immediate < 0isize)
