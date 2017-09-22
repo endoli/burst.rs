@@ -1584,6 +1584,21 @@ pub enum SegmentRegister {
     SEG_DEFAULT = 7i32,
 }
 
+impl SegmentRegister {
+    pub fn from_i32(i: i32) -> Self {
+        match i {
+            0 => SegmentRegister::SEG_ES,
+            1 => SegmentRegister::SEG_CS,
+            2 => SegmentRegister::SEG_SS,
+            3 => SegmentRegister::SEG_DS,
+            4 => SegmentRegister::SEG_FS,
+            5 => SegmentRegister::SEG_GS,
+            7 => SegmentRegister::SEG_DEFAULT,
+            _ => panic!("Unknown segment register {}", i),
+        }
+    }
+}
+
 #[derive(Copy)]
 #[repr(C)]
 pub struct InstructionOperand {
@@ -9201,13 +9216,11 @@ unsafe extern "C" fn GetFinalSegment(
     mut state: *mut DecodeState,
     mut seg: SegmentRegister,
 ) -> SegmentRegister {
-    SegmentRegister::from_i32(if (*(*state).result).segment as (i32) ==
-        SegmentRegister::SEG_DEFAULT as (i32)
-    {
-        seg as (i32)
+    if (*(*state).result).segment == SegmentRegister::SEG_DEFAULT {
+        seg
     } else {
-        (*(*state).result).segment as (i32)
-    } as (i32))
+        (*(*state).result).segment
+    }
 }
 
 #[derive(Copy)]
@@ -9408,22 +9421,22 @@ unsafe extern "C" fn DecodeRM(
                     (isize),
             ) as (i32));
             (*rmOper).immediate = ReadSigned32(state);
-            seg = SegmentRegister::from_i32(if rm as (i32) == 5i32 {
-                SegmentRegister::SEG_SS as (i32)
+            seg = if rm as (i32) == 5i32 {
+                SegmentRegister::SEG_SS
             } else {
-                SegmentRegister::SEG_DS as (i32)
-            } as (i32));
+                SegmentRegister::SEG_DS
+            };
         } else if mod_ as (i32) == 1i32 {
             (*rmOper).components[0usize] = OperandType::from_i32(*addrRegList.offset(
                 (rm as (i32) + rmReg1Offset as (i32)) as
                     (isize),
             ) as (i32));
             (*rmOper).immediate = ReadSigned8(state);
-            seg = SegmentRegister::from_i32(if rm as (i32) == 5i32 {
-                SegmentRegister::SEG_SS as (i32)
+            seg = if rm as (i32) == 5i32 {
+                SegmentRegister::SEG_SS
             } else {
-                SegmentRegister::SEG_DS as (i32)
-            } as (i32));
+                SegmentRegister::SEG_DS
+            };
         } else if mod_ as (i32) == 0i32 {
             if rm as (i32) == 5i32 {
                 (*rmOper).immediate = ReadSigned32(state);
