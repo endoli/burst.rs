@@ -7269,148 +7269,150 @@ static SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
     },
 ];
 
-static REG8_LIST: [u8; 8] = [
-    OperandType::REG_AL as (u8),
-    OperandType::REG_CL as (u8),
-    OperandType::REG_DL as (u8),
-    OperandType::REG_BL as (u8),
-    OperandType::REG_AH as (u8),
-    OperandType::REG_CH as (u8),
-    OperandType::REG_DH as (u8),
-    OperandType::REG_BH as (u8),
+static INVALID_REG_LIST: [OperandType; 0] = [];
+
+static REG8_LIST: [OperandType; 8] = [
+    OperandType::REG_AL,
+    OperandType::REG_CL,
+    OperandType::REG_DL,
+    OperandType::REG_BL,
+    OperandType::REG_AH,
+    OperandType::REG_CH,
+    OperandType::REG_DH,
+    OperandType::REG_BH,
 ];
 
-static REG8_LIST64: [u8; 16] = [
-    OperandType::REG_AL as (u8),
-    OperandType::REG_CL as (u8),
-    OperandType::REG_DL as (u8),
-    OperandType::REG_BL as (u8),
-    OperandType::REG_SPL as (u8),
-    OperandType::REG_BPL as (u8),
-    OperandType::REG_SIL as (u8),
-    OperandType::REG_DIL as (u8),
-    OperandType::REG_R8B as (u8),
-    OperandType::REG_R9B as (u8),
-    OperandType::REG_R10B as (u8),
-    OperandType::REG_R11B as (u8),
-    OperandType::REG_R12B as (u8),
-    OperandType::REG_R13B as (u8),
-    OperandType::REG_R14B as (u8),
-    OperandType::REG_R15B as (u8),
+static REG8_LIST64: [OperandType; 16] = [
+    OperandType::REG_AL,
+    OperandType::REG_CL,
+    OperandType::REG_DL,
+    OperandType::REG_BL,
+    OperandType::REG_SPL,
+    OperandType::REG_BPL,
+    OperandType::REG_SIL,
+    OperandType::REG_DIL,
+    OperandType::REG_R8B,
+    OperandType::REG_R9B,
+    OperandType::REG_R10B,
+    OperandType::REG_R11B,
+    OperandType::REG_R12B,
+    OperandType::REG_R13B,
+    OperandType::REG_R14B,
+    OperandType::REG_R15B,
 ];
 
-static REG16_LIST: [u8; 16] = [
-    OperandType::REG_AX as (u8),
-    OperandType::REG_CX as (u8),
-    OperandType::REG_DX as (u8),
-    OperandType::REG_BX as (u8),
-    OperandType::REG_SP as (u8),
-    OperandType::REG_BP as (u8),
-    OperandType::REG_SI as (u8),
-    OperandType::REG_DI as (u8),
-    OperandType::REG_R8W as (u8),
-    OperandType::REG_R9W as (u8),
-    OperandType::REG_R10W as (u8),
-    OperandType::REG_R11W as (u8),
-    OperandType::REG_R12W as (u8),
-    OperandType::REG_R13W as (u8),
-    OperandType::REG_R14W as (u8),
-    OperandType::REG_R15W as (u8),
+static REG16_LIST: [OperandType; 16] = [
+    OperandType::REG_AX,
+    OperandType::REG_CX,
+    OperandType::REG_DX,
+    OperandType::REG_BX,
+    OperandType::REG_SP,
+    OperandType::REG_BP,
+    OperandType::REG_SI,
+    OperandType::REG_DI,
+    OperandType::REG_R8W,
+    OperandType::REG_R9W,
+    OperandType::REG_R10W,
+    OperandType::REG_R11W,
+    OperandType::REG_R12W,
+    OperandType::REG_R13W,
+    OperandType::REG_R14W,
+    OperandType::REG_R15W,
 ];
 
-static REG32_LIST: [u8; 16] = [
-    OperandType::REG_EAX as (u8),
-    OperandType::REG_ECX as (u8),
-    OperandType::REG_EDX as (u8),
-    OperandType::REG_EBX as (u8),
-    OperandType::REG_ESP as (u8),
-    OperandType::REG_EBP as (u8),
-    OperandType::REG_ESI as (u8),
-    OperandType::REG_EDI as (u8),
-    OperandType::REG_R8D as (u8),
-    OperandType::REG_R9D as (u8),
-    OperandType::REG_R10D as (u8),
-    OperandType::REG_R11D as (u8),
-    OperandType::REG_R12D as (u8),
-    OperandType::REG_R13D as (u8),
-    OperandType::REG_R14D as (u8),
-    OperandType::REG_R15D as (u8),
+static REG32_LIST: [OperandType; 16] = [
+    OperandType::REG_EAX,
+    OperandType::REG_ECX,
+    OperandType::REG_EDX,
+    OperandType::REG_EBX,
+    OperandType::REG_ESP,
+    OperandType::REG_EBP,
+    OperandType::REG_ESI,
+    OperandType::REG_EDI,
+    OperandType::REG_R8D,
+    OperandType::REG_R9D,
+    OperandType::REG_R10D,
+    OperandType::REG_R11D,
+    OperandType::REG_R12D,
+    OperandType::REG_R13D,
+    OperandType::REG_R14D,
+    OperandType::REG_R15D,
 ];
 
-static REG64_LIST: [u8; 16] = [
-    OperandType::REG_RAX as (u8),
-    OperandType::REG_RCX as (u8),
-    OperandType::REG_RDX as (u8),
-    OperandType::REG_RBX as (u8),
-    OperandType::REG_RSP as (u8),
-    OperandType::REG_RBP as (u8),
-    OperandType::REG_RSI as (u8),
-    OperandType::REG_RDI as (u8),
-    OperandType::REG_R8 as (u8),
-    OperandType::REG_R9 as (u8),
-    OperandType::REG_R10 as (u8),
-    OperandType::REG_R11 as (u8),
-    OperandType::REG_R12 as (u8),
-    OperandType::REG_R13 as (u8),
-    OperandType::REG_R14 as (u8),
-    OperandType::REG_R15 as (u8),
+static REG64_LIST: [OperandType; 16] = [
+    OperandType::REG_RAX,
+    OperandType::REG_RCX,
+    OperandType::REG_RDX,
+    OperandType::REG_RBX,
+    OperandType::REG_RSP,
+    OperandType::REG_RBP,
+    OperandType::REG_RSI,
+    OperandType::REG_RDI,
+    OperandType::REG_R8,
+    OperandType::REG_R9,
+    OperandType::REG_R10,
+    OperandType::REG_R11,
+    OperandType::REG_R12,
+    OperandType::REG_R13,
+    OperandType::REG_R14,
+    OperandType::REG_R15,
 ];
 
-static MMX_REG_LIST: [u8; 16] = [
-    OperandType::REG_MM0 as (u8),
-    OperandType::REG_MM1 as (u8),
-    OperandType::REG_MM2 as (u8),
-    OperandType::REG_MM3 as (u8),
-    OperandType::REG_MM4 as (u8),
-    OperandType::REG_MM5 as (u8),
-    OperandType::REG_MM6 as (u8),
-    OperandType::REG_MM7 as (u8),
-    OperandType::REG_MM0 as (u8),
-    OperandType::REG_MM1 as (u8),
-    OperandType::REG_MM2 as (u8),
-    OperandType::REG_MM3 as (u8),
-    OperandType::REG_MM4 as (u8),
-    OperandType::REG_MM5 as (u8),
-    OperandType::REG_MM6 as (u8),
-    OperandType::REG_MM7 as (u8),
+static MMX_REG_LIST: [OperandType; 16] = [
+    OperandType::REG_MM0,
+    OperandType::REG_MM1,
+    OperandType::REG_MM2,
+    OperandType::REG_MM3,
+    OperandType::REG_MM4,
+    OperandType::REG_MM5,
+    OperandType::REG_MM6,
+    OperandType::REG_MM7,
+    OperandType::REG_MM0,
+    OperandType::REG_MM1,
+    OperandType::REG_MM2,
+    OperandType::REG_MM3,
+    OperandType::REG_MM4,
+    OperandType::REG_MM5,
+    OperandType::REG_MM6,
+    OperandType::REG_MM7,
 ];
 
-static XMM_REG_LIST: [u8; 16] = [
-    OperandType::REG_XMM0 as (u8),
-    OperandType::REG_XMM1 as (u8),
-    OperandType::REG_XMM2 as (u8),
-    OperandType::REG_XMM3 as (u8),
-    OperandType::REG_XMM4 as (u8),
-    OperandType::REG_XMM5 as (u8),
-    OperandType::REG_XMM6 as (u8),
-    OperandType::REG_XMM7 as (u8),
-    OperandType::REG_XMM8 as (u8),
-    OperandType::REG_XMM9 as (u8),
-    OperandType::REG_XMM10 as (u8),
-    OperandType::REG_XMM11 as (u8),
-    OperandType::REG_XMM12 as (u8),
-    OperandType::REG_XMM13 as (u8),
-    OperandType::REG_XMM14 as (u8),
-    OperandType::REG_XMM15 as (u8),
+static XMM_REG_LIST: [OperandType; 16] = [
+    OperandType::REG_XMM0,
+    OperandType::REG_XMM1,
+    OperandType::REG_XMM2,
+    OperandType::REG_XMM3,
+    OperandType::REG_XMM4,
+    OperandType::REG_XMM5,
+    OperandType::REG_XMM6,
+    OperandType::REG_XMM7,
+    OperandType::REG_XMM8,
+    OperandType::REG_XMM9,
+    OperandType::REG_XMM10,
+    OperandType::REG_XMM11,
+    OperandType::REG_XMM12,
+    OperandType::REG_XMM13,
+    OperandType::REG_XMM14,
+    OperandType::REG_XMM15,
 ];
 
-static FPU_REG_LIST: [u8; 16] = [
-    OperandType::REG_ST0 as (u8),
-    OperandType::REG_ST1 as (u8),
-    OperandType::REG_ST2 as (u8),
-    OperandType::REG_ST3 as (u8),
-    OperandType::REG_ST4 as (u8),
-    OperandType::REG_ST5 as (u8),
-    OperandType::REG_ST6 as (u8),
-    OperandType::REG_ST7 as (u8),
-    OperandType::REG_ST0 as (u8),
-    OperandType::REG_ST1 as (u8),
-    OperandType::REG_ST2 as (u8),
-    OperandType::REG_ST3 as (u8),
-    OperandType::REG_ST4 as (u8),
-    OperandType::REG_ST5 as (u8),
-    OperandType::REG_ST6 as (u8),
-    OperandType::REG_ST7 as (u8),
+static FPU_REG_LIST: [OperandType; 16] = [
+    OperandType::REG_ST0,
+    OperandType::REG_ST1,
+    OperandType::REG_ST2,
+    OperandType::REG_ST3,
+    OperandType::REG_ST4,
+    OperandType::REG_ST5,
+    OperandType::REG_ST6,
+    OperandType::REG_ST7,
+    OperandType::REG_ST0,
+    OperandType::REG_ST1,
+    OperandType::REG_ST2,
+    OperandType::REG_ST3,
+    OperandType::REG_ST4,
+    OperandType::REG_ST5,
+    OperandType::REG_ST6,
+    OperandType::REG_ST7,
 ];
 
 unsafe extern "C" fn InvalidDecode(state: *mut DecodeState) {
@@ -7612,39 +7614,39 @@ unsafe extern "C" fn DecodeFpu(state: *mut DecodeState) {
 
 unsafe extern "C" fn DecodeNoOperands(_state: *mut DecodeState) {}
 
-unsafe extern "C" fn GetByteRegList(state: *mut DecodeState) -> *const u8 {
+unsafe extern "C" fn GetByteRegList(state: *mut DecodeState) -> &'static [OperandType] {
     if (*state).rex {
-        REG8_LIST64.as_ptr()
+        &REG8_LIST64
     } else {
-        REG8_LIST.as_ptr()
+        &REG8_LIST
     }
 }
 
-unsafe extern "C" fn GetRegListForFinalOpSize(state: *mut DecodeState) -> *const u8 {
+unsafe extern "C" fn GetRegListForFinalOpSize(state: *mut DecodeState) -> &'static [OperandType] {
     let switch1 = (*state).finalOpSize;
     if switch1 as (i32) == 8i32 {
-        REG64_LIST.as_ptr()
+        &REG64_LIST
     } else if switch1 as (i32) == 4i32 {
-        REG32_LIST.as_ptr()
+        &REG32_LIST
     } else if switch1 as (i32) == 2i32 {
-        REG16_LIST.as_ptr()
+        &REG16_LIST
     } else if switch1 as (i32) == 1i32 {
         GetByteRegList(state)
     } else {
-        0i32 as (*mut ::std::os::raw::c_void) as (*const u8)
+        &INVALID_REG_LIST
     }
 }
 
-unsafe extern "C" fn GetRegListForAddrSize(state: *mut DecodeState) -> *const u8 {
+unsafe extern "C" fn GetRegListForAddrSize(state: *mut DecodeState) -> &'static [OperandType] {
     let switch3 = (*state).addrSize;
     if switch3 as (i32) == 8i32 {
-        REG64_LIST.as_ptr()
+        &REG64_LIST
     } else if switch3 as (i32) == 4i32 {
-        REG32_LIST.as_ptr()
+        &REG32_LIST
     } else if switch3 as (i32) == 2i32 {
-        REG16_LIST.as_ptr()
+        &REG16_LIST
     } else {
-        0i32 as (*mut ::std::os::raw::c_void) as (*const u8)
+        &INVALID_REG_LIST
     }
 }
 
@@ -7731,7 +7733,7 @@ unsafe extern "C" fn ReadSigned16(state: *mut DecodeState) -> isize {
 unsafe extern "C" fn DecodeRM(
     state: *mut DecodeState,
     mut rmOper: *mut InstructionOperand,
-    regList: *const u8,
+    regList: &[OperandType],
     rmSize: u16,
     regOper: *mut u8,
 ) {
@@ -7795,7 +7797,7 @@ unsafe extern "C" fn DecodeRM(
             },
         ];
         if mod_ as (i32) == 3i32 {
-            (*rmOper).operand = OperandType::from_i32(*regList.offset(rm as (isize)) as (i32));
+            (*rmOper).operand = regList[rm as usize];
         } else if mod_ as (i32) == 2i32 {
             SetMemOperand(
                 state,
@@ -7832,7 +7834,7 @@ unsafe extern "C" fn DecodeRM(
             (*rmOper).immediate = (*rmOper).immediate & 0xffffisize;
         }
     } else {
-        let addrRegList: *const u8 = GetRegListForAddrSize(state);
+        let addrRegList = GetRegListForAddrSize(state);
         let rmReg1Offset: u8 = (if (*state).rexRM1 { 8i32 } else { 0i32 }) as (u8);
         let rmReg2Offset: u8 = (if (*state).rexRM2 { 8i32 } else { 0i32 }) as (u8);
         let mut seg: SegmentRegister = SegmentRegister::SEG_DEFAULT;
@@ -7843,16 +7845,12 @@ unsafe extern "C" fn DecodeRM(
             let index: u8 = (sibByte as (i32) >> 3i32 & 7i32) as (u8);
             (*rmOper).scale = (1i32 << (sibByte as (i32) >> 6i32)) as (u8);
             if mod_ as (i32) != 0i32 || base as (i32) != 5i32 {
-                (*rmOper).components[0usize] = OperandType::from_i32(*addrRegList.offset(
-                    (base as (i32) + rmReg1Offset as (i32)) as
-                        (isize),
-                ) as (i32));
+                (*rmOper).components[0usize] =
+                    addrRegList[(base as (i32) + rmReg1Offset as (i32)) as (usize)];
             }
             if index as (i32) + rmReg2Offset as (i32) != 4i32 {
-                (*rmOper).components[1usize] = OperandType::from_i32(*addrRegList.offset(
-                    (index as (i32) + rmReg2Offset as (i32)) as
-                        (isize),
-                ) as (i32));
+                (*rmOper).components[1usize] =
+                    addrRegList[(index as (i32) + rmReg2Offset as (i32)) as (usize)];
             }
             if mod_ as (i32) == 2i32 {
                 (*rmOper).immediate = ReadSigned32(state);
@@ -7871,14 +7869,10 @@ unsafe extern "C" fn DecodeRM(
                 seg = SegmentRegister::SEG_DS;
             }
         } else if mod_ as (i32) == 3i32 {
-            (*rmOper).operand = OperandType::from_i32(*regList.offset(
-                (rm as (i32) + rmReg1Offset as (i32)) as (isize),
-            ) as (i32));
+            (*rmOper).operand = regList[(rm as (i32) + rmReg1Offset as (i32)) as (usize)];
         } else if mod_ as (i32) == 2i32 {
-            (*rmOper).components[0usize] = OperandType::from_i32(*addrRegList.offset(
-                (rm as (i32) + rmReg1Offset as (i32)) as
-                    (isize),
-            ) as (i32));
+            (*rmOper).components[0usize] = addrRegList[(rm as (i32) + rmReg1Offset as (i32)) as
+                                                           (usize)];
             (*rmOper).immediate = ReadSigned32(state);
             seg = if rm as (i32) == 5i32 {
                 SegmentRegister::SEG_SS
@@ -7886,10 +7880,8 @@ unsafe extern "C" fn DecodeRM(
                 SegmentRegister::SEG_DS
             };
         } else if mod_ as (i32) == 1i32 {
-            (*rmOper).components[0usize] = OperandType::from_i32(*addrRegList.offset(
-                (rm as (i32) + rmReg1Offset as (i32)) as
-                    (isize),
-            ) as (i32));
+            (*rmOper).components[0usize] = addrRegList[(rm as (i32) + rmReg1Offset as (i32)) as
+                                                           (usize)];
             (*rmOper).immediate = ReadSigned8(state);
             seg = if rm as (i32) == 5i32 {
                 SegmentRegister::SEG_SS
@@ -7903,10 +7895,8 @@ unsafe extern "C" fn DecodeRM(
                     (*state).ripRelFixup = &mut (*rmOper).immediate as (*mut isize);
                 }
             } else {
-                (*rmOper).components[0usize] = OperandType::from_i32(*addrRegList.offset(
-                    (rm as (i32) + rmReg1Offset as (i32)) as
-                        (isize),
-                ) as (i32));
+                (*rmOper).components[0usize] = addrRegList[(rm as (i32) + rmReg1Offset as (i32)) as
+                                                               (usize)];
             }
             seg = SegmentRegister::SEG_DS;
         }
@@ -7919,10 +7909,10 @@ unsafe extern "C" fn DecodeRM(
 unsafe extern "C" fn DecodeRMReg(
     state: *mut DecodeState,
     rmOper: *mut InstructionOperand,
-    rmRegList: *const u8,
+    rmRegList: &[OperandType],
     rmSize: u16,
     regOper: *mut InstructionOperand,
-    regList: *const u8,
+    regList: &[OperandType],
     regSize: u16,
 ) {
     let mut reg: u8 = 0;
@@ -7930,15 +7920,13 @@ unsafe extern "C" fn DecodeRMReg(
     if !regOper.is_null() {
         let regOffset: u8 = (if (*state).rexReg { 8i32 } else { 0i32 }) as (u8);
         (*regOper).size = regSize;
-        (*regOper).operand = OperandType::from_i32(*regList.offset(
-            (reg as (i32) + regOffset as (i32)) as (isize),
-        ) as (i32));
+        (*regOper).operand = regList[(reg as (i32) + regOffset as (i32)) as (usize)];
     }
 }
 
 unsafe extern "C" fn DecodeRegRM(state: *mut DecodeState) {
     let mut size: u16 = (*state).finalOpSize;
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     let switch2 = (*state).flags & 0x3u32;
     if !(switch2 == 0u32) {
         if switch2 == 0x3u32 {
@@ -7991,7 +7979,7 @@ unsafe extern "C" fn SetOperandToImm(state: *mut DecodeState, oper: *mut Instruc
 }
 
 unsafe extern "C" fn DecodeRegRMImm(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     DecodeRMReg(
         state,
         (*state).operand1,
@@ -8008,7 +7996,7 @@ unsafe extern "C" fn DecodeRegRMImm(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeRMRegImm8(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     DecodeRMReg(
         state,
         (*state).operand0,
@@ -8025,7 +8013,7 @@ unsafe extern "C" fn DecodeRMRegImm8(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeRMRegCL(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     DecodeRMReg(
         state,
         (*state).operand0,
@@ -8043,8 +8031,8 @@ unsafe extern "C" fn SetOperandToEaxFinalOpSize(
     state: *mut DecodeState,
     oper: *mut InstructionOperand,
 ) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
-    (*oper).operand = OperandType::from_i32(*regList.offset(0isize) as (i32));
+    let regList = GetRegListForFinalOpSize(state);
+    (*oper).operand = regList[0];
     (*oper).size = (*state).finalOpSize;
 }
 
@@ -8066,12 +8054,10 @@ unsafe extern "C" fn DecodePushPopSeg(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn SetOperandToOpReg(state: *mut DecodeState, oper: *mut InstructionOperand) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     let regOffset: u8 = (if (*state).rexRM1 { 8i32 } else { 0i32 }) as (u8);
-    (*oper).operand = OperandType::from_i32(*regList.offset(
-        ((*(*state).opcode.offset(-1isize) as (i32) & 7i32) +
-             regOffset as (i32)) as (isize),
-    ) as (i32));
+    (*oper).operand = regList[((*(*state).opcode.offset(-1isize) as (i32) & 7i32) +
+                                   regOffset as (i32)) as (usize)];
     (*oper).size = (*state).finalOpSize;
 }
 
@@ -8136,9 +8122,9 @@ unsafe extern "C" fn SetOperandToEsEdi(
     oper: *mut InstructionOperand,
     size: u16,
 ) {
-    let addrRegList: *const u8 = GetRegListForAddrSize(state);
+    let addrRegList = GetRegListForAddrSize(state);
     (*oper).operand = OperandType::MEM;
-    (*oper).components[0usize] = OperandType::from_i32(*addrRegList.offset(7isize) as (i32));
+    (*oper).components[0usize] = addrRegList[7];
     (*oper).size = size;
     (*oper).segment = SegmentRegister::SEG_ES;
 }
@@ -8154,9 +8140,9 @@ unsafe extern "C" fn SetOperandToDsEsi(
     oper: *mut InstructionOperand,
     size: u16,
 ) {
-    let addrRegList: *const u8 = GetRegListForAddrSize(state);
+    let addrRegList = GetRegListForAddrSize(state);
     (*oper).operand = OperandType::MEM;
-    (*oper).components[0usize] = OperandType::from_i32(*addrRegList.offset(6isize) as (i32));
+    (*oper).components[0usize] = addrRegList[6];
     (*oper).size = size;
     (*oper).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
 }
@@ -8208,7 +8194,7 @@ unsafe extern "C" fn DecodeRelImmAddrSize(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeGroupRM(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForFinalOpSize(state);
+    let regList = GetRegListForFinalOpSize(state);
     let mut regField: u8 = 0;
     DecodeRM(
         state,
@@ -8353,21 +8339,21 @@ unsafe extern "C" fn Decode0FB8(state: *mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn GetRegListForOpSize(state: *mut DecodeState) -> *const u8 {
+unsafe extern "C" fn GetRegListForOpSize(state: *mut DecodeState) -> &'static [OperandType] {
     let switch6 = (*state).opSize;
     if switch6 as (i32) == 8i32 {
-        REG64_LIST.as_ptr()
+        &REG64_LIST
     } else if switch6 as (i32) == 4i32 {
-        REG32_LIST.as_ptr()
+        &REG32_LIST
     } else if switch6 as (i32) == 2i32 {
-        REG16_LIST.as_ptr()
+        &REG16_LIST
     } else {
-        0i32 as (*mut ::std::os::raw::c_void) as (*const u8)
+        &INVALID_REG_LIST
     }
 }
 
 unsafe extern "C" fn DecodeRMSRegV(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForOpSize(state);
+    let regList = GetRegListForOpSize(state);
     let mut regField: u8 = 0;
     DecodeRM(
         state,
@@ -8388,7 +8374,7 @@ unsafe extern "C" fn DecodeRMSRegV(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeRM8(state: *mut DecodeState) {
-    let regList: *const u8 = GetByteRegList(state);
+    let regList = GetByteRegList(state);
     DecodeRM(
         state,
         (*state).operand0,
@@ -8399,7 +8385,7 @@ unsafe extern "C" fn DecodeRM8(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeRMV(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForOpSize(state);
+    let regList = GetRegListForOpSize(state);
     DecodeRM(
         state,
         (*state).operand0,
@@ -8453,12 +8439,11 @@ unsafe extern "C" fn DecodeEaxEsi(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeAlEbxAl(state: *mut DecodeState) {
-    let regList: *const u8 = GetRegListForAddrSize(state);
+    let regList = GetRegListForAddrSize(state);
     (*(*state).operand0).operand = OperandType::REG_AL;
     (*(*state).operand0).size = 1u16;
     (*(*state).operand1).operand = OperandType::MEM;
-    (*(*state).operand1).components[0usize] =
-        OperandType::from_i32(*regList.offset(3isize) as (i32));
+    (*(*state).operand1).components[0usize] = regList[3];
     (*(*state).operand1).components[1usize] = OperandType::REG_AL;
     (*(*state).operand1).size = 1u16;
     (*(*state).operand1).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
@@ -8484,10 +8469,10 @@ unsafe extern "C" fn Decode3DNow(state: *mut DecodeState) {
     DecodeRMReg(
         state,
         (*state).operand1,
-        MMX_REG_LIST.as_ptr(),
+        &MMX_REG_LIST,
         8u16,
         (*state).operand0,
-        MMX_REG_LIST.as_ptr(),
+        &MMX_REG_LIST,
         8u16,
     );
     op = Read8(state);
@@ -8549,19 +8534,22 @@ unsafe extern "C" fn GetOperandForSSEEntryType(
     }
 }
 
-unsafe extern "C" fn GetRegListForSSEEntryType(state: *mut DecodeState, type_: u16) -> *const u8 {
+unsafe extern "C" fn GetRegListForSSEEntryType(
+    state: *mut DecodeState,
+    type_: u16,
+) -> &'static [OperandType] {
     if type_ as (i32) == SSETableOperandType::GPR_32_OR_64 as (i32) {
         (if (*state).opSize as (i32) == 8i32 {
-             REG64_LIST.as_ptr()
+             &REG64_LIST
          } else {
-             REG32_LIST.as_ptr()
+             &REG32_LIST
          })
     } else if type_ as (i32) == SSETableOperandType::MMX_64 as (i32) ||
                type_ as (i32) == SSETableOperandType::MMX_32 as (i32)
     {
-        MMX_REG_LIST.as_ptr()
+        &MMX_REG_LIST
     } else {
-        XMM_REG_LIST.as_ptr()
+        &XMM_REG_LIST
     }
 }
 
@@ -8668,10 +8656,10 @@ unsafe extern "C" fn DecodeSSE(state: *mut DecodeState) {
     DecodeRMReg(
         state,
         (*state).operand1,
-        XMM_REG_LIST.as_ptr(),
+        &XMM_REG_LIST,
         size,
         (*state).operand0,
-        XMM_REG_LIST.as_ptr(),
+        &XMM_REG_LIST,
         16u16,
     );
 }
@@ -8688,10 +8676,10 @@ unsafe extern "C" fn DecodeSSESingle(state: *mut DecodeState) {
         DecodeRMReg(
             state,
             (*state).operand1,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
             (*state).operand0,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
         );
     }
@@ -8709,10 +8697,10 @@ unsafe extern "C" fn DecodeSSEPacked(state: *mut DecodeState) {
         DecodeRMReg(
             state,
             (*state).operand1,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
             (*state).operand0,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
         );
     }
@@ -8723,20 +8711,20 @@ unsafe extern "C" fn DecodeMMX(state: *mut DecodeState) {
         DecodeRMReg(
             state,
             (*state).operand1,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
             (*state).operand0,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
         );
     } else {
         DecodeRMReg(
             state,
             (*state).operand1,
-            MMX_REG_LIST.as_ptr(),
+            &MMX_REG_LIST,
             8u16,
             (*state).operand0,
-            MMX_REG_LIST.as_ptr(),
+            &MMX_REG_LIST,
             8u16,
         );
     }
@@ -8747,10 +8735,10 @@ unsafe extern "C" fn DecodeMMXSSEOnly(state: *mut DecodeState) {
         DecodeRMReg(
             state,
             (*state).operand1,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
             (*state).operand0,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
         );
     } else {
@@ -8764,7 +8752,7 @@ unsafe extern "C" fn DecodeMMXGroup(state: *mut DecodeState) {
         DecodeRM(
             state,
             (*state).operand0,
-            XMM_REG_LIST.as_ptr(),
+            &XMM_REG_LIST,
             16u16,
             &mut regField as (*mut u8),
         );
@@ -8778,7 +8766,7 @@ unsafe extern "C" fn DecodeMMXGroup(state: *mut DecodeState) {
         DecodeRM(
             state,
             (*state).operand0,
-            MMX_REG_LIST.as_ptr(),
+            &MMX_REG_LIST,
             8u16,
             &mut regField as (*mut u8),
         );
@@ -8809,14 +8797,8 @@ unsafe extern "C" fn DecodeRegCR(state: *mut DecodeState) {
         (*(*state).result).flags = (*(*state).result).flags & !1i32 as (u32);
         (*state).rexReg = true;
     }
-    (*(*state).operand0).operand = OperandType::from_i32(*regList.offset(
-        ((reg as (i32) & 7i32) +
-             if (*state).rexRM1 {
-                 8i32
-             } else {
-                 0i32
-             }) as (isize),
-    ) as (i32));
+    (*(*state).operand0).operand =
+        regList[((reg as (i32) & 7i32) + if (*state).rexRM1 { 8i32 } else { 0i32 }) as (usize)];
     (*(*state).operand0).size = (*state).opSize;
     (*(*state).operand1).operand = OperandType::from_i32(
         ((*(*state).result).operation as (i32) + (reg as (i32) >> 3i32 & 7i32) +
@@ -8842,7 +8824,7 @@ unsafe extern "C" fn DecodeMovSXZX16(state: *mut DecodeState) {
     DecodeRMReg(
         state,
         (*state).operand1,
-        REG16_LIST.as_ptr(),
+        &REG16_LIST,
         2u16,
         (*state).operand0,
         GetRegListForOpSize(state),
@@ -8854,7 +8836,7 @@ unsafe extern "C" fn DecodeMem16(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         2u16,
         0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
     );
@@ -8867,7 +8849,7 @@ unsafe extern "C" fn DecodeMem32(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         4u16,
         0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
     );
@@ -8880,7 +8862,7 @@ unsafe extern "C" fn DecodeMem64(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         8u16,
         0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
     );
@@ -8893,7 +8875,7 @@ unsafe extern "C" fn DecodeMem80(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         10u16,
         0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
     );
@@ -8906,7 +8888,7 @@ unsafe extern "C" fn DecodeMemFloatEnv(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         if (*state).opSize as (i32) == 2i32 {
             14i32
         } else {
@@ -8923,7 +8905,7 @@ unsafe extern "C" fn DecodeMemFloatSave(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        REG32_LIST.as_ptr(),
+        &REG32_LIST,
         if (*state).opSize as (i32) == 2i32 {
             94i32
         } else {
@@ -8940,7 +8922,7 @@ unsafe extern "C" fn DecodeFPUReg(state: *mut DecodeState) {
     DecodeRM(
         state,
         (*state).operand0,
-        FPU_REG_LIST.as_ptr(),
+        &FPU_REG_LIST,
         10u16,
         0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
     );
@@ -8994,7 +8976,7 @@ unsafe extern "C" fn DecodeCmpXch8B(state: *mut DecodeState) {
         DecodeRM(
             state,
             (*state).operand0,
-            REG64_LIST.as_ptr(),
+            &REG64_LIST,
             8u16,
             0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
         );
@@ -9003,7 +8985,7 @@ unsafe extern "C" fn DecodeCmpXch8B(state: *mut DecodeState) {
         DecodeRM(
             state,
             (*state).operand0,
-            REG64_LIST.as_ptr(),
+            &REG64_LIST,
             8u16,
             0i32 as (*mut ::std::os::raw::c_void) as (*mut u8),
         );
@@ -9034,11 +9016,11 @@ unsafe extern "C" fn DecodeMovNti(state: *mut DecodeState) {
 }
 
 unsafe extern "C" fn DecodeCrc32(state: *mut DecodeState) {
-    let srcRegList: *const u8 = GetRegListForFinalOpSize(state);
-    let destRegList: *const u8 = if (*state).opSize as (i32) == 8i32 {
-        REG64_LIST.as_ptr()
+    let srcRegList = GetRegListForFinalOpSize(state);
+    let destRegList = if (*state).opSize == 8 {
+        &REG64_LIST
     } else {
-        REG32_LIST.as_ptr()
+        &REG32_LIST
     };
     let destSize: u16 = (if (*state).opSize as (i32) == 8i32 {
                              8i32
@@ -9058,12 +9040,12 @@ unsafe extern "C" fn DecodeCrc32(state: *mut DecodeState) {
 
 unsafe extern "C" fn DecodeArpl(state: *mut DecodeState) {
     if (*state).using64 {
-        let regList: *const u8 = GetRegListForFinalOpSize(state);
+        let regList = GetRegListForFinalOpSize(state);
         (*(*state).result).operation = InstructionOperation::MOVSXD;
         DecodeRMReg(
             state,
             (*state).operand1,
-            REG32_LIST.as_ptr(),
+            &REG32_LIST,
             4u16,
             (*state).operand0,
             regList,
