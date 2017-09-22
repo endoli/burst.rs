@@ -9059,24 +9059,18 @@ unsafe extern "C" fn DecodeArpl(state: *mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn ClearOperand(oper: *mut InstructionOperand) {
-    (*oper).operand = OperandType::NONE;
-    (*oper).components[0usize] = OperandType::NONE;
-    (*oper).components[1usize] = OperandType::NONE;
-    (*oper).scale = 1u8;
-    (*oper).immediate = 0isize;
+unsafe extern "C" fn ClearOperand(oper: &mut InstructionOperand) {
+    oper.operand = OperandType::NONE;
+    oper.components[0] = OperandType::NONE;
+    oper.components[1] = OperandType::NONE;
+    oper.scale = 1;
+    oper.immediate = 0;
 }
 
 unsafe extern "C" fn InitDisassemble(state: *mut DecodeState) {
-    ClearOperand(
-        &mut (*(*state).result).operands[0usize] as (*mut InstructionOperand),
-    );
-    ClearOperand(
-        &mut (*(*state).result).operands[1usize] as (*mut InstructionOperand),
-    );
-    ClearOperand(
-        &mut (*(*state).result).operands[2usize] as (*mut InstructionOperand),
-    );
+    ClearOperand(&mut (*(*state).result).operands[0]);
+    ClearOperand(&mut (*(*state).result).operands[1]);
+    ClearOperand(&mut (*(*state).result).operands[2]);
     (*(*state).result).operation = InstructionOperation::INVALID;
     (*(*state).result).flags = 0u32;
     (*(*state).result).segment = SegmentRegister::SEG_DEFAULT;
