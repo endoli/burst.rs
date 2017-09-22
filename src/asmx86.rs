@@ -10215,13 +10215,11 @@ unsafe extern "C" fn DecodeSSETable(mut state: *mut DecodeState) {
     let mut modField: u8 = (rm as (i32) >> 6i32 & 3i32) as (u8);
     let mut entry: *const SSETableEntry =
         &sseTable[(*(*state).result).operation as (i32) as (usize)] as (*const SSETableEntry);
-    let mut opEntry: *const SSETableOperationEntry;
+    let opEntry: *const SSETableOperationEntry;
     if modField as (i32) == 3i32 {
-        opEntry = &mut (*entry).regOps[type_ as (usize)] as (*mut SSETableOperationEntry) as
-            (*const SSETableOperationEntry);
+        opEntry = &(*entry).regOps[type_ as (usize)];
     } else {
-        opEntry = &mut (*entry).memOps[type_ as (usize)] as (*mut SSETableOperationEntry) as
-            (*const SSETableOperationEntry);
+        opEntry = &(*entry).memOps[type_ as (usize)];
     }
     (*(*state).result).operation = InstructionOperation::from_i32((*opEntry).operation as (i32));
     DecodeRMReg(
