@@ -11288,7 +11288,7 @@ pub unsafe extern "C" fn FormatInstructionString(
     if outMaxLen > 0usize {
         *{
             let _old = out;
-            out = out.offset(1isize);
+            let _out = out.offset(1isize);
             _old
         } = 0u8;
     }
