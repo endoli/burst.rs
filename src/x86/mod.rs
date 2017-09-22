@@ -4333,110 +4333,39 @@ static GROUP_0F01_REG_OPERATIONS: [[u16; 8]; 8] = [
     ],
 ];
 
-static MMX_GROUP_OPERATIONS: [[[u16; 2]; 8]; 3] = [
+static MMX_GROUP_OPERATIONS: [[[InstructionOperation; 2]; 8]; 3] =
     [
         [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSRLW, InstructionOperation::PSRLW],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSRAW, InstructionOperation::PSRAW],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSLLW, InstructionOperation::PSLLW],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
         ],
         [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSRLD, InstructionOperation::PSRLD],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSRAD, InstructionOperation::PSRAD],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSLLD, InstructionOperation::PSLLD],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
         ],
         [
-            InstructionOperation::PSRLW as (u16),
-            InstructionOperation::PSRLW as (u16),
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSRLQ, InstructionOperation::PSRLQ],
+            [InstructionOperation::INVALID, InstructionOperation::PSRLDQ],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::INVALID, InstructionOperation::INVALID],
+            [InstructionOperation::PSLLQ, InstructionOperation::PSLLQ],
+            [InstructionOperation::INVALID, InstructionOperation::PSLLDQ],
         ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSRAW as (u16),
-            InstructionOperation::PSRAW as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSLLW as (u16),
-            InstructionOperation::PSLLW as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-    ],
-    [
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSRLD as (u16),
-            InstructionOperation::PSRLD as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSRAD as (u16),
-            InstructionOperation::PSRAD as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSLLD as (u16),
-            InstructionOperation::PSLLD as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-    ],
-    [
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSRLQ as (u16),
-            InstructionOperation::PSRLQ as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::PSRLDQ as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::INVALID as (u16),
-        ],
-        [
-            InstructionOperation::PSLLQ as (u16),
-            InstructionOperation::PSLLQ as (u16),
-        ],
-        [
-            InstructionOperation::INVALID as (u16),
-            InstructionOperation::PSLLDQ as (u16),
-        ],
-    ],
-];
+    ];
 
 #[derive(Copy)]
 #[repr(C)]
@@ -8793,11 +8722,8 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
             16,
             &mut regField as (*mut u8),
         );
-        (*state.result).operation = InstructionOperation::from_i32(
-            MMX_GROUP_OPERATIONS[(*state.result).operation as usize]
-                [regField as (usize)]
-                [1usize] as (i32),
-        );
+        (*state.result).operation =
+            MMX_GROUP_OPERATIONS[(*state.result).operation as usize][regField as (usize)][1];
     } else {
         let operand0 = state.operand0;
         DecodeRM(
@@ -8807,11 +8733,8 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
             8,
             &mut regField as (*mut u8),
         );
-        (*state.result).operation = InstructionOperation::from_i32(
-            MMX_GROUP_OPERATIONS[(*state.result).operation as usize]
-                [regField as (usize)]
-                [0usize] as (i32),
-        );
+        (*state.result).operation =
+            MMX_GROUP_OPERATIONS[(*state.result).operation as usize][regField as (usize)][0];
     }
     let operand1 = state.operand1;
     SetOperandToImm8(state, operand1);
