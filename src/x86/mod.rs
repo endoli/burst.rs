@@ -9036,10 +9036,7 @@ unsafe extern "C" fn GetFinalOpSize(state: *mut DecodeState) -> u16 {
     }
 }
 
-unsafe extern "C" fn ProcessEncoding(
-    state: *mut DecodeState,
-    encoding: *const InstructionEncoding,
-) {
+unsafe extern "C" fn ProcessEncoding(state: *mut DecodeState, encoding: &InstructionEncoding) {
     (*(*state).result).operation = InstructionOperation::from_i32((*encoding).operation as (i32));
     (*state).flags = (*encoding).flags as (u32);
     if (*state).using64 && ((*state).flags & 0x4000u32 != 0) {
@@ -9109,18 +9106,15 @@ unsafe extern "C" fn ProcessEncoding(
 
 unsafe extern "C" fn ProcessOpcode(
     state: *mut DecodeState,
-    map: *const InstructionEncoding,
+    map: &[InstructionEncoding],
     opcode: u8,
 ) {
-    ProcessEncoding(
-        state,
-        &*map.offset(opcode as (isize)) as (*const InstructionEncoding),
-    );
+    ProcessEncoding(state, &map[opcode as usize]);
 }
 
 unsafe extern "C" fn ProcessSparseOpcode(
     state: *mut DecodeState,
-    map: *const SparseInstructionEncoding,
+    map: &[SparseInstructionEncoding],
     mapSize: usize,
     opcode: u8,
 ) {
@@ -9137,10 +9131,10 @@ unsafe extern "C" fn ProcessSparseOpcode(
             _currentBlock = 5;
             break;
         }
-        if opcode as (i32) > (*map.offset(i as (isize))).opcode as (i32) {
+        if opcode as (i32) > map[i as usize].opcode as (i32) {
             min = i + 1i32;
         } else {
-            if !(opcode as (i32) < (*map.offset(i as (isize))).opcode as (i32)) {
+            if !(opcode as (i32) < map[i as usize].opcode as (i32)) {
                 _currentBlock = 4;
                 break;
             }
@@ -9149,10 +9143,7 @@ unsafe extern "C" fn ProcessSparseOpcode(
         i = (min + max) / 2i32;
     }
     if _currentBlock == 4 {
-        ProcessEncoding(
-            state,
-            &(*map.offset(i as (isize))).encoding as (*const InstructionEncoding),
-        );
+        ProcessEncoding(state, &map[i as usize].encoding);
     }
 }
 
@@ -9167,7 +9158,7 @@ unsafe extern "C" fn DecodeTwoByte(state: *mut DecodeState) {
     if opcode as (i32) == 0x38i32 {
         ProcessSparseOpcode(
             state,
-            THREE_BYTE_0F38_MAP.as_ptr(),
+            &THREE_BYTE_0F38_MAP,
             ::std::mem::size_of::<[SparseInstructionEncoding; 48]>()
                 .wrapping_div(::std::mem::size_of::<SparseInstructionEncoding>()),
             Read8(state),
@@ -9175,7 +9166,7 @@ unsafe extern "C" fn DecodeTwoByte(state: *mut DecodeState) {
     } else if opcode as (i32) == 0x3ai32 {
         ProcessSparseOpcode(
             state,
-            THREE_BYTE_0F3A_MAP.as_ptr(),
+            &THREE_BYTE_0F3A_MAP,
             ::std::mem::size_of::<[SparseInstructionEncoding; 22]>()
                 .wrapping_div(::std::mem::size_of::<SparseInstructionEncoding>()),
             Read8(state),
@@ -9185,7 +9176,7 @@ unsafe extern "C" fn DecodeTwoByte(state: *mut DecodeState) {
             &mut (*(*state).result).operands[2usize] as (*mut InstructionOperand),
         );
     } else {
-        ProcessOpcode(state, TWO_BYTE_OPCODE_MAP.as_ptr(), opcode);
+        ProcessOpcode(state, &TWO_BYTE_OPCODE_MAP, opcode);
     }
 }
 
@@ -9201,19 +9192,15 @@ unsafe extern "C" fn Peek8(state: *mut DecodeState) -> u8 {
 }
 
 unsafe extern "C" fn DecodeFpu(state: *mut DecodeState) {
-    let modRM: u8 = Peek8(state);
-    let reg: u8 = (modRM as (i32) >> 3i32 & 7i32) as (u8);
-    let op: u8 = (*(*state).result).operation as (u8);
-    let map: *const InstructionEncoding;
-    if modRM as (i32) & 0xc0i32 == 0xc0i32 {
-        map = FPU_REG_OPCODE_MAP[op as (usize)].as_ptr();
+    let modRM = Peek8(state);
+    let reg = modRM >> 3 & 7;
+    let op = (*(*state).result).operation as u8;
+    let map = if modRM & 0xc0 == 0xc0 {
+        FPU_REG_OPCODE_MAP[op as usize]
     } else {
-        map = FPU_MEM_OPCODE_MAP[op as (usize)].as_ptr();
-    }
-    ProcessEncoding(
-        state,
-        &*map.offset(reg as (isize)) as (*const InstructionEncoding),
-    );
+        FPU_MEM_OPCODE_MAP[op as usize]
+    };
+    ProcessEncoding(state, &map[reg as usize]);
 }
 
 unsafe extern "C" fn DecodeNoOperands(_state: *mut DecodeState) {}
@@ -10823,7 +10810,7 @@ pub unsafe extern "C" fn Disassemble16(
     ProcessPrefixes(&mut state as (*mut DecodeState));
     ProcessOpcode(
         &mut state as (*mut DecodeState),
-        MAIN_OPCODE_MAP.as_ptr(),
+        &MAIN_OPCODE_MAP,
         Read8(&mut state as (*mut DecodeState)),
     );
     FinishDisassemble(&mut state as (*mut DecodeState));
@@ -10850,7 +10837,7 @@ pub unsafe extern "C" fn Disassemble32(
     ProcessPrefixes(&mut state as (*mut DecodeState));
     ProcessOpcode(
         &mut state as (*mut DecodeState),
-        MAIN_OPCODE_MAP.as_ptr(),
+        &MAIN_OPCODE_MAP,
         Read8(&mut state as (*mut DecodeState)),
     );
     FinishDisassemble(&mut state as (*mut DecodeState));
@@ -10877,7 +10864,7 @@ pub unsafe extern "C" fn Disassemble64(
     ProcessPrefixes(&mut state as (*mut DecodeState));
     ProcessOpcode(
         &mut state as (*mut DecodeState),
-        MAIN_OPCODE_MAP.as_ptr(),
+        &MAIN_OPCODE_MAP,
         Read8(&mut state as (*mut DecodeState)),
     );
     FinishDisassemble(&mut state as (*mut DecodeState));
