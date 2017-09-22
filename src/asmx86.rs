@@ -1416,7 +1416,7 @@ pub enum InstructionOperation {
 }
 
 impl InstructionOperation {
-    pub fn from_i32(i: i32) -> Self {
+    pub fn from_i32(_i: i32) -> Self {
         unimplemented!();
     }
 }
@@ -1586,7 +1586,7 @@ pub enum OperandType {
 }
 
 impl OperandType {
-    pub fn from_i32(i: i32) -> Self {
+    pub fn from_i32(_i: i32) -> Self {
         unimplemented!();
     }
 }
@@ -9206,7 +9206,7 @@ unsafe extern "C" fn DecodeFpu(state: *mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeNoOperands(state: *mut DecodeState) {}
+unsafe extern "C" fn DecodeNoOperands(_state: *mut DecodeState) {}
 
 unsafe extern "C" fn GetByteRegList(state: *mut DecodeState) -> *const u8 {
     if (*state).rex {
