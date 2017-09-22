@@ -1,0 +1,13 @@
+[package]
+name = "burst"
+version = "0.0.1"
+authors = ["Bruce Mitchener <bruce.mitchener@gmail.com>"]
+license = "BSD"
+readme = "README.md"
+description = ""
+keywords = ["disassemble", "assembly", "x86", "x86_64"]
+homepage = "https://github.com/endoli/burst.rs"
+repository = "https://github.com/endoli/burst.rs"
+documentation = "https://endoli.github.io/burst.rs/"
+
+[dependencies]
