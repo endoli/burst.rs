@@ -1409,6 +1409,13 @@ pub enum InstructionOperation {
     XSETBV,
 }
 
+impl InstructionOperation {
+    pub fn from_i32(i: i32) -> Self {
+        unimplemented!();
+    }
+}
+
+
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum OperandType {
@@ -1570,6 +1577,12 @@ pub enum OperandType {
     REG_FS,
     REG_GS,
     REG_RIP,
+}
+
+impl OperandType {
+    pub fn from_i32(i: i32) -> Self {
+        unimplemented!();
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
