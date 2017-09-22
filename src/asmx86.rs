@@ -3,7 +3,7 @@
 
 use std::ptr;
 
-static mut OPERATION_STRINGS: [&str; 621] = [
+static OPERATION_STRINGS: [&str; 621] = [
     "",
     "aaa",
     "aad",
@@ -627,7 +627,7 @@ static mut OPERATION_STRINGS: [&str; 621] = [
     "xsetbv",
 ];
 
-static mut OPERAND_STRING: [&str; 158] = [
+static OPERAND_STRING: [&str; 158] = [
     "",
     "",
     "",
@@ -1746,7 +1746,7 @@ impl Clone for InstructionEncoding {
     }
 }
 
-static mut MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
+static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
     InstructionEncoding {
         operation: InstructionOperation::ADD as (u16),
         flags: (0x100i32 | 0x200i32 | 0x20i32) as (u16),
@@ -3029,7 +3029,7 @@ static mut MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
     },
 ];
 
-static mut TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
+static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
     InstructionEncoding {
         operation: 6u16,
         flags: 0u16,
@@ -4325,7 +4325,7 @@ impl Clone for SparseInstructionEncoding {
     }
 }
 
-static mut THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
+static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x0u8,
         encoding: InstructionEncoding {
@@ -4712,7 +4712,7 @@ static mut THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     },
 ];
 
-static mut THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
+static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x8u8,
         encoding: InstructionEncoding {
@@ -4891,7 +4891,7 @@ static mut THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     },
 ];
 
-static mut FPU_MEM_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
+static FPU_MEM_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     [
         InstructionEncoding {
             operation: InstructionOperation::FADD as (u16),
@@ -5230,7 +5230,7 @@ static mut FPU_MEM_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     ],
 ];
 
-static mut FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
+static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     [
         InstructionEncoding {
             operation: InstructionOperation::FADD as (u16),
@@ -5569,7 +5569,7 @@ static mut FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     ],
 ];
 
-static mut GROUP_OPERATIONS: [[u16; 8]; 26] = [
+static GROUP_OPERATIONS: [[u16; 8]; 26] = [
     [
         InstructionOperation::ADD as (u16),
         InstructionOperation::OR as (u16),
@@ -5832,7 +5832,7 @@ static mut GROUP_OPERATIONS: [[u16; 8]; 26] = [
     ],
 ];
 
-static mut GROUP_0F01_REG_OPERATIONS: [[u16; 8]; 8] = [
+static GROUP_0F01_REG_OPERATIONS: [[u16; 8]; 8] = [
     [
         InstructionOperation::INVALID as (u16),
         InstructionOperation::VMCALL as (u16),
@@ -5915,7 +5915,7 @@ static mut GROUP_0F01_REG_OPERATIONS: [[u16; 8]; 8] = [
     ],
 ];
 
-static mut MMX_GROUP_OPERATIONS: [[[u16; 2]; 8]; 3] = [
+static MMX_GROUP_OPERATIONS: [[[u16; 2]; 8]; 3] = [
     [
         [
             InstructionOperation::INVALID as (u16),
@@ -6060,7 +6060,7 @@ pub enum SSETableOperandType {
     MMX_64,
 }
 
-static mut SSE_TABLE: [SSETableEntry; 58] = [
+static SSE_TABLE: [SSETableEntry; 58] = [
     SSETableEntry {
         regOps: [
             SSETableOperationEntry {
@@ -8744,7 +8744,7 @@ impl Clone for SparseOpEntry {
     }
 }
 
-static mut SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
+static SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
     SparseOpEntry {
         opcode: 0xcu8,
         operation: InstructionOperation::PI2FW as (u16),
@@ -8851,7 +8851,7 @@ static mut SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
     },
 ];
 
-static mut REG8_LIST: [u8; 8] = [
+static REG8_LIST: [u8; 8] = [
     OperandType::REG_AL as (u8),
     OperandType::REG_CL as (u8),
     OperandType::REG_DL as (u8),
@@ -8862,7 +8862,7 @@ static mut REG8_LIST: [u8; 8] = [
     OperandType::REG_BH as (u8),
 ];
 
-static mut REG8_LIST64: [u8; 16] = [
+static REG8_LIST64: [u8; 16] = [
     OperandType::REG_AL as (u8),
     OperandType::REG_CL as (u8),
     OperandType::REG_DL as (u8),
@@ -8881,7 +8881,7 @@ static mut REG8_LIST64: [u8; 16] = [
     OperandType::REG_R15B as (u8),
 ];
 
-static mut REG16_LIST: [u8; 16] = [
+static REG16_LIST: [u8; 16] = [
     OperandType::REG_AX as (u8),
     OperandType::REG_CX as (u8),
     OperandType::REG_DX as (u8),
@@ -8900,7 +8900,7 @@ static mut REG16_LIST: [u8; 16] = [
     OperandType::REG_R15W as (u8),
 ];
 
-static mut REG32_LIST: [u8; 16] = [
+static REG32_LIST: [u8; 16] = [
     OperandType::REG_EAX as (u8),
     OperandType::REG_ECX as (u8),
     OperandType::REG_EDX as (u8),
@@ -8919,7 +8919,7 @@ static mut REG32_LIST: [u8; 16] = [
     OperandType::REG_R15D as (u8),
 ];
 
-static mut REG64_LIST: [u8; 16] = [
+static REG64_LIST: [u8; 16] = [
     OperandType::REG_RAX as (u8),
     OperandType::REG_RCX as (u8),
     OperandType::REG_RDX as (u8),
@@ -8938,7 +8938,7 @@ static mut REG64_LIST: [u8; 16] = [
     OperandType::REG_R15 as (u8),
 ];
 
-static mut MMX_REG_LIST: [u8; 16] = [
+static MMX_REG_LIST: [u8; 16] = [
     OperandType::REG_MM0 as (u8),
     OperandType::REG_MM1 as (u8),
     OperandType::REG_MM2 as (u8),
@@ -8957,7 +8957,7 @@ static mut MMX_REG_LIST: [u8; 16] = [
     OperandType::REG_MM7 as (u8),
 ];
 
-static mut XMM_REG_LIST: [u8; 16] = [
+static XMM_REG_LIST: [u8; 16] = [
     OperandType::REG_XMM0 as (u8),
     OperandType::REG_XMM1 as (u8),
     OperandType::REG_XMM2 as (u8),
@@ -8976,7 +8976,7 @@ static mut XMM_REG_LIST: [u8; 16] = [
     OperandType::REG_XMM15 as (u8),
 ];
 
-static mut FPU_REG_LIST: [u8; 16] = [
+static FPU_REG_LIST: [u8; 16] = [
     OperandType::REG_ST0 as (u8),
     OperandType::REG_ST1 as (u8),
     OperandType::REG_ST2 as (u8),
