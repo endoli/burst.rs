@@ -5,4 +5,4 @@
 
 //! # Burst
 
-pub mod asmx86;
+pub mod x86;
