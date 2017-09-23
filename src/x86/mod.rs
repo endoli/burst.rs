@@ -9541,7 +9541,9 @@ pub unsafe extern "C" fn FormatInstructionString(
                 WriteString(
                     &mut out as (*mut *mut u8),
                     &mut outMaxLen as (*mut usize),
-                    OPERATION_STRINGS[(*instr).operation as (usize)].as_ptr(),
+                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)]
+                        .name
+                        .as_ptr(),
                 );
                 'loop51: loop {
                     if !(((out as (isize)).wrapping_sub(operationStart as (isize)) /
