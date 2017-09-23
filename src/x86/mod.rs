@@ -9215,13 +9215,9 @@ unsafe extern "C" fn WriteChar(out: *mut *mut u8, outMaxLen: *mut usize, ch: u8)
     }
 }
 
-unsafe extern "C" fn WriteString(out: *mut *mut u8, outMaxLen: *mut usize, mut str: *const u8) {
-    'loop0: loop {
-        if *str == 0 {
-            break;
-        }
-        WriteChar(out, outMaxLen, *str);
-        str = str.offset(1isize);
+unsafe extern "C" fn WriteString(out: *mut *mut u8, outMaxLen: *mut usize, str: &str) {
+    for c in str.chars() {
+        WriteChar(out, outMaxLen, c as u8);
     }
 }
 
@@ -9233,13 +9229,9 @@ unsafe extern "C" fn WriteOperand(
     plus: bool,
 ) {
     if plus {
-        WriteString(out, outMaxLen, (*b"+\0").as_ptr());
+        WriteString(out, outMaxLen, "+");
     }
-    WriteString(
-        out,
-        outMaxLen,
-        OPERAND_TYPE_TABLE[type_ as (usize)].name.as_ptr(),
-    );
+    WriteString(out, outMaxLen, OPERAND_TYPE_TABLE[type_ as (usize)].name);
     if scale != 1 {
         WriteChar(out, outMaxLen, b'*');
         WriteChar(out, outMaxLen, (scale as (i32) + b'0' as (i32)) as (u8));
@@ -9276,7 +9268,7 @@ unsafe extern "C" fn WriteHex(
     let mut temp = [0u8; 17];
     let mut i: i32;
     if prefix {
-        WriteString(out, outMaxLen, (*b"0x\0").as_ptr());
+        WriteString(out, outMaxLen, "0x");
     }
     if width > 16u32 {
         width = 16u32;
@@ -9296,7 +9288,11 @@ unsafe extern "C" fn WriteHex(
         val = val >> 4i32;
     }
     temp[width as (usize)] = 0u8;
-    WriteString(out, outMaxLen, temp.as_mut_ptr() as (*const u8));
+    WriteString(
+        out,
+        outMaxLen,
+        ::std::str::from_utf8(&temp[..width as usize]).unwrap(),
+    );
 }
 
 #[no_mangle]
@@ -9370,7 +9366,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                         WriteString(
                             &mut out as (*mut *mut u8),
                             &mut outMaxLen as (*mut usize),
-                            (*b", \0").as_ptr(),
+                            ", ",
                         );
                     }
                     if (*instr).operands[i as (usize)].operand == OperandType::IMM {
@@ -9386,7 +9382,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                         WriteString(
                             &mut out as (*mut *mut u8),
                             &mut outMaxLen as (*mut usize),
-                            GetSizeString((*instr).operands[i as (usize)].size).as_ptr(),
+                            GetSizeString((*instr).operands[i as (usize)].size),
                         );
                         if (*instr).segment != SegmentRegister::SEG_DEFAULT ||
                             (*instr).operands[i as (usize)].segment == SegmentRegister::SEG_ES
@@ -9509,7 +9505,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                     WriteString(
                         &mut out as (*mut *mut u8),
                         &mut outMaxLen as (*mut usize),
-                        (*b"rep\0").as_ptr(),
+                        "rep",
                     );
                     if (*instr).flags & 4u32 != 0 {
                         WriteChar(
@@ -9535,15 +9531,13 @@ pub unsafe extern "C" fn FormatInstructionString(
                     WriteString(
                         &mut out as (*mut *mut u8),
                         &mut outMaxLen as (*mut usize),
-                        (*b"lock \0").as_ptr(),
+                        "lock ",
                     );
                 }
                 WriteString(
                     &mut out as (*mut *mut u8),
                     &mut outMaxLen as (*mut usize),
-                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)]
-                        .name
-                        .as_ptr(),
+                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)].name,
                 );
                 'loop51: loop {
                     if !(((out as (isize)).wrapping_sub(operationStart as (isize)) /
@@ -9582,7 +9576,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                     WriteString(
                         &mut out as (*mut *mut u8),
                         &mut outMaxLen as (*mut usize),
-                        (*b"  \0").as_ptr(),
+                        "  ",
                     );
                     i = i.wrapping_add(1usize);
                 }
