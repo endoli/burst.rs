@@ -9235,7 +9235,11 @@ unsafe extern "C" fn WriteOperand(
     if plus {
         WriteString(out, outMaxLen, (*b"+\0").as_ptr());
     }
-    WriteString(out, outMaxLen, OPERAND_STRING[type_ as (usize)].as_ptr());
+    WriteString(
+        out,
+        outMaxLen,
+        OPERAND_TYPE_TABLE[type_ as (usize)].name.as_ptr(),
+    );
     if scale != 1 {
         WriteChar(out, outMaxLen, b'*');
         WriteChar(out, outMaxLen, (scale as (i32) + b'0' as (i32)) as (u8));
