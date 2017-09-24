@@ -7616,14 +7616,14 @@ impl Clone for RMDef {
 unsafe extern "C" fn SetMemOperand(
     state: &DecodeState,
     oper: *mut InstructionOperand,
-    def: *const RMDef,
+    def: &RMDef,
     immed: isize,
 ) {
     (*oper).operand = OperandType::MEM;
-    (*oper).components[0usize] = (*def).first;
-    (*oper).components[1usize] = (*def).second;
+    (*oper).components[0usize] = def.first;
+    (*oper).components[1usize] = def.second;
     (*oper).immediate = immed;
-    (*oper).segment = GetFinalSegment(state, (*def).segment);
+    (*oper).segment = GetFinalSegment(state, def.segment);
 }
 
 unsafe extern "C" fn Read16(state: &mut DecodeState) -> u16 {
@@ -7715,20 +7715,10 @@ unsafe extern "C" fn DecodeRM(
             (*rmOper).operand = regList[rm as usize];
         } else if mod_ == 2 {
             let immediate = ReadSigned16(state);
-            SetMemOperand(
-                state,
-                rmOper,
-                &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
-                immediate,
-            );
+            SetMemOperand(state, rmOper, &RM16_COMPONENTS[rm as usize], immediate);
         } else if mod_ == 1 {
             let immediate = ReadSigned8(state);
-            SetMemOperand(
-                state,
-                rmOper,
-                &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
-                immediate,
-            );
+            SetMemOperand(state, rmOper, &RM16_COMPONENTS[rm as usize], immediate);
         } else if mod_ == 0 {
             if rm == 6 {
                 rm = 8;
@@ -7736,16 +7726,11 @@ unsafe extern "C" fn DecodeRM(
                 SetMemOperand(
                     state,
                     rmOper,
-                    &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
+                    &RM16_COMPONENTS[rm as usize],
                     immediate as isize,
                 );
             } else {
-                SetMemOperand(
-                    state,
-                    rmOper,
-                    &RM16_COMPONENTS[rm as (usize)] as (*const RMDef),
-                    0isize,
-                );
+                SetMemOperand(state, rmOper, &RM16_COMPONENTS[rm as usize], 0isize);
             }
         }
         if (*rmOper).components[0usize] == OperandType::NONE {
