@@ -12,6 +12,7 @@ mod operand_types;
 pub use self::instruction_operations::*;
 pub use self::operand_types::*;
 
+use std::fmt;
 use std::ptr;
 
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
@@ -9204,38 +9205,16 @@ pub unsafe extern "C" fn Disassemble64(
     !state.invalid
 }
 
-unsafe extern "C" fn WriteChar(out: *mut *mut u8, outMaxLen: *mut usize, ch: u8) {
-    if *outMaxLen > 1usize {
-        *{
-            let _old = *out;
-            *out = (*out).offset(1isize);
-            _old
-        } = ch;
-        *outMaxLen = (*outMaxLen).wrapping_sub(1usize);
-    }
-}
-
-unsafe extern "C" fn WriteString(out: *mut *mut u8, outMaxLen: *mut usize, str: &str) {
-    for c in str.chars() {
-        WriteChar(out, outMaxLen, c as u8);
-    }
-}
-
-unsafe extern "C" fn WriteOperand(
-    out: *mut *mut u8,
-    outMaxLen: *mut usize,
-    type_: OperandType,
-    scale: u8,
-    plus: bool,
-) {
+fn WriteOperand(stream: &mut fmt::Write, type_: OperandType, scale: u8, plus: bool) -> fmt::Result {
     if plus {
-        WriteString(out, outMaxLen, "+");
+        try!(stream.write_char('+'));
     }
-    WriteString(out, outMaxLen, OPERAND_TYPE_TABLE[type_ as (usize)].name);
+    try!(stream.write_str(OPERAND_TYPE_TABLE[type_ as (usize)].name));
     if scale != 1 {
-        WriteChar(out, outMaxLen, b'*');
-        WriteChar(out, outMaxLen, (scale as (i32) + b'0' as (i32)) as (u8));
+        try!(stream.write_char('*'));
+        try!(stream.write_char((scale + b'0') as char));
     }
+    Ok(())
 }
 
 unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
@@ -9259,16 +9238,14 @@ unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
 }
 
 unsafe extern "C" fn WriteHex(
-    out: *mut *mut u8,
-    outMaxLen: *mut usize,
+    stream: &mut fmt::Write,
     mut val: usize,
     mut width: u32,
     prefix: bool,
-) {
-    let mut temp = [0u8; 17];
+) -> fmt::Result {
     let mut i: i32;
     if prefix {
-        WriteString(out, outMaxLen, "0x");
+        try!(stream.write_str("0x"));
     }
     if width > 16u32 {
         width = 16u32;
@@ -9280,33 +9257,25 @@ unsafe extern "C" fn WriteHex(
         }
         let digit: u8 = (val & 0xfusize) as (u8);
         if digit as (i32) < 10i32 {
-            temp[i as (usize)] = (digit as (i32) + b'0' as (i32)) as (u8);
+            try!(stream.write_char((digit + b'0') as char));
         } else {
-            temp[i as (usize)] = (digit as (i32) + b'a' as (i32) - 10i32) as (u8);
+            try!(stream.write_char((digit + b'a' - 10) as char));
         }
         i = i - 1;
         val = val >> 4i32;
     }
-    temp[width as (usize)] = 0u8;
-    WriteString(
-        out,
-        outMaxLen,
-        ::std::str::from_utf8(&temp[..width as usize]).unwrap(),
-    );
+    Ok(())
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn FormatInstructionString(
-    mut out: *mut u8,
-    mut outMaxLen: usize,
+    stream: &mut fmt::Write,
     mut fmt: *const u8,
     opcode: *const u8,
     addr: usize,
     instr: *const Instruction,
-) -> usize {
+) -> fmt::Result {
     let mut _currentBlock;
-    let start: *mut u8 = out;
-    let len: usize;
     'loop1: loop {
         if *fmt == 0 {
             break;
@@ -9347,11 +9316,7 @@ pub unsafe extern "C" fn FormatInstructionString(
             }
             if _currentBlock == 63 {
             } else if _currentBlock == 14 {
-                WriteChar(
-                    &mut out as (*mut *mut u8),
-                    &mut outMaxLen as (*mut usize),
-                    *fmt,
-                );
+                try!(stream.write_char(*fmt as char));
             } else if _currentBlock == 17 {
                 let mut i: u32;
                 i = 0u32;
@@ -9363,33 +9328,26 @@ pub unsafe extern "C" fn FormatInstructionString(
                         break;
                     }
                     if i != 0u32 {
-                        WriteString(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
-                            ", ",
-                        );
+                        try!(stream.write_str(", "));
                     }
                     if (*instr).operands[i as (usize)].operand == OperandType::IMM {
-                        WriteHex(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
+                        try!(WriteHex(
+                            stream,
                             (*instr).operands[i as (usize)].immediate as (usize),
-                            ((*instr).operands[i as (usize)].size as (i32) * 2i32) as (u32),
+                            ((*instr).operands[i as (usize)].size as (i32) * 2i32) as
+                                (u32),
                             true,
-                        );
+                        ));
                     } else if (*instr).operands[i as (usize)].operand == OperandType::MEM {
                         let mut plus: bool = false;
-                        WriteString(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
+                        try!(stream.write_str(
                             GetSizeString((*instr).operands[i as (usize)].size),
-                        );
+                        ));
                         if (*instr).segment != SegmentRegister::SEG_DEFAULT ||
                             (*instr).operands[i as (usize)].segment == SegmentRegister::SEG_ES
                         {
-                            WriteOperand(
-                                &mut out as (*mut *mut u8),
-                                &mut outMaxLen as (*mut usize),
+                            try!(WriteOperand(
+                                stream,
                                 OperandType::from_i32(
                                     ((*instr).operands[i as (usize)].segment as (i32) +
                                          OperandType::REG_ES as (i32)) as
@@ -9397,36 +9355,26 @@ pub unsafe extern "C" fn FormatInstructionString(
                                 ),
                                 1u8,
                                 false,
-                            );
-                            WriteChar(
-                                &mut out as (*mut *mut u8),
-                                &mut outMaxLen as (*mut usize),
-                                b':',
-                            );
+                            ));
+                            try!(stream.write_char(':'));
                         }
-                        WriteChar(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
-                            b'[',
-                        );
+                        try!(stream.write_char('['));
                         if (*instr).operands[i as (usize)].components[0] != OperandType::NONE {
-                            WriteOperand(
-                                &mut out as (*mut *mut u8),
-                                &mut outMaxLen as (*mut usize),
+                            try!(WriteOperand(
+                                stream,
                                 (*instr).operands[i as (usize)].components[0],
                                 1u8,
                                 false,
-                            );
+                            ));
                             plus = true;
                         }
                         if (*instr).operands[i as (usize)].components[1] != OperandType::NONE {
-                            WriteOperand(
-                                &mut out as (*mut *mut u8),
-                                &mut outMaxLen as (*mut usize),
+                            try!(WriteOperand(
+                                stream,
                                 (*instr).operands[i as (usize)].components[1usize],
                                 (*instr).operands[i as (usize)].scale,
                                 plus,
-                            );
+                            ));
                             plus = true;
                         }
                         if (*instr).operands[i as (usize)].immediate != 0isize ||
@@ -9438,121 +9386,64 @@ pub unsafe extern "C" fn FormatInstructionString(
                             if plus && ((*instr).operands[i as (usize)].immediate >= -0x80isize) &&
                                 ((*instr).operands[i as (usize)].immediate < 0isize)
                             {
-                                WriteChar(
-                                    &mut out as (*mut *mut u8),
-                                    &mut outMaxLen as (*mut usize),
-                                    b'-',
-                                );
-                                WriteHex(
-                                    &mut out as (*mut *mut u8),
-                                    &mut outMaxLen as (*mut usize),
+                                try!(stream.write_char('-'));
+                                try!(WriteHex(
+                                    stream,
                                     -(*instr).operands[i as (usize)].immediate as (usize),
                                     2u32,
                                     true,
-                                );
+                                ));
                             } else if plus &&
                                        ((*instr).operands[i as (usize)].immediate > 0isize) &&
                                        ((*instr).operands[i as (usize)].immediate <= 0x7fisize)
                             {
-                                WriteChar(
-                                    &mut out as (*mut *mut u8),
-                                    &mut outMaxLen as (*mut usize),
-                                    b'+',
-                                );
-                                WriteHex(
-                                    &mut out as (*mut *mut u8),
-                                    &mut outMaxLen as (*mut usize),
+                                try!(stream.write_char('+'));
+                                try!(WriteHex(
+                                    stream,
                                     (*instr).operands[i as (usize)].immediate as (usize),
                                     2u32,
                                     true,
-                                );
+                                ));
                             } else {
                                 if plus {
-                                    WriteChar(
-                                        &mut out as (*mut *mut u8),
-                                        &mut outMaxLen as (*mut usize),
-                                        b'+',
-                                    );
+                                    try!(stream.write_char('+'));
                                 }
-                                WriteHex(
-                                    &mut out as (*mut *mut u8),
-                                    &mut outMaxLen as (*mut usize),
+                                try!(WriteHex(
+                                    stream,
                                     (*instr).operands[i as (usize)].immediate as (usize),
                                     8u32,
                                     true,
-                                );
+                                ));
                             }
                         }
-                        WriteChar(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
-                            b']',
-                        );
+                        try!(stream.write_char(']'));
                     } else {
-                        WriteOperand(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
+                        try!(WriteOperand(
+                            stream,
                             (*instr).operands[i as (usize)].operand,
                             1u8,
                             false,
-                        );
+                        ));
                     }
                     i = i.wrapping_add(1u32);
                 }
             } else if _currentBlock == 42 {
-                let operationStart: *mut u8 = out;
                 if (*instr).flags & (2i32 | 8i32 | 4i32) as (u32) != 0 {
-                    WriteString(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
-                        "rep",
-                    );
+                    try!(stream.write_str("rep"));
                     if (*instr).flags & 4u32 != 0 {
-                        WriteChar(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
-                            b'n',
-                        );
+                        try!(stream.write_char('n'));
                     }
                     if (*instr).flags & (4i32 | 8i32) as (u32) != 0 {
-                        WriteChar(
-                            &mut out as (*mut *mut u8),
-                            &mut outMaxLen as (*mut usize),
-                            b'e',
-                        );
+                        try!(stream.write_char('e'));
                     }
-                    WriteChar(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
-                        b' ',
-                    );
+                    try!(stream.write_char('b'));
                 }
                 if (*instr).flags & 1u32 != 0 {
-                    WriteString(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
-                        "lock ",
-                    );
+                    try!(stream.write_str("lock "));
                 }
-                WriteString(
-                    &mut out as (*mut *mut u8),
-                    &mut outMaxLen as (*mut usize),
+                try!(stream.write_str(
                     INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)].name,
-                );
-                'loop51: loop {
-                    if !(((out as (isize)).wrapping_sub(operationStart as (isize)) /
-                              ::std::mem::size_of::<u8>() as (isize)) as
-                             (usize) < width as (usize) &&
-                             (outMaxLen > 1usize))
-                    {
-                        break;
-                    }
-                    WriteChar(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
-                        b' ',
-                    );
-                }
+                ));
             } else if _currentBlock == 53 {
                 let mut i: usize;
                 i = 0usize;
@@ -9560,24 +9451,19 @@ pub unsafe extern "C" fn FormatInstructionString(
                     if !(i < (*instr).length) {
                         break;
                     }
-                    WriteHex(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
+                    try!(WriteHex(
+                        stream,
                         *opcode.offset(i as (isize)) as (usize),
                         2u32,
                         false,
-                    );
+                    ));
                     i = i.wrapping_add(1usize);
                 }
                 'loop55: loop {
                     if !(i < width as (usize)) {
                         break;
                     }
-                    WriteString(
-                        &mut out as (*mut *mut u8),
-                        &mut outMaxLen as (*mut usize),
-                        "  ",
-                    );
+                    try!(stream.write_str("  "));
                     i = i.wrapping_add(1usize);
                 }
             } else {
@@ -9585,103 +9471,60 @@ pub unsafe extern "C" fn FormatInstructionString(
                     width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
                         .wrapping_mul(2usize) as (u32);
                 }
-                WriteHex(
-                    &mut out as (*mut *mut u8),
-                    &mut outMaxLen as (*mut usize),
-                    addr,
-                    width,
-                    false,
-                );
+                try!(WriteHex(stream, addr, width, false));
             }
         } else {
-            WriteChar(
-                &mut out as (*mut *mut u8),
-                &mut outMaxLen as (*mut usize),
-                *fmt,
-            );
+            try!(stream.write_char(*fmt as char));
         }
         fmt = fmt.offset(1isize);
     }
-    len = ((out as (isize)).wrapping_sub(start as (isize)) /
-               ::std::mem::size_of::<u8>() as (isize)) as (usize);
-    if outMaxLen > 0usize {
-        *{
-            let _old = out;
-            let _out = out.offset(1isize);
-            _old
-        } = 0u8;
-    }
-    len
+    Ok(())
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString16(
-    out: *mut u8,
-    outMaxLen: usize,
+    stream: &mut fmt::Write,
     fmt: *const u8,
     opcode: *const u8,
     addr: usize,
     maxLen: usize,
     instr: *mut Instruction,
-) -> usize {
+) -> fmt::Result {
     if !Disassemble16(opcode, addr, maxLen, instr) {
-        0usize
+        Ok(())
     } else {
-        FormatInstructionString(
-            out,
-            outMaxLen,
-            fmt,
-            opcode,
-            addr,
-            instr as (*const Instruction),
-        )
+        FormatInstructionString(stream, fmt, opcode, addr, instr as (*const Instruction))
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString32(
-    out: *mut u8,
-    outMaxLen: usize,
+    stream: &mut fmt::Write,
     fmt: *const u8,
     opcode: *const u8,
     addr: usize,
     maxLen: usize,
     instr: *mut Instruction,
-) -> usize {
+) -> fmt::Result {
     if !Disassemble32(opcode, addr, maxLen, instr) {
-        0usize
+        Ok(())
     } else {
-        FormatInstructionString(
-            out,
-            outMaxLen,
-            fmt,
-            opcode,
-            addr,
-            instr as (*const Instruction),
-        )
+        FormatInstructionString(stream, fmt, opcode, addr, instr as (*const Instruction))
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString64(
-    out: *mut u8,
-    outMaxLen: usize,
+    stream: &mut fmt::Write,
     fmt: *const u8,
     opcode: *const u8,
     addr: usize,
     maxLen: usize,
     instr: *mut Instruction,
-) -> usize {
+) -> fmt::Result {
     if !Disassemble64(opcode, addr, maxLen, instr) {
-        0usize
+        Ok(())
     } else {
-        FormatInstructionString(
-            out,
-            outMaxLen,
-            fmt,
-            opcode,
-            addr,
-            instr as (*const Instruction),
-        )
+        FormatInstructionString(stream, fmt, opcode, addr, instr as (*const Instruction))
     }
 }
