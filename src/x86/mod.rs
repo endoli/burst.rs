@@ -9260,49 +9260,62 @@ pub unsafe extern "C" fn FormatInstructionString(
     addr: usize,
     instr: *const Instruction,
 ) -> fmt::Result {
-    let mut _currentBlock;
     'loop1: loop {
         if *fmt == 0 {
             break;
         }
-        if *fmt as (i32) == b'%' as (i32) {
+        if *fmt == b'%' {
             let mut width: u32 = 0u32;
             fmt = fmt.offset(1isize);
-            'loop8: loop {
-                if *fmt == 0 {
-                    _currentBlock = 63;
-                    break;
-                }
-                if *fmt as (i32) == b'a' as (i32) {
-                    _currentBlock = 60;
-                    break;
-                }
-                if *fmt as (i32) == b'b' as (i32) {
-                    _currentBlock = 53;
-                    break;
-                }
-                if *fmt as (i32) == b'i' as (i32) {
-                    _currentBlock = 42;
-                    break;
-                }
-                if *fmt as (i32) == b'o' as (i32) {
-                    _currentBlock = 17;
-                    break;
-                }
-                if !(*fmt as (i32) >= b'0' as (i32) && (*fmt as (i32) <= b'9' as (i32))) {
-                    _currentBlock = 14;
-                    break;
-                }
-                width = width.wrapping_mul(10u32).wrapping_add(
-                    (*fmt as (i32) - b'0' as (i32)) as
-                        (u32),
-                );
-                fmt = fmt.offset(1isize);
+            if *fmt == 0 {
+                break;
             }
-            if _currentBlock == 63 {
-            } else if _currentBlock == 14 {
-                try!(stream.write_char(*fmt as char));
-            } else if _currentBlock == 17 {
+            if *fmt == b'a' {
+                if width == 0u32 {
+                    width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
+                        .wrapping_mul(2usize) as (u32);
+                }
+                try!(WriteHex(stream, addr, width, false));
+            } else if *fmt == b'b' {
+                let mut i: usize;
+                i = 0usize;
+                'loop54: loop {
+                    if !(i < (*instr).length) {
+                        break;
+                    }
+                    try!(WriteHex(
+                        stream,
+                        *opcode.offset(i as (isize)) as (usize),
+                        2u32,
+                        false,
+                    ));
+                    i = i.wrapping_add(1usize);
+                }
+                'loop55: loop {
+                    if !(i < width as (usize)) {
+                        break;
+                    }
+                    try!(stream.write_str("  "));
+                    i = i.wrapping_add(1usize);
+                }
+            } else if *fmt == b'i' {
+                if (*instr).flags & (2i32 | 8i32 | 4i32) as (u32) != 0 {
+                    try!(stream.write_str("rep"));
+                    if (*instr).flags & 4u32 != 0 {
+                        try!(stream.write_char('n'));
+                    }
+                    if (*instr).flags & (4i32 | 8i32) as (u32) != 0 {
+                        try!(stream.write_char('e'));
+                    }
+                    try!(stream.write_char('b'));
+                }
+                if (*instr).flags & 1u32 != 0 {
+                    try!(stream.write_str("lock "));
+                }
+                try!(stream.write_str(
+                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)].name,
+                ));
+            } else if *fmt == b'o' {
                 let mut i: u32;
                 i = 0u32;
                 'loop18: loop {
@@ -9412,51 +9425,8 @@ pub unsafe extern "C" fn FormatInstructionString(
                     }
                     i = i.wrapping_add(1u32);
                 }
-            } else if _currentBlock == 42 {
-                if (*instr).flags & (2i32 | 8i32 | 4i32) as (u32) != 0 {
-                    try!(stream.write_str("rep"));
-                    if (*instr).flags & 4u32 != 0 {
-                        try!(stream.write_char('n'));
-                    }
-                    if (*instr).flags & (4i32 | 8i32) as (u32) != 0 {
-                        try!(stream.write_char('e'));
-                    }
-                    try!(stream.write_char('b'));
-                }
-                if (*instr).flags & 1u32 != 0 {
-                    try!(stream.write_str("lock "));
-                }
-                try!(stream.write_str(
-                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)].name,
-                ));
-            } else if _currentBlock == 53 {
-                let mut i: usize;
-                i = 0usize;
-                'loop54: loop {
-                    if !(i < (*instr).length) {
-                        break;
-                    }
-                    try!(WriteHex(
-                        stream,
-                        *opcode.offset(i as (isize)) as (usize),
-                        2u32,
-                        false,
-                    ));
-                    i = i.wrapping_add(1usize);
-                }
-                'loop55: loop {
-                    if !(i < width as (usize)) {
-                        break;
-                    }
-                    try!(stream.write_str("  "));
-                    i = i.wrapping_add(1usize);
-                }
-            } else {
-                if width == 0u32 {
-                    width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
-                        .wrapping_mul(2usize) as (u32);
-                }
-                try!(WriteHex(stream, addr, width, false));
+            } else if !(*fmt >= b'0' && *fmt <= b'9') {
+                try!(stream.write_char(*fmt as char));
             }
         } else {
             try!(stream.write_char(*fmt as char));
