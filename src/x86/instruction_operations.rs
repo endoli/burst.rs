@@ -3,7 +3,7 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum InstructionOperation {
     INVALID = 0i32,

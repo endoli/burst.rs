@@ -15,7 +15,7 @@ pub use self::operand_types::*;
 use std::fmt;
 use std::ptr;
 
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SegmentRegister {
     SEG_ES = 0i32,
@@ -48,7 +48,7 @@ impl Default for SegmentRegister {
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 #[repr(C)]
 pub struct InstructionOperand {
     pub operand: OperandType,
@@ -59,7 +59,7 @@ pub struct InstructionOperand {
     pub segment: SegmentRegister,
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 #[repr(C)]
 pub struct Instruction {
     pub operation: InstructionOperation,
@@ -69,7 +69,7 @@ pub struct Instruction {
     pub length: usize,
 }
 
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum RepPrefix {
     REP_PREFIX_NONE = 0i32,
@@ -77,6 +77,7 @@ pub enum RepPrefix {
     REP_PREFIX_REPE,
 }
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct DecodeState {
     pub result: *mut Instruction,
@@ -4335,6 +4336,7 @@ static MMX_GROUP_OPERATIONS: [[[InstructionOperation; 2]; 8]; 3] =
         ],
     ];
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct SSETableOperationEntry {
     pub operation: u16,
@@ -4342,13 +4344,14 @@ pub struct SSETableOperationEntry {
     pub rmType: u8,
 }
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct SSETableEntry {
     pub regOps: [SSETableOperationEntry; 4],
     pub memOps: [SSETableOperationEntry; 4],
 }
 
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SSETableOperandType {
     SSE_16,
@@ -7032,6 +7035,7 @@ static SSE_TABLE: [SSETableEntry; 58] = [
     },
 ];
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct SparseOpEntry {
     pub opcode: u8,
@@ -7535,6 +7539,7 @@ unsafe extern "C" fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) 
     }
 }
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct RMDef {
     pub first: OperandType,
