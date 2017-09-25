@@ -7486,30 +7486,21 @@ unsafe extern "C" fn GetByteRegList(state: &DecodeState) -> &'static [OperandTyp
 }
 
 unsafe extern "C" fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
-    let switch1 = state.finalOpSize;
-    if switch1 == 8 {
-        &REG64_LIST
-    } else if switch1 == 4 {
-        &REG32_LIST
-    } else if switch1 == 2 {
-        &REG16_LIST
-    } else if switch1 == 1 {
-        GetByteRegList(state)
-    } else {
-        &INVALID_REG_LIST
+    match state.finalOpSize {
+        8 => &REG64_LIST,
+        4 => &REG32_LIST,
+        2 => &REG16_LIST,
+        1 => GetByteRegList(state),
+        _ => &INVALID_REG_LIST,
     }
 }
 
 unsafe extern "C" fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
-    let switch3 = state.addrSize;
-    if switch3 == 8 {
-        &REG64_LIST
-    } else if switch3 == 4 {
-        &REG32_LIST
-    } else if switch3 == 2 {
-        &REG16_LIST
-    } else {
-        &INVALID_REG_LIST
+    match state.addrSize {
+        8 => &REG64_LIST,
+        4 => &REG32_LIST,
+        2 => &REG16_LIST,
+        _ => &INVALID_REG_LIST,
     }
 }
 
@@ -7757,18 +7748,14 @@ unsafe extern "C" fn DecodeRMReg(
 }
 
 unsafe extern "C" fn DecodeRegRM(state: &mut DecodeState) {
-    let mut size: u16 = state.finalOpSize;
     let regList = GetRegListForFinalOpSize(state);
-    let switch2 = state.flags & 0x3;
-    if !(switch2 == 0) {
-        if switch2 == 0x3 {
-            size = 0;
-        } else if switch2 == 0x2 {
-            size += 2;
-        } else if switch2 == 0x1 {
-            size *= 2;
-        }
-    }
+    let size = match state.flags & 0x3 {
+        0 => state.finalOpSize,
+        0x1 => state.finalOpSize * 2,
+        0x2 => state.finalOpSize + 2,
+        0x3 => 0,
+        _ => panic!("This isn't possible. This shouldn't be needed to suppress a warning."),
+    };
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     let finalOpSize = state.finalOpSize;
@@ -7996,15 +7983,11 @@ unsafe extern "C" fn DecodeDxEsi(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn ReadSignedFinalOpSize(state: &mut DecodeState) -> isize {
-    let switch5 = state.finalOpSize;
-    if switch5 == 8 || switch5 == 4 {
-        ReadSigned32(state)
-    } else if switch5 == 2 {
-        ReadSigned16(state)
-    } else if switch5 == 1 {
-        ReadSigned8(state)
-    } else {
-        0isize
+    match state.finalOpSize {
+        4 | 8 => ReadSigned32(state),
+        2 => ReadSigned16(state),
+        1 => ReadSigned8(state),
+        _ => 0,
     }
 }
 
@@ -8184,15 +8167,11 @@ unsafe extern "C" fn Decode0FB8(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
-    let switch6 = state.opSize;
-    if switch6 == 8 {
-        &REG64_LIST
-    } else if switch6 == 4 {
-        &REG32_LIST
-    } else if switch6 == 2 {
-        &REG16_LIST
-    } else {
-        &INVALID_REG_LIST
+    match state.opSize {
+        8 => &REG64_LIST,
+        4 => &REG32_LIST,
+        2 => &REG16_LIST,
+        _ => &INVALID_REG_LIST,
     }
 }
 
