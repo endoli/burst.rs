@@ -8006,10 +8006,10 @@ unsafe extern "C" fn DecodeRelImm(state: &mut DecodeState) {
 unsafe extern "C" fn UpdateOperationForAddrSize(state: &mut DecodeState) {
     if state.addrSize == 4 {
         (*state.result).operation =
-            InstructionOperation::from_i32(((*state.result).operation as i32 + 1));
+            InstructionOperation::from_i32((*state.result).operation as i32 + 1);
     } else if state.addrSize == 8 {
         (*state.result).operation =
-            InstructionOperation::from_i32(((*state.result).operation as i32 + 2));
+            InstructionOperation::from_i32((*state.result).operation as i32 + 2);
     }
 }
 
