@@ -7405,13 +7405,13 @@ unsafe extern "C" fn ProcessEncoding(state: &mut DecodeState, encoding: &Instruc
         }
         if state.flags & 0x40 != 0 {
             if state.rep != RepPrefix::REP_PREFIX_NONE {
-                (*state.result).flags = (*state.result).flags | 2;
+                (*state.result).flags |= 2;
             }
         } else if state.flags & 0x80 != 0 {
             if state.rep == RepPrefix::REP_PREFIX_REPNE {
-                (*state.result).flags = (*state.result).flags | 4;
+                (*state.result).flags |= 4;
             } else if state.rep == RepPrefix::REP_PREFIX_REPE {
-                (*state.result).flags = (*state.result).flags | 8;
+                (*state.result).flags |= 8;
             }
         }
         ((*encoding).func)(state);
@@ -7733,7 +7733,7 @@ unsafe extern "C" fn DecodeRM(
             }
         }
         if (*rmOper).components[0] == OperandType::NONE {
-            (*rmOper).immediate = (*rmOper).immediate & 0xffff;
+            (*rmOper).immediate &= 0xffff;
         }
     } else {
         let addrRegList = GetRegListForAddrSize(state);
@@ -7825,9 +7825,9 @@ unsafe extern "C" fn DecodeRegRM(state: &mut DecodeState) {
         if switch2 == 0x3 {
             size = 0;
         } else if switch2 == 0x2 {
-            size = size + 2;
+            size += 2;
         } else if switch2 == 0x1 {
-            size = size * 2;
+            size *= 2;
         }
     }
     let operand0 = state.operand0;
@@ -8170,7 +8170,7 @@ unsafe extern "C" fn DecodeGroupFF(state: &mut DecodeState) {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
         }
-        (*state.operand0).size = (*state.operand0).size + 2;
+        (*state.operand0).size += 2;
     }
     if (*state.result).flags & 1 != 0 && ((*state.result).operation != InstructionOperation::INC) &&
         ((*state.result).operation != InstructionOperation::DEC)
@@ -8697,7 +8697,7 @@ unsafe extern "C" fn DecodeRegCR(state: &mut DecodeState) {
     let regList = GetRegListForOpSize(state);
     let reg = Read8(state);
     if (*state.result).flags & 1 != 0 {
-        (*state.result).flags = (*state.result).flags & !1 as (u32);
+        (*state.result).flags &= !1;
         state.rexReg = true;
     }
     (*state.operand0).operand = regList[((reg & 7) + if (*state).rexRM1 { 8 } else { 0 }) as usize];
@@ -8943,12 +8943,12 @@ unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
                 SegmentRegister::from_i32(SegmentRegister::SEG_ES as i32 + (prefix as i32 - 0x60));
         } else if prefix == 0x66 {
             state.opPrefix = true;
-            (*state.result).flags = (*state.result).flags | 16;
+            (*state.result).flags |= 16;
         } else if prefix == 0x67 {
             addrPrefix = true;
-            (*state.result).flags = (*state.result).flags | 32;
+            (*state.result).flags |= 32;
         } else if prefix == 0xf0 {
-            (*state.result).flags = (*state.result).flags | 1;
+            (*state.result).flags |= 1;
         } else if prefix == 0xf2 {
             state.rep = RepPrefix::REP_PREFIX_REPNE;
         } else if prefix == 0xf3 {
@@ -8997,7 +8997,7 @@ unsafe extern "C" fn FinishDisassemble(state: &mut DecodeState) {
         ) as (isize);
     }
     if state.insufficientLength && (state.origLen < 15) {
-        (*state.result).flags = (*state.result).flags | 0x80000000;
+        (*state.result).flags |= 0x8000_0000;
     }
 }
 
@@ -9129,8 +9129,8 @@ unsafe extern "C" fn WriteHex(
         } else {
             try!(stream.write_char((digit + b'a' - 10) as char));
         }
-        i = i - 1;
-        val = val >> 4;
+        i -= 1;
+        val >>= 4;
     }
     Ok(())
 }
