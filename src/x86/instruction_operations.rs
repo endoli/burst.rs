@@ -641,7 +641,7 @@ impl Default for InstructionOperation {
     }
 }
 
-pub struct InstructionOperationInfo {
+pub(crate) struct InstructionOperationInfo {
     pub name: &'static str,
     pub value: InstructionOperation,
 }

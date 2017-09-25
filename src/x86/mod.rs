@@ -71,7 +71,7 @@ pub struct Instruction {
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
-pub enum RepPrefix {
+enum RepPrefix {
     REP_PREFIX_NONE = 0i32,
     REP_PREFIX_REPNE,
     REP_PREFIX_REPE,
@@ -79,29 +79,29 @@ pub enum RepPrefix {
 
 #[derive(Debug)]
 #[repr(C)]
-pub struct DecodeState {
-    pub result: *mut Instruction,
-    pub operand0: *mut InstructionOperand,
-    pub operand1: *mut InstructionOperand,
-    pub opcodeStart: *const u8,
-    pub opcode: *const u8,
-    pub addr: usize,
-    pub len: usize,
-    pub origLen: usize,
-    pub opSize: u16,
-    pub finalOpSize: u16,
-    pub addrSize: u16,
-    pub flags: u32,
-    pub invalid: bool,
-    pub insufficientLength: bool,
-    pub opPrefix: bool,
-    pub rep: RepPrefix,
-    pub using64: bool,
-    pub rex: bool,
-    pub rexRM1: bool,
-    pub rexRM2: bool,
-    pub rexReg: bool,
-    pub ripRelFixup: *mut isize,
+struct DecodeState {
+    result: *mut Instruction,
+    operand0: *mut InstructionOperand,
+    operand1: *mut InstructionOperand,
+    opcodeStart: *const u8,
+    opcode: *const u8,
+    addr: usize,
+    len: usize,
+    origLen: usize,
+    opSize: u16,
+    finalOpSize: u16,
+    addrSize: u16,
+    flags: u32,
+    invalid: bool,
+    insufficientLength: bool,
+    opPrefix: bool,
+    rep: RepPrefix,
+    using64: bool,
+    rex: bool,
+    rexRM1: bool,
+    rexRM2: bool,
+    rexReg: bool,
+    ripRelFixup: *mut isize,
 }
 
 impl Default for DecodeState {
@@ -134,7 +134,7 @@ impl Default for DecodeState {
 }
 
 #[repr(C)]
-pub struct InstructionEncoding {
+struct InstructionEncoding {
     pub operation: u16,
     pub flags: u16,
     pub func: unsafe extern "C" fn(&mut DecodeState),
@@ -2707,7 +2707,7 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
 ];
 
 #[repr(C)]
-pub struct SparseInstructionEncoding {
+struct SparseInstructionEncoding {
     pub opcode: u8,
     pub encoding: InstructionEncoding,
 }
@@ -4338,7 +4338,7 @@ static MMX_GROUP_OPERATIONS: [[[InstructionOperation; 2]; 8]; 3] =
 
 #[derive(Debug)]
 #[repr(C)]
-pub struct SSETableOperationEntry {
+struct SSETableOperationEntry {
     pub operation: u16,
     pub regType: u8,
     pub rmType: u8,
@@ -4346,14 +4346,14 @@ pub struct SSETableOperationEntry {
 
 #[derive(Debug)]
 #[repr(C)]
-pub struct SSETableEntry {
+struct SSETableEntry {
     pub regOps: [SSETableOperationEntry; 4],
     pub memOps: [SSETableOperationEntry; 4],
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
-pub enum SSETableOperandType {
+enum SSETableOperandType {
     SSE_16,
     SSE_32,
     SSE_64,
@@ -7037,7 +7037,7 @@ static SSE_TABLE: [SSETableEntry; 58] = [
 
 #[derive(Debug)]
 #[repr(C)]
-pub struct SparseOpEntry {
+struct SparseOpEntry {
     pub opcode: u8,
     pub operation: u16,
 }
@@ -7541,7 +7541,7 @@ unsafe extern "C" fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) 
 
 #[derive(Debug)]
 #[repr(C)]
-pub struct RMDef {
+struct RMDef {
     pub first: OperandType,
     pub second: OperandType,
     pub segment: SegmentRegister,

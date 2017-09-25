@@ -178,7 +178,7 @@ impl Default for OperandType {
     }
 }
 
-pub struct OperandTypeInfo {
+pub(crate) struct OperandTypeInfo {
     pub name: &'static str,
     pub value: OperandType,
 }
