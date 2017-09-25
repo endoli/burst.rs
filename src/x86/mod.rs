@@ -8283,26 +8283,14 @@ unsafe extern "C" fn DecodeRMSRegV(state: &mut DecodeState) {
 unsafe extern "C" fn DecodeRM8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetByteRegList(state);
-    DecodeRM(
-        state,
-        operand0,
-        regList,
-        1,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, regList, 1, ptr::null_mut());
 }
 
 unsafe extern "C" fn DecodeRMV(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetRegListForOpSize(state);
     let regSize = state.opSize;
-    DecodeRM(
-        state,
-        operand0,
-        regList,
-        regSize,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, regList, regSize, ptr::null_mut());
 }
 
 unsafe extern "C" fn DecodeFarImm(state: &mut DecodeState) {
@@ -8741,13 +8729,7 @@ unsafe extern "C" fn DecodeMovSXZX16(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeMem16(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        2,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, 2, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8755,13 +8737,7 @@ unsafe extern "C" fn DecodeMem16(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeMem32(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        4,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, 4, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8769,13 +8745,7 @@ unsafe extern "C" fn DecodeMem32(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeMem64(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        8,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, 8, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8783,13 +8753,7 @@ unsafe extern "C" fn DecodeMem64(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeMem80(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        10,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, 10, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8798,13 +8762,7 @@ unsafe extern "C" fn DecodeMem80(state: &mut DecodeState) {
 unsafe extern "C" fn DecodeMemFloatEnv(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rmSize = if state.opSize == 2 { 14 } else { 28 };
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        rmSize,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, rmSize, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8813,13 +8771,7 @@ unsafe extern "C" fn DecodeMemFloatEnv(state: &mut DecodeState) {
 unsafe extern "C" fn DecodeMemFloatSave(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rmSize = if state.opSize == 2 { 94 } else { 108 };
-    DecodeRM(
-        state,
-        operand0,
-        &REG32_LIST,
-        rmSize,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &REG32_LIST, rmSize, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
         state.invalid = true;
     }
@@ -8827,13 +8779,7 @@ unsafe extern "C" fn DecodeMemFloatSave(state: &mut DecodeState) {
 
 unsafe extern "C" fn DecodeFPUReg(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    DecodeRM(
-        state,
-        operand0,
-        &FPU_REG_LIST,
-        10,
-        0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-    );
+    DecodeRM(state, operand0, &FPU_REG_LIST, 10, ptr::null_mut());
 }
 
 unsafe extern "C" fn DecodeFPURegST0(state: &mut DecodeState) {
@@ -8868,13 +8814,7 @@ unsafe extern "C" fn DecodeCmpXch8B(state: &mut DecodeState) {
         let operand0 = state.operand0;
         let rmSize = state.opSize * 2;
         let regList = GetRegListForOpSize(state);
-        DecodeRM(
-            state,
-            operand0,
-            regList,
-            rmSize,
-            0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-        );
+        DecodeRM(state, operand0, regList, rmSize, ptr::null_mut());
     } else if regField == 6 {
         if state.opPrefix {
             (*state.result).operation = InstructionOperation::VMCLEAR;
@@ -8884,23 +8824,11 @@ unsafe extern "C" fn DecodeCmpXch8B(state: &mut DecodeState) {
             (*state.result).operation = InstructionOperation::VMPTRLD;
         }
         let operand0 = state.operand0;
-        DecodeRM(
-            state,
-            operand0,
-            &REG64_LIST,
-            8,
-            0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-        );
+        DecodeRM(state, operand0, &REG64_LIST, 8, ptr::null_mut());
     } else if regField == 7 {
         (*state.result).operation = InstructionOperation::VMPTRST;
         let operand0 = state.operand0;
-        DecodeRM(
-            state,
-            operand0,
-            &REG64_LIST,
-            8,
-            0 as (*mut ::std::os::raw::c_void) as (*mut u8),
-        );
+        DecodeRM(state, operand0, &REG64_LIST, 8, ptr::null_mut());
     } else {
         state.invalid = true;
     }
@@ -8988,7 +8916,7 @@ unsafe extern "C" fn InitDisassemble(state: &mut DecodeState) {
     state.insufficientLength = false;
     state.opPrefix = false;
     state.rep = RepPrefix::REP_PREFIX_NONE;
-    state.ripRelFixup = 0 as (*mut ::std::os::raw::c_void) as (*mut isize);
+    state.ripRelFixup = ptr::null_mut();
     state.rex = false;
     state.rexReg = false;
     state.rexRM1 = false;
