@@ -48,7 +48,7 @@ impl Default for SegmentRegister {
     }
 }
 
-#[derive(Copy, Default)]
+#[derive(Default)]
 #[repr(C)]
 pub struct InstructionOperand {
     pub operand: OperandType,
@@ -59,13 +59,7 @@ pub struct InstructionOperand {
     pub segment: SegmentRegister,
 }
 
-impl Clone for InstructionOperand {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-#[derive(Copy, Default)]
+#[derive(Default)]
 #[repr(C)]
 pub struct Instruction {
     pub operation: InstructionOperation,
@@ -73,12 +67,6 @@ pub struct Instruction {
     pub flags: u32,
     pub segment: SegmentRegister,
     pub length: usize,
-}
-
-impl Clone for Instruction {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
@@ -89,7 +77,6 @@ pub enum RepPrefix {
     REP_PREFIX_REPE,
 }
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct DecodeState {
     pub result: *mut Instruction,
@@ -114,12 +101,6 @@ pub struct DecodeState {
     pub rexRM2: bool,
     pub rexReg: bool,
     pub ripRelFixup: *mut isize,
-}
-
-impl Clone for DecodeState {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 impl Default for DecodeState {
@@ -151,18 +132,11 @@ impl Default for DecodeState {
     }
 }
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct InstructionEncoding {
     pub operation: u16,
     pub flags: u16,
     pub func: unsafe extern "C" fn(&mut DecodeState),
-}
-
-impl Clone for InstructionEncoding {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
@@ -2731,17 +2705,10 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
     },
 ];
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct SparseInstructionEncoding {
     pub opcode: u8,
     pub encoding: InstructionEncoding,
-}
-
-impl Clone for SparseInstructionEncoding {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
@@ -4368,7 +4335,6 @@ static MMX_GROUP_OPERATIONS: [[[InstructionOperation; 2]; 8]; 3] =
         ],
     ];
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct SSETableOperationEntry {
     pub operation: u16,
@@ -4376,23 +4342,10 @@ pub struct SSETableOperationEntry {
     pub rmType: u8,
 }
 
-impl Clone for SSETableOperationEntry {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-#[derive(Copy)]
 #[repr(C)]
 pub struct SSETableEntry {
     pub regOps: [SSETableOperationEntry; 4],
     pub memOps: [SSETableOperationEntry; 4],
-}
-
-impl Clone for SSETableEntry {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
@@ -7079,17 +7032,10 @@ static SSE_TABLE: [SSETableEntry; 58] = [
     },
 ];
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct SparseOpEntry {
     pub opcode: u8,
     pub operation: u16,
-}
-
-impl Clone for SparseOpEntry {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 static SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
@@ -7526,9 +7472,9 @@ unsafe extern "C" fn DecodeFpu(state: &mut DecodeState) {
     let reg = modRM >> 3 & 7;
     let op = (*state.result).operation as u8;
     let map = if modRM & 0xc0 == 0xc0 {
-        FPU_REG_OPCODE_MAP[op as usize]
+        &FPU_REG_OPCODE_MAP[op as usize]
     } else {
-        FPU_MEM_OPCODE_MAP[op as usize]
+        &FPU_MEM_OPCODE_MAP[op as usize]
     };
     ProcessEncoding(state, &map[reg as usize]);
 }
@@ -7598,18 +7544,11 @@ unsafe extern "C" fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) 
     }
 }
 
-#[derive(Copy)]
 #[repr(C)]
 pub struct RMDef {
     pub first: OperandType,
     pub second: OperandType,
     pub segment: SegmentRegister,
-}
-
-impl Clone for RMDef {
-    fn clone(&self) -> Self {
-        *self
-    }
 }
 
 unsafe extern "C" fn SetMemOperand(
