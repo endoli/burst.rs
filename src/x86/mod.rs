@@ -7454,7 +7454,7 @@ unsafe extern "C" fn ProcessSparseOpcode(
     min = 0i32;
     max = mapSize as (i32) - 1i32;
     i = (min + max) / 2i32;
-    'loop1: loop {
+    loop {
         if !(min <= max) {
             _currentBlock = 5;
             break;
@@ -8397,7 +8397,7 @@ unsafe extern "C" fn Decode3DNow(state: &mut DecodeState) {
         ::std::mem::size_of::<SparseOpEntry>(),
     ) as (i32) - 1i32;
     i = (min + max) / 2i32;
-    'loop1: loop {
+    loop {
         if !(min <= max) {
             _currentBlock = 5;
             break;
@@ -9000,7 +9000,7 @@ unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
     let mut _currentBlock;
     let mut rex: u8 = 0;
     let mut addrPrefix: bool = false;
-    'loop1: loop {
+    loop {
         if !!state.invalid {
             _currentBlock = 11;
             break;
@@ -9191,7 +9191,7 @@ unsafe extern "C" fn WriteHex(
         width = 16;
     }
     i = width.wrapping_sub(1) as (i32);
-    'loop5: loop {
+    loop {
         if !(i >= 0) {
             break;
         }
@@ -9215,7 +9215,7 @@ pub unsafe extern "C" fn FormatInstructionString(
     addr: usize,
     instr: *const Instruction,
 ) -> fmt::Result {
-    'loop1: loop {
+    loop {
         if *fmt == 0 {
             break;
         }
@@ -9263,7 +9263,7 @@ pub unsafe extern "C" fn FormatInstructionString(
             } else if *fmt == b'o' {
                 let mut i: u32;
                 i = 0u32;
-                'loop18: loop {
+                loop {
                     if !(i < 3u32) {
                         break;
                     }
