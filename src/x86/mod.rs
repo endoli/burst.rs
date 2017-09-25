@@ -9108,9 +9108,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                 if (*instr).flags & 1u32 != 0 {
                     try!(stream.write_str("lock "));
                 }
-                try!(stream.write_str(
-                    INSTRUCTION_OPERATION_TABLE[(*instr).operation as (usize)].name,
-                ));
+                try!(stream.write_str((*instr).operation.mnemonic()));
             } else if *fmt == b'o' {
                 let mut i: u32;
                 i = 0u32;
