@@ -7393,35 +7393,11 @@ unsafe extern "C" fn ProcessOpcode(
 unsafe extern "C" fn ProcessSparseOpcode(
     state: &mut DecodeState,
     map: &[SparseInstructionEncoding],
-    mapSize: usize,
     opcode: u8,
 ) {
-    let mut _currentBlock;
-    let mut i: i32;
-    let mut min: i32;
-    let mut max: i32;
     (*state.result).operation = InstructionOperation::INVALID;
-    min = 0i32;
-    max = mapSize as (i32) - 1i32;
-    i = (min + max) / 2i32;
-    loop {
-        if !(min <= max) {
-            _currentBlock = 5;
-            break;
-        }
-        if opcode > map[i as usize].opcode {
-            min = i + 1i32;
-        } else {
-            if !(opcode < map[i as usize].opcode) {
-                _currentBlock = 4;
-                break;
-            }
-            max = i - 1i32;
-        }
-        i = (min + max) / 2i32;
-    }
-    if _currentBlock == 4 {
-        ProcessEncoding(state, &map[i as usize].encoding);
+    if let Ok(idx) = map.binary_search_by_key(&opcode, |entry| entry.opcode) {
+        ProcessEncoding(state, &map[idx].encoding);
     }
 }
 
@@ -7435,22 +7411,10 @@ unsafe extern "C" fn DecodeTwoByte(state: &mut DecodeState) {
     let opcode: u8 = Read8(state);
     if opcode == 0x38 {
         let next_opcode = Read8(state);
-        ProcessSparseOpcode(
-            state,
-            &THREE_BYTE_0F38_MAP,
-            ::std::mem::size_of::<[SparseInstructionEncoding; 48]>()
-                .wrapping_div(::std::mem::size_of::<SparseInstructionEncoding>()),
-            next_opcode,
-        );
+        ProcessSparseOpcode(state, &THREE_BYTE_0F38_MAP, next_opcode);
     } else if opcode == 0x3a {
         let next_opcode = Read8(state);
-        ProcessSparseOpcode(
-            state,
-            &THREE_BYTE_0F3A_MAP,
-            ::std::mem::size_of::<[SparseInstructionEncoding; 22]>()
-                .wrapping_div(::std::mem::size_of::<SparseInstructionEncoding>()),
-            next_opcode,
-        );
+        ProcessSparseOpcode(state, &THREE_BYTE_0F3A_MAP, next_opcode);
         SetOperandToImm8(
             state,
             &mut (*state.result).operands[2usize] as (*mut InstructionOperand),
