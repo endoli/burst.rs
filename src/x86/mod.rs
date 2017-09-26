@@ -8937,22 +8937,15 @@ fn WriteOperand(stream: &mut fmt::Write, type_: OperandType, scale: u8, plus: bo
 }
 
 unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
-    if size == 16 {
-        "oword "
-    } else if size == 10 {
-        "tword "
-    } else if size == 8 {
-        "qword "
-    } else if size == 6 {
-        "fword "
-    } else if size == 4 {
-        "dword "
-    } else if size == 2 {
-        "word "
-    } else if size == 1 {
-        "byte "
-    } else {
-        ""
+    match size {
+        16 => "oword ",
+        10 => "tword ",
+        8 => "qword ",
+        6 => "fword ",
+        4 => "dword ",
+        2 => "word ",
+        1 => "byte ",
+        _ => "",
     }
 }
 
