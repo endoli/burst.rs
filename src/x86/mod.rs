@@ -8339,12 +8339,11 @@ unsafe extern "C" fn DecodeSSETable(state: &mut DecodeState) {
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
     let entry: *const SSETableEntry = &SSE_TABLE[(*state.result).operation as usize];
-    let opEntry: *const SSETableOperationEntry;
-    if modField == 3 {
-        opEntry = &(*entry).regOps[type_ as usize];
+    let opEntry = if modField == 3 {
+        &(*entry).regOps[type_ as usize]
     } else {
-        opEntry = &(*entry).memOps[type_ as usize];
-    }
+        &(*entry).memOps[type_ as usize]
+    };
     (*state.result).operation = (*opEntry).operation;
     let operand1 = GetOperandForSSEEntryType(state, (*opEntry).rmType as (u16), 1u8);
     let rmRegList = GetRegListForSSEEntryType(state, (*opEntry).rmType as (u16));
@@ -8386,12 +8385,10 @@ unsafe extern "C" fn DecodeSSETableMem8(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn GetSizeForSSEType(type_: u8) -> u16 {
-    if type_ == 2 {
-        8
-    } else if type_ == 3 {
-        4
-    } else {
-        16
+    match type_ {
+        2 => 8,
+        3 => 4,
+        _ => 16,
     }
 }
 
@@ -8776,12 +8773,10 @@ unsafe extern "C" fn InitDisassemble(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
-    let mut _currentBlock;
     let mut rex: u8 = 0;
     let mut addrPrefix: bool = false;
     loop {
         if !!state.invalid {
-            _currentBlock = 11;
             break;
         }
         let prefix: u8 = Read8(state);
@@ -8806,17 +8801,14 @@ unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
             state.rep = RepPrefix::REP_PREFIX_REPE;
         } else {
             if !(state.using64 && (prefix >= 0x40) && (prefix <= 0x4f)) {
-                _currentBlock = 10;
+                state.opcode = state.opcode.offset(-1);
+                state.len = state.len.wrapping_add(1);
                 break;
             }
             rex = prefix;
             continue;
         }
         rex = 0u8;
-    }
-    if _currentBlock == 10 {
-        state.opcode = state.opcode.offset(-1);
-        state.len = state.len.wrapping_add(1);
     }
     if state.opPrefix {
         state.opSize = if state.opSize == 2 { 4 } else { 2 };
