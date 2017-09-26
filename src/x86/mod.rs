@@ -7039,113 +7039,113 @@ static SSE_TABLE: [SSETableEntry; 58] = [
 #[repr(C)]
 struct SparseOpEntry {
     pub opcode: u8,
-    pub operation: u16,
+    pub operation: InstructionOperation,
 }
 
 static SPARSE_3DNOW_OPCODES: [SparseOpEntry; 26] = [
     SparseOpEntry {
         opcode: 0xcu8,
-        operation: InstructionOperation::PI2FW as (u16),
+        operation: InstructionOperation::PI2FW,
     },
     SparseOpEntry {
         opcode: 0xdu8,
-        operation: InstructionOperation::PI2FD as (u16),
+        operation: InstructionOperation::PI2FD,
     },
     SparseOpEntry {
         opcode: 0x1cu8,
-        operation: InstructionOperation::PF2IW as (u16),
+        operation: InstructionOperation::PF2IW,
     },
     SparseOpEntry {
         opcode: 0x1du8,
-        operation: InstructionOperation::PF2ID as (u16),
+        operation: InstructionOperation::PF2ID,
     },
     SparseOpEntry {
         opcode: 0x86u8,
-        operation: InstructionOperation::PFRCPV as (u16),
+        operation: InstructionOperation::PFRCPV,
     },
     SparseOpEntry {
         opcode: 0x87u8,
-        operation: InstructionOperation::PFRSQRTV as (u16),
+        operation: InstructionOperation::PFRSQRTV,
     },
     SparseOpEntry {
         opcode: 0x8au8,
-        operation: InstructionOperation::PFNACC as (u16),
+        operation: InstructionOperation::PFNACC,
     },
     SparseOpEntry {
         opcode: 0x8eu8,
-        operation: InstructionOperation::PFPNACC as (u16),
+        operation: InstructionOperation::PFPNACC,
     },
     SparseOpEntry {
         opcode: 0x90u8,
-        operation: InstructionOperation::PFCMPGE as (u16),
+        operation: InstructionOperation::PFCMPGE,
     },
     SparseOpEntry {
         opcode: 0x94u8,
-        operation: InstructionOperation::PFMIN as (u16),
+        operation: InstructionOperation::PFMIN,
     },
     SparseOpEntry {
         opcode: 0x96u8,
-        operation: InstructionOperation::PFRCP as (u16),
+        operation: InstructionOperation::PFRCP,
     },
     SparseOpEntry {
         opcode: 0x97u8,
-        operation: InstructionOperation::PFRSQRT as (u16),
+        operation: InstructionOperation::PFRSQRT,
     },
     SparseOpEntry {
         opcode: 0x9au8,
-        operation: InstructionOperation::PFSUB as (u16),
+        operation: InstructionOperation::PFSUB,
     },
     SparseOpEntry {
         opcode: 0x9eu8,
-        operation: InstructionOperation::PFADD as (u16),
+        operation: InstructionOperation::PFADD,
     },
     SparseOpEntry {
         opcode: 0xa0u8,
-        operation: InstructionOperation::PFCMPGT as (u16),
+        operation: InstructionOperation::PFCMPGT,
     },
     SparseOpEntry {
         opcode: 0xa4u8,
-        operation: InstructionOperation::PFMAX as (u16),
+        operation: InstructionOperation::PFMAX,
     },
     SparseOpEntry {
         opcode: 0xa6u8,
-        operation: InstructionOperation::PFRCPIT1 as (u16),
+        operation: InstructionOperation::PFRCPIT1,
     },
     SparseOpEntry {
         opcode: 0xa7u8,
-        operation: InstructionOperation::PFRSQIT1 as (u16),
+        operation: InstructionOperation::PFRSQIT1,
     },
     SparseOpEntry {
         opcode: 0xaau8,
-        operation: InstructionOperation::PFSUBR as (u16),
+        operation: InstructionOperation::PFSUBR,
     },
     SparseOpEntry {
         opcode: 0xaeu8,
-        operation: InstructionOperation::PFACC as (u16),
+        operation: InstructionOperation::PFACC,
     },
     SparseOpEntry {
         opcode: 0xb0u8,
-        operation: InstructionOperation::PFCMPEQ as (u16),
+        operation: InstructionOperation::PFCMPEQ,
     },
     SparseOpEntry {
         opcode: 0xb4u8,
-        operation: InstructionOperation::PFMUL as (u16),
+        operation: InstructionOperation::PFMUL,
     },
     SparseOpEntry {
         opcode: 0xb6u8,
-        operation: InstructionOperation::PFRCPIT2 as (u16),
+        operation: InstructionOperation::PFRCPIT2,
     },
     SparseOpEntry {
         opcode: 0xb7u8,
-        operation: InstructionOperation::PMULHRW as (u16),
+        operation: InstructionOperation::PMULHRW,
     },
     SparseOpEntry {
         opcode: 0xbbu8,
-        operation: InstructionOperation::PSWAPD as (u16),
+        operation: InstructionOperation::PSWAPD,
     },
     SparseOpEntry {
         opcode: 0xbfu8,
-        operation: InstructionOperation::PAVGUSB as (u16),
+        operation: InstructionOperation::PAVGUSB,
     },
 ];
 
@@ -8285,11 +8285,6 @@ unsafe extern "C" fn DecodeEaxDx(state: &mut DecodeState) {
 }
 
 unsafe extern "C" fn Decode3DNow(state: &mut DecodeState) {
-    let mut _currentBlock;
-    let op: u8;
-    let mut i: i32;
-    let mut min: i32;
-    let mut max: i32;
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     DecodeRMReg(
@@ -8301,33 +8296,12 @@ unsafe extern "C" fn Decode3DNow(state: &mut DecodeState) {
         &MMX_REG_LIST,
         8,
     );
-    op = Read8(state);
-    (*state.result).operation = InstructionOperation::INVALID;
-    min = 0i32;
-    max = ::std::mem::size_of::<[SparseOpEntry; 26]>().wrapping_div(
-        ::std::mem::size_of::<SparseOpEntry>(),
-    ) as (i32) - 1i32;
-    i = (min + max) / 2i32;
-    loop {
-        if !(min <= max) {
-            _currentBlock = 5;
-            break;
+    let op = Read8(state);
+    (*state.result).operation =
+        match SPARSE_3DNOW_OPCODES.binary_search_by_key(&op, |entry| entry.opcode) {
+            Ok(idx) => SPARSE_3DNOW_OPCODES[idx].operation,
+            Err(_) => InstructionOperation::INVALID,
         }
-        if op as (i32) > SPARSE_3DNOW_OPCODES[i as (usize)].opcode as (i32) {
-            min = i + 1i32;
-        } else {
-            if !(op as (i32) < SPARSE_3DNOW_OPCODES[i as (usize)].opcode as (i32)) {
-                _currentBlock = 4;
-                break;
-            }
-            max = i - 1i32;
-        }
-        i = (min + max) / 2i32;
-    }
-    if _currentBlock == 4 {
-        (*state.result).operation =
-            InstructionOperation::from_i32(SPARSE_3DNOW_OPCODES[i as (usize)].operation as (i32));
-    }
 }
 
 unsafe extern "C" fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
