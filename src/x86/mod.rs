@@ -4340,8 +4340,8 @@ static MMX_GROUP_OPERATIONS: [[[InstructionOperation; 2]; 8]; 3] =
 #[repr(C)]
 struct SSETableOperationEntry {
     pub operation: InstructionOperation,
-    pub regType: u8,
-    pub rmType: u8,
+    pub regType: SSETableOperandType,
+    pub rmType: SSETableOperandType,
 }
 
 #[derive(Debug)]
@@ -4354,6 +4354,7 @@ struct SSETableEntry {
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 enum SSETableOperandType {
+    INVALID = 0,
     SSE_16,
     SSE_32,
     SSE_64,
@@ -4369,45 +4370,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVUPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVUPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVUPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVUPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
         ],
     },
@@ -4415,45 +4416,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVHLPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSLDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVLPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVLPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSLDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -4461,45 +4462,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVLPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVLPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4507,45 +4508,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKLPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKLPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKLPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKLPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4553,45 +4554,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKHPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKHPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKHPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UNPCKHPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4599,45 +4600,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVLHPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSHDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVHPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVHPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVSHDUP,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -4645,45 +4646,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVHPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVHPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4691,45 +4692,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVAPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVAPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVAPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVAPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4737,45 +4738,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPI2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPI2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSI2SD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSI2SS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPI2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPI2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSI2SD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSI2SS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
         ],
     },
@@ -4783,45 +4784,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVNTPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVNTPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4829,45 +4830,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPS2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPD2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTSD2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTSS2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPS2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPD2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTSD2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTSS2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_32,
             },
         ],
     },
@@ -4875,45 +4876,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSD2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSS2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2PI,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSD2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSS2SI,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_32,
             },
         ],
     },
@@ -4921,45 +4922,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UCOMISS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UCOMISD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::UCOMISS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::UCOMISD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -4967,45 +4968,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::COMISS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::COMISD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::COMISS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::COMISD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5013,45 +5014,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVMSKPS,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVMSKPD,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5059,45 +5060,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSD2SS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSS2SD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSD2SS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTSS2SD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
         ],
     },
@@ -5105,45 +5106,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTDQ2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPS2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTDQ2PS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPS2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPS2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -5151,45 +5152,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLBW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLBW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_32 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5197,45 +5198,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLWD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLWD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_32 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5243,45 +5244,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLDQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLDQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_32 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PUNPCKLDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5289,45 +5290,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5335,45 +5336,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDQA,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDQU,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDQA,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDQU,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -5381,45 +5382,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFLW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFHW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFLW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PSHUFHW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -5427,45 +5428,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HADDPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HADDPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HADDPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HADDPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5473,45 +5474,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HSUBPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HSUBPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HSUBPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::HSUBPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5519,45 +5520,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::SSE_128_FLIP as (u8),
-                rmType: SSETableOperandType::SSE_128_FLIP as (u8),
+                regType: SSETableOperandType::SSE_128_FLIP,
+                rmType: SSETableOperandType::SSE_128_FLIP,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::SSE_128_FLIP as (u8),
-                rmType: SSETableOperandType::SSE_128_FLIP as (u8),
+                regType: SSETableOperandType::SSE_128_FLIP,
+                rmType: SSETableOperandType::SSE_128_FLIP,
             },
         ],
     },
@@ -5565,45 +5566,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CMPSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
         ],
     },
@@ -5611,45 +5612,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5657,45 +5658,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5703,45 +5704,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::SHUFPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::SHUFPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::SHUFPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::SHUFPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5749,45 +5750,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ADDSUBPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ADDSUBPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ADDSUBPD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ADDSUBPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5795,45 +5796,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::SSE_128_FLIP as (u8),
-                rmType: SSETableOperandType::SSE_128_FLIP as (u8),
+                regType: SSETableOperandType::SSE_128_FLIP,
+                rmType: SSETableOperandType::SSE_128_FLIP,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVDQ2Q,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::MMX_64,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVQ,
-                regType: SSETableOperandType::SSE_128_FLIP as (u8),
-                rmType: SSETableOperandType::SSE_128_FLIP as (u8),
+                regType: SSETableOperandType::SSE_128_FLIP,
+                rmType: SSETableOperandType::SSE_128_FLIP,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5841,45 +5842,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVMSKB,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVMSKB,
-                regType: SSETableOperandType::GPR_32_OR_64 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::GPR_32_OR_64,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5887,45 +5888,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPD2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTDQ2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTTPD2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTPD2DQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::CVTDQ2PD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
         ],
     },
@@ -5933,45 +5934,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVNTQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVNTDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -5979,45 +5980,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::LDDQU,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6025,45 +6026,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::MASKMOVQ,
-                regType: SSETableOperandType::MMX_64 as (u8),
-                rmType: SSETableOperandType::MMX_64 as (u8),
+                regType: SSETableOperandType::MMX_64,
+                rmType: SSETableOperandType::MMX_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MASKMOVDQU,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6071,45 +6072,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6117,45 +6118,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6163,45 +6164,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXBQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_16 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_16,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6209,45 +6210,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6255,45 +6256,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXWQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXWQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6301,45 +6302,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVSXDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6347,45 +6348,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::MOVNTDQA,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6393,45 +6394,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6439,45 +6440,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6485,45 +6486,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXBQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_16 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_16,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6531,45 +6532,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXWD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6577,45 +6578,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXWQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXWQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6623,45 +6624,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PMOVZXDQ,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6669,45 +6670,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ROUNDSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ROUNDSS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6715,45 +6716,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ROUNDSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::ROUNDSD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6761,45 +6762,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRB,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRB,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6807,45 +6808,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRW,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_16 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_16,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6853,45 +6854,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PEXTRD,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6899,45 +6900,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::EXTRACTPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::EXTRACTPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6945,45 +6946,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRB,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::PINSRB,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::GPR_32_OR_64 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::GPR_32_OR_64,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -6991,45 +6992,45 @@ static SSE_TABLE: [SSETableEntry; 58] = [
         regOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INSERTPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_128 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_128,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
         memOps: [
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INSERTPS,
-                regType: SSETableOperandType::SSE_128 as (u8),
-                rmType: SSETableOperandType::SSE_32 as (u8),
+                regType: SSETableOperandType::SSE_128,
+                rmType: SSETableOperandType::SSE_32,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
             SSETableOperationEntry {
                 operation: InstructionOperation::INVALID,
-                regType: 0u8,
-                rmType: 0u8,
+                regType: SSETableOperandType::INVALID,
+                rmType: SSETableOperandType::INVALID,
             },
         ],
     },
@@ -8277,10 +8278,10 @@ unsafe extern "C" fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
 
 unsafe extern "C" fn GetOperandForSSEEntryType(
     state: &DecodeState,
-    type_: u16,
+    entry_type: SSETableOperandType,
     mut operandIndex: u8,
 ) -> *mut InstructionOperand {
-    if type_ == SSETableOperandType::SSE_128_FLIP as u16 {
+    if entry_type == SSETableOperandType::SSE_128_FLIP {
         operandIndex = (1 - operandIndex as i32) as u8;
     }
     if operandIndex == 0 {
@@ -8292,16 +8293,16 @@ unsafe extern "C" fn GetOperandForSSEEntryType(
 
 unsafe extern "C" fn GetRegListForSSEEntryType(
     state: &mut DecodeState,
-    type_: u16,
+    entry_type: SSETableOperandType,
 ) -> &'static [OperandType] {
-    if type_ == SSETableOperandType::GPR_32_OR_64 as u16 {
+    if entry_type == SSETableOperandType::GPR_32_OR_64 {
         (if state.opSize == 8 {
              &REG64_LIST
          } else {
              &REG32_LIST
          })
-    } else if type_ == SSETableOperandType::MMX_64 as u16 ||
-               type_ == SSETableOperandType::MMX_32 as u16
+    } else if entry_type == SSETableOperandType::MMX_64 ||
+               entry_type == SSETableOperandType::MMX_32
     {
         &MMX_REG_LIST
     } else {
@@ -8309,48 +8310,48 @@ unsafe extern "C" fn GetRegListForSSEEntryType(
     }
 }
 
-unsafe extern "C" fn GetSizeForSSEEntryType(state: &DecodeState, type_: u16) -> u16 {
-    if type_ == SSETableOperandType::GPR_32_OR_64 as u16 {
-        if state.opSize == 8 { 8 } else { 4 }
-    } else if type_ == SSETableOperandType::MMX_64 as u16 ||
-               type_ == SSETableOperandType::SSE_64 as u16
-    {
-        8
-    } else if type_ == SSETableOperandType::MMX_32 as u16 ||
-               type_ == SSETableOperandType::SSE_32 as u16
-    {
-        4
-    } else if type_ == SSETableOperandType::SSE_16 as u16 {
-        2
-    } else {
-        16
+unsafe extern "C" fn GetSizeForSSEEntryType(
+    state: &DecodeState,
+    entry_type: SSETableOperandType,
+) -> u16 {
+    match entry_type {
+        SSETableOperandType::GPR_32_OR_64 => if state.opSize == 8 { 8 } else { 4 },
+        SSETableOperandType::MMX_64 |
+        SSETableOperandType::SSE_64 => 8,
+        SSETableOperandType::MMX_32 |
+        SSETableOperandType::SSE_32 => 4,
+        SSETableOperandType::SSE_16 => 2,
+        _ => 16,
     }
 }
 
-unsafe extern "C" fn UpdateOperationForSSEEntryType(state: &DecodeState, type_: u16) {
-    if type_ == SSETableOperandType::GPR_32_OR_64 as u16 && (state.opSize == 8) {
+unsafe extern "C" fn UpdateOperationForSSEEntryType(
+    state: &DecodeState,
+    entry_type: SSETableOperandType,
+) {
+    if entry_type == SSETableOperandType::GPR_32_OR_64 && (state.opSize == 8) {
         (*state.result).operation =
-            InstructionOperation::from_i32(((*state.result).operation as (i32) + 1i32) as (i32));
+            InstructionOperation::from_i32((*state.result).operation as (i32) + 1);
     }
 }
 
 unsafe extern "C" fn DecodeSSETable(state: &mut DecodeState) {
-    let type_: u8 = DecodeSSEPrefix(state);
+    let entry_type = DecodeSSEPrefix(state) as usize;
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
     let entry: *const SSETableEntry = &SSE_TABLE[(*state.result).operation as usize];
     let opEntry = if modField == 3 {
-        &(*entry).regOps[type_ as usize]
+        &(*entry).regOps[entry_type]
     } else {
-        &(*entry).memOps[type_ as usize]
+        &(*entry).memOps[entry_type]
     };
     (*state.result).operation = (*opEntry).operation;
-    let operand1 = GetOperandForSSEEntryType(state, (*opEntry).rmType as (u16), 1u8);
-    let rmRegList = GetRegListForSSEEntryType(state, (*opEntry).rmType as (u16));
-    let rmRegSize = GetSizeForSSEEntryType(state, (*opEntry).rmType as (u16));
-    let operand0 = GetOperandForSSEEntryType(state, (*opEntry).regType as (u16), 0u8);
-    let regList = GetRegListForSSEEntryType(state, (*opEntry).regType as (u16));
-    let regSize = GetSizeForSSEEntryType(state, (*opEntry).regType as (u16));
+    let operand1 = GetOperandForSSEEntryType(state, (*opEntry).rmType, 1u8);
+    let rmRegList = GetRegListForSSEEntryType(state, (*opEntry).rmType);
+    let rmRegSize = GetSizeForSSEEntryType(state, (*opEntry).rmType);
+    let operand0 = GetOperandForSSEEntryType(state, (*opEntry).regType, 0u8);
+    let regList = GetRegListForSSEEntryType(state, (*opEntry).regType);
+    let regSize = GetSizeForSSEEntryType(state, (*opEntry).regType);
     DecodeRMReg(
         state,
         operand1,
@@ -8361,8 +8362,8 @@ unsafe extern "C" fn DecodeSSETable(state: &mut DecodeState) {
         regSize,
     );
     if state.flags & 0x800u32 != 0 {
-        UpdateOperationForSSEEntryType(state, (*opEntry).regType as (u16));
-        UpdateOperationForSSEEntryType(state, (*opEntry).rmType as (u16));
+        UpdateOperationForSSEEntryType(state, (*opEntry).regType);
+        UpdateOperationForSSEEntryType(state, (*opEntry).rmType);
     }
 }
 
