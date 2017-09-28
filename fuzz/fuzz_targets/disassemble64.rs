@@ -6,8 +6,8 @@ extern crate burst;
 use burst::x86::*;
 
 fuzz_target!(|data: &[u8]| {
-    let result = &mut Instruction::default() as *mut Instruction;
+    let mut result = Instruction::default();
     unsafe {
-        Disassemble64(data.as_ptr(), 0, data.len(), result);
+        Disassemble64(data.as_ptr(), 0, data.len(), &mut result);
     }
 });
