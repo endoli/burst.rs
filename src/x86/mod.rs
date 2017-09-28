@@ -8847,15 +8847,15 @@ unsafe extern "C" fn FinishDisassemble(state: &mut DecodeState) {
 
 #[no_mangle]
 pub unsafe extern "C" fn Disassemble16(
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     result: &mut Instruction,
 ) -> bool {
     let mut state = DecodeState::default();
     state.result = result as *mut Instruction;
-    state.opcodeStart = opcode;
-    state.opcode = opcode;
+    state.opcodeStart = opcode.as_ptr();
+    state.opcode = opcode.as_ptr();
     state.addr = addr;
     state.len = if maxLen > 15 { 15 } else { maxLen };
     state.addrSize = 2;
@@ -8871,15 +8871,15 @@ pub unsafe extern "C" fn Disassemble16(
 
 #[no_mangle]
 pub unsafe extern "C" fn Disassemble32(
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     result: &mut Instruction,
 ) -> bool {
     let mut state = DecodeState::default();
     state.result = result as *mut Instruction;
-    state.opcodeStart = opcode;
-    state.opcode = opcode;
+    state.opcodeStart = opcode.as_ptr();
+    state.opcode = opcode.as_ptr();
     state.addr = addr;
     state.len = if maxLen > 15 { 15 } else { maxLen };
     state.addrSize = 4;
@@ -8895,15 +8895,15 @@ pub unsafe extern "C" fn Disassemble32(
 
 #[no_mangle]
 pub unsafe extern "C" fn Disassemble64(
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     result: &mut Instruction,
 ) -> bool {
     let mut state = DecodeState::default();
     state.result = result as *mut Instruction;
-    state.opcodeStart = opcode;
-    state.opcode = opcode;
+    state.opcodeStart = opcode.as_ptr();
+    state.opcode = opcode.as_ptr();
     state.addr = addr;
     state.len = if maxLen > 15 { 15 } else { maxLen };
     state.addrSize = 8;
@@ -8976,7 +8976,7 @@ unsafe extern "C" fn WriteHex(
 pub unsafe extern "C" fn FormatInstructionString(
     stream: &mut fmt::Write,
     mut fmt: *const u8,
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     instr: &Instruction,
 ) -> fmt::Result {
@@ -8998,12 +8998,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                 try!(WriteHex(stream, addr, width, false));
             } else if *fmt == b'b' {
                 for i in 0..instr.length {
-                    try!(WriteHex(
-                        stream,
-                        *opcode.offset(i as (isize)) as (usize),
-                        2u32,
-                        false,
-                    ));
+                    try!(WriteHex(stream, opcode[i] as (usize), 2u32, false));
                 }
                 for _i in instr.length..(width as usize) {
                     try!(stream.write_str("  "));
@@ -9145,7 +9140,7 @@ pub unsafe extern "C" fn FormatInstructionString(
 pub unsafe extern "C" fn DisassembleToString16(
     stream: &mut fmt::Write,
     fmt: *const u8,
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     instr: &mut Instruction,
@@ -9161,7 +9156,7 @@ pub unsafe extern "C" fn DisassembleToString16(
 pub unsafe extern "C" fn DisassembleToString32(
     stream: &mut fmt::Write,
     fmt: *const u8,
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     instr: &mut Instruction,
@@ -9177,7 +9172,7 @@ pub unsafe extern "C" fn DisassembleToString32(
 pub unsafe extern "C" fn DisassembleToString64(
     stream: &mut fmt::Write,
     fmt: *const u8,
-    opcode: *const u8,
+    opcode: &[u8],
     addr: usize,
     maxLen: usize,
     instr: &mut Instruction,
