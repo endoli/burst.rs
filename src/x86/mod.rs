@@ -8991,115 +8991,110 @@ pub unsafe extern "C" fn FormatInstructionString(
                 break;
             }
             if *fmt == b'a' {
-                if width == 0u32 {
+                if width == 0 {
                     width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
-                        .wrapping_mul(2usize) as (u32);
+                        .wrapping_mul(2) as (u32);
                 }
                 try!(WriteHex(stream, addr, width, false));
             } else if *fmt == b'b' {
                 for i in 0..instr.length {
-                    try!(WriteHex(stream, opcode[i] as (usize), 2u32, false));
+                    try!(WriteHex(stream, opcode[i] as (usize), 2, false));
                 }
                 for _i in instr.length..(width as usize) {
                     try!(stream.write_str("  "));
                 }
             } else if *fmt == b'i' {
-                if instr.flags & (2i32 | 8i32 | 4i32) as (u32) != 0 {
+                if instr.flags & (2 | 8 | 4) != 0 {
                     try!(stream.write_str("rep"));
-                    if instr.flags & 4u32 != 0 {
+                    if instr.flags & 4 != 0 {
                         try!(stream.write_char('n'));
                     }
-                    if instr.flags & (4i32 | 8i32) as (u32) != 0 {
+                    if instr.flags & (4 | 8) != 0 {
                         try!(stream.write_char('e'));
                     }
                     try!(stream.write_char('b'));
                 }
-                if instr.flags & 1u32 != 0 {
+                if instr.flags & 1 != 0 {
                     try!(stream.write_str("lock "));
                 }
                 try!(stream.write_str(instr.operation.mnemonic()));
             } else if *fmt == b'o' {
-                let mut i: u32;
-                i = 0u32;
+                let mut i: usize = 0;
                 loop {
-                    if !(i < 3u32) {
+                    if !(i < 3) {
                         break;
                     }
-                    if instr.operands[i as (usize)].operand == OperandType::NONE {
+                    if instr.operands[i].operand == OperandType::NONE {
                         break;
                     }
-                    if i != 0u32 {
+                    if i != 0 {
                         try!(stream.write_str(", "));
                     }
-                    if instr.operands[i as (usize)].operand == OperandType::IMM {
+                    if instr.operands[i].operand == OperandType::IMM {
                         try!(WriteHex(
                             stream,
-                            instr.operands[i as (usize)].immediate as (usize),
-                            (instr.operands[i as (usize)].size * 2) as u32,
+                            instr.operands[i].immediate as (usize),
+                            (instr.operands[i].size * 2) as u32,
                             true,
                         ));
-                    } else if instr.operands[i as (usize)].operand == OperandType::MEM {
+                    } else if instr.operands[i].operand == OperandType::MEM {
                         let mut plus: bool = false;
-                        try!(stream.write_str(
-                            GetSizeString(instr.operands[i as (usize)].size),
-                        ));
+                        try!(stream.write_str(GetSizeString(instr.operands[i].size)));
                         if instr.segment != SegmentRegister::SEG_DEFAULT ||
-                            instr.operands[i as (usize)].segment == SegmentRegister::SEG_ES
+                            instr.operands[i].segment == SegmentRegister::SEG_ES
                         {
                             try!(WriteOperand(
                                 stream,
                                 OperandType::from_i32(
-                                    (instr.operands[i as (usize)].segment as (i32) +
-                                         OperandType::REG_ES as (i32)) as
-                                        (i32),
+                                    instr.operands[i].segment as (i32) +
+                                        OperandType::REG_ES as (i32),
                                 ),
-                                1u8,
+                                1,
                                 false,
                             ));
                             try!(stream.write_char(':'));
                         }
                         try!(stream.write_char('['));
-                        if instr.operands[i as (usize)].components[0] != OperandType::NONE {
+                        if instr.operands[i].components[0] != OperandType::NONE {
                             try!(WriteOperand(
                                 stream,
-                                instr.operands[i as (usize)].components[0],
-                                1u8,
+                                instr.operands[i].components[0],
+                                1,
                                 false,
                             ));
                             plus = true;
                         }
-                        if instr.operands[i as (usize)].components[1] != OperandType::NONE {
+                        if instr.operands[i].components[1] != OperandType::NONE {
                             try!(WriteOperand(
                                 stream,
-                                instr.operands[i as (usize)].components[1usize],
-                                instr.operands[i as (usize)].scale,
+                                instr.operands[i].components[1],
+                                instr.operands[i].scale,
                                 plus,
                             ));
                             plus = true;
                         }
-                        if instr.operands[i as (usize)].immediate != 0isize ||
-                            instr.operands[i as (usize)].components[0usize] == OperandType::NONE &&
-                                (instr.operands[i as (usize)].components[1usize] ==
-                                     OperandType::NONE)
+                        if instr.operands[i].immediate != 0 ||
+                            instr.operands[i].components[0] == OperandType::NONE &&
+                                (instr.operands[i].components[1] == OperandType::NONE)
                         {
-                            if plus && (instr.operands[i as (usize)].immediate >= -0x80isize) &&
-                                (instr.operands[i as (usize)].immediate < 0isize)
+                            if plus && (instr.operands[i].immediate >= -0x80) &&
+                                (instr.operands[i].immediate < 0)
                             {
                                 try!(stream.write_char('-'));
                                 try!(WriteHex(
                                     stream,
-                                    -instr.operands[i as (usize)].immediate as (usize),
-                                    2u32,
+                                    -instr.operands[i].immediate as (usize),
+                                    2,
                                     true,
                                 ));
-                            } else if plus && (instr.operands[i as (usize)].immediate > 0isize) &&
-                                       (instr.operands[i as (usize)].immediate <= 0x7fisize)
+                            } else if plus && (instr.operands[i].immediate > 0) &&
+                                       (instr.operands[i].immediate <= 0x7f)
                             {
                                 try!(stream.write_char('+'));
                                 try!(WriteHex(
                                     stream,
-                                    instr.operands[i as (usize)].immediate as (usize),
-                                    2u32,
+                                    instr.operands[i].immediate as (usize),
+                                    2,
                                     true,
                                 ));
                             } else {
@@ -9108,22 +9103,17 @@ pub unsafe extern "C" fn FormatInstructionString(
                                 }
                                 try!(WriteHex(
                                     stream,
-                                    instr.operands[i as (usize)].immediate as (usize),
-                                    8u32,
+                                    instr.operands[i].immediate as (usize),
+                                    8,
                                     true,
                                 ));
                             }
                         }
                         try!(stream.write_char(']'));
                     } else {
-                        try!(WriteOperand(
-                            stream,
-                            instr.operands[i as (usize)].operand,
-                            1u8,
-                            false,
-                        ));
+                        try!(WriteOperand(stream, instr.operands[i].operand, 1, false));
                     }
-                    i = i.wrapping_add(1u32);
+                    i += 1;
                 }
             } else if !(*fmt >= b'0' && *fmt <= b'9') {
                 try!(stream.write_char(*fmt as char));
@@ -9131,7 +9121,7 @@ pub unsafe extern "C" fn FormatInstructionString(
         } else {
             try!(stream.write_char(*fmt as char));
         }
-        fmt = fmt.offset(1isize);
+        fmt = fmt.offset(1);
     }
     Ok(())
 }
