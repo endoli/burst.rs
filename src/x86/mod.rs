@@ -8975,35 +8975,37 @@ unsafe extern "C" fn WriteHex(
 #[no_mangle]
 pub unsafe extern "C" fn FormatInstructionString(
     stream: &mut fmt::Write,
-    mut fmt: *const u8,
+    fmt: &str,
     opcode: &[u8],
     addr: usize,
     instr: &Instruction,
 ) -> fmt::Result {
+    let fmt = fmt.chars().collect::<Vec<_>>();
+    let mut f = 0;
     loop {
-        if *fmt == 0 {
+        if f >= fmt.len() {
             break;
         }
-        if *fmt == b'%' {
+        if fmt[f] == '%' {
             let mut width: u32 = 0u32;
-            fmt = fmt.offset(1isize);
-            if *fmt == 0 {
+            f += 1;
+            if f >= fmt.len() {
                 break;
             }
-            if *fmt == b'a' {
+            if fmt[f] == 'a' {
                 if width == 0 {
                     width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
                         .wrapping_mul(2) as (u32);
                 }
                 try!(WriteHex(stream, addr, width, false));
-            } else if *fmt == b'b' {
+            } else if fmt[f] == 'b' {
                 for i in 0..instr.length {
                     try!(WriteHex(stream, opcode[i] as (usize), 2, false));
                 }
                 for _i in instr.length..(width as usize) {
                     try!(stream.write_str("  "));
                 }
-            } else if *fmt == b'i' {
+            } else if fmt[f] == 'i' {
                 if instr.flags & (2 | 8 | 4) != 0 {
                     try!(stream.write_str("rep"));
                     if instr.flags & 4 != 0 {
@@ -9018,7 +9020,7 @@ pub unsafe extern "C" fn FormatInstructionString(
                     try!(stream.write_str("lock "));
                 }
                 try!(stream.write_str(instr.operation.mnemonic()));
-            } else if *fmt == b'o' {
+            } else if fmt[f] == 'o' {
                 let mut i: usize = 0;
                 loop {
                     if !(i < 3) {
@@ -9115,13 +9117,13 @@ pub unsafe extern "C" fn FormatInstructionString(
                     }
                     i += 1;
                 }
-            } else if !(*fmt >= b'0' && *fmt <= b'9') {
-                try!(stream.write_char(*fmt as char));
+            } else if !(fmt[f] >= '0' && fmt[f] <= '9') {
+                try!(stream.write_char(fmt[f]));
             }
         } else {
-            try!(stream.write_char(*fmt as char));
+            try!(stream.write_char(fmt[f]));
         }
-        fmt = fmt.offset(1);
+        f += 1;
     }
     Ok(())
 }
@@ -9129,7 +9131,7 @@ pub unsafe extern "C" fn FormatInstructionString(
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString16(
     stream: &mut fmt::Write,
-    fmt: *const u8,
+    fmt: &str,
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
@@ -9145,7 +9147,7 @@ pub unsafe extern "C" fn DisassembleToString16(
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString32(
     stream: &mut fmt::Write,
-    fmt: *const u8,
+    fmt: &str,
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
@@ -9161,7 +9163,7 @@ pub unsafe extern "C" fn DisassembleToString32(
 #[no_mangle]
 pub unsafe extern "C" fn DisassembleToString64(
     stream: &mut fmt::Write,
-    fmt: *const u8,
+    fmt: &str,
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
