@@ -7296,7 +7296,7 @@ static FPU_REG_LIST: [OperandType; 16] = [
     OperandType::REG_ST7,
 ];
 
-unsafe fn InvalidDecode(state: &mut DecodeState) {
+fn InvalidDecode(state: &mut DecodeState) {
     state.invalid = true;
 }
 
@@ -7317,7 +7317,7 @@ unsafe fn Read8(state: &mut DecodeState) -> u8 {
     }
 }
 
-unsafe fn GetFinalOpSize(state: &mut DecodeState) -> u16 {
+fn GetFinalOpSize(state: &mut DecodeState) -> u16 {
     if state.flags & 0x100u32 != 0 {
         1u16
     } else {
@@ -7444,13 +7444,13 @@ unsafe fn DecodeFpu(state: &mut DecodeState) {
     ProcessEncoding(state, &map[reg as usize]);
 }
 
-unsafe fn DecodeNoOperands(_state: &mut DecodeState) {}
+fn DecodeNoOperands(_state: &mut DecodeState) {}
 
-unsafe fn GetByteRegList(state: &DecodeState) -> &'static [OperandType] {
+fn GetByteRegList(state: &DecodeState) -> &'static [OperandType] {
     if state.rex { &REG8_LIST64 } else { &REG8_LIST }
 }
 
-unsafe fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
+fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
     match state.finalOpSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -7460,7 +7460,7 @@ unsafe fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType
     }
 }
 
-unsafe fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
+fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
     match state.addrSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -8113,7 +8113,7 @@ unsafe fn Decode0FB8(state: &mut DecodeState) {
     }
 }
 
-unsafe fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
+fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
     match state.opSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -8261,7 +8261,7 @@ unsafe fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
     }
 }
 
-unsafe fn GetOperandForSSEEntryType(
+fn GetOperandForSSEEntryType(
     state: &DecodeState,
     entry_type: SSETableOperandType,
     mut operandIndex: u8,
@@ -8276,7 +8276,7 @@ unsafe fn GetOperandForSSEEntryType(
     }
 }
 
-unsafe fn GetRegListForSSEEntryType(
+fn GetRegListForSSEEntryType(
     state: &mut DecodeState,
     entry_type: SSETableOperandType,
 ) -> &'static [OperandType] {
@@ -8295,7 +8295,7 @@ unsafe fn GetRegListForSSEEntryType(
     }
 }
 
-unsafe fn GetSizeForSSEEntryType(state: &DecodeState, entry_type: SSETableOperandType) -> u16 {
+fn GetSizeForSSEEntryType(state: &DecodeState, entry_type: SSETableOperandType) -> u16 {
     match entry_type {
         SSETableOperandType::GPR_32_OR_64 => if state.opSize == 8 { 8 } else { 4 },
         SSETableOperandType::MMX_64 |
@@ -8364,7 +8364,7 @@ unsafe fn DecodeSSETableMem8(state: &mut DecodeState) {
     }
 }
 
-unsafe fn GetSizeForSSEType(type_: u8) -> u16 {
+fn GetSizeForSSEType(type_: u8) -> u16 {
     match type_ {
         2 => 8,
         3 => 4,
@@ -8827,73 +8827,64 @@ unsafe fn FinishDisassemble(state: &mut DecodeState) {
     }
 }
 
-pub unsafe fn Disassemble16(
-    opcode: &[u8],
-    addr: usize,
-    maxLen: usize,
-    result: &mut Instruction,
-) -> bool {
-    let mut state = DecodeState::default();
-    state.result = result as *mut Instruction;
-    state.opcodeStart = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if maxLen > 15 { 15 } else { maxLen };
-    state.addrSize = 2;
-    state.opSize = 2;
-    state.using64 = false;
-    InitDisassemble(&mut state);
-    ProcessPrefixes(&mut state);
-    let next_opcode = Read8(&mut state);
-    ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
-    FinishDisassemble(&mut state);
-    !state.invalid
+pub fn Disassemble16(opcode: &[u8], addr: usize, maxLen: usize, result: &mut Instruction) -> bool {
+    unsafe {
+        let mut state = DecodeState::default();
+        state.result = result as *mut Instruction;
+        state.opcodeStart = opcode.as_ptr();
+        state.opcode = opcode.as_ptr();
+        state.addr = addr;
+        state.len = if maxLen > 15 { 15 } else { maxLen };
+        state.addrSize = 2;
+        state.opSize = 2;
+        state.using64 = false;
+        InitDisassemble(&mut state);
+        ProcessPrefixes(&mut state);
+        let next_opcode = Read8(&mut state);
+        ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
+        FinishDisassemble(&mut state);
+        !state.invalid
+    }
 }
 
-pub unsafe fn Disassemble32(
-    opcode: &[u8],
-    addr: usize,
-    maxLen: usize,
-    result: &mut Instruction,
-) -> bool {
-    let mut state = DecodeState::default();
-    state.result = result as *mut Instruction;
-    state.opcodeStart = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if maxLen > 15 { 15 } else { maxLen };
-    state.addrSize = 4;
-    state.opSize = 4;
-    state.using64 = false;
-    InitDisassemble(&mut state);
-    ProcessPrefixes(&mut state);
-    let next_opcode = Read8(&mut state);
-    ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
-    FinishDisassemble(&mut state);
-    !state.invalid
+pub fn Disassemble32(opcode: &[u8], addr: usize, maxLen: usize, result: &mut Instruction) -> bool {
+    unsafe {
+        let mut state = DecodeState::default();
+        state.result = result as *mut Instruction;
+        state.opcodeStart = opcode.as_ptr();
+        state.opcode = opcode.as_ptr();
+        state.addr = addr;
+        state.len = if maxLen > 15 { 15 } else { maxLen };
+        state.addrSize = 4;
+        state.opSize = 4;
+        state.using64 = false;
+        InitDisassemble(&mut state);
+        ProcessPrefixes(&mut state);
+        let next_opcode = Read8(&mut state);
+        ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
+        FinishDisassemble(&mut state);
+        !state.invalid
+    }
 }
 
-pub unsafe fn Disassemble64(
-    opcode: &[u8],
-    addr: usize,
-    maxLen: usize,
-    result: &mut Instruction,
-) -> bool {
-    let mut state = DecodeState::default();
-    state.result = result as *mut Instruction;
-    state.opcodeStart = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if maxLen > 15 { 15 } else { maxLen };
-    state.addrSize = 8;
-    state.opSize = 4;
-    state.using64 = true;
-    InitDisassemble(&mut state);
-    ProcessPrefixes(&mut state);
-    let next_opcode = Read8(&mut state);
-    ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
-    FinishDisassemble(&mut state);
-    !state.invalid
+pub fn Disassemble64(opcode: &[u8], addr: usize, maxLen: usize, result: &mut Instruction) -> bool {
+    unsafe {
+        let mut state = DecodeState::default();
+        state.result = result as *mut Instruction;
+        state.opcodeStart = opcode.as_ptr();
+        state.opcode = opcode.as_ptr();
+        state.addr = addr;
+        state.len = if maxLen > 15 { 15 } else { maxLen };
+        state.addrSize = 8;
+        state.opSize = 4;
+        state.using64 = true;
+        InitDisassemble(&mut state);
+        ProcessPrefixes(&mut state);
+        let next_opcode = Read8(&mut state);
+        ProcessOpcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
+        FinishDisassemble(&mut state);
+        !state.invalid
+    }
 }
 
 fn WriteOperand(stream: &mut fmt::Write, type_: OperandType, scale: u8, plus: bool) -> fmt::Result {
@@ -8908,7 +8899,7 @@ fn WriteOperand(stream: &mut fmt::Write, type_: OperandType, scale: u8, plus: bo
     Ok(())
 }
 
-unsafe fn GetSizeString(size: u16) -> &'static str {
+fn GetSizeString(size: u16) -> &'static str {
     match size {
         16 => "oword ",
         10 => "tword ",
@@ -8921,7 +8912,7 @@ unsafe fn GetSizeString(size: u16) -> &'static str {
     }
 }
 
-pub unsafe fn FormatInstructionString(
+pub fn FormatInstructionString(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9058,7 +9049,7 @@ pub unsafe fn FormatInstructionString(
     Ok(())
 }
 
-pub unsafe fn DisassembleToString16(
+pub fn DisassembleToString16(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9073,7 +9064,7 @@ pub unsafe fn DisassembleToString16(
     }
 }
 
-pub unsafe fn DisassembleToString32(
+pub fn DisassembleToString32(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9088,7 +9079,7 @@ pub unsafe fn DisassembleToString32(
     }
 }
 
-pub unsafe fn DisassembleToString64(
+pub fn DisassembleToString64(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],

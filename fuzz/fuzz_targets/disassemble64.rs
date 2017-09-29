@@ -7,7 +7,5 @@ use burst::x86::*;
 
 fuzz_target!(|data: &[u8]| {
     let mut result = Instruction::default();
-    unsafe {
-        Disassemble64(data, 0, data.len(), &mut result);
-    }
+    Disassemble64(data, 0, data.len(), &mut result);
 });
