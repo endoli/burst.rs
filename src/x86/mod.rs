@@ -8942,36 +8942,6 @@ unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
     }
 }
 
-unsafe extern "C" fn WriteHex(
-    stream: &mut fmt::Write,
-    mut val: usize,
-    mut width: u32,
-    prefix: bool,
-) -> fmt::Result {
-    let mut i: i32;
-    if prefix {
-        try!(stream.write_str("0x"));
-    }
-    if width > 16 {
-        width = 16;
-    }
-    i = width.wrapping_sub(1) as (i32);
-    loop {
-        if !(i >= 0) {
-            break;
-        }
-        let digit: u8 = (val & 0xf) as (u8);
-        if digit < 10 {
-            try!(stream.write_char((digit + b'0') as char));
-        } else {
-            try!(stream.write_char((digit + b'a' - 10) as char));
-        }
-        i -= 1;
-        val >>= 4;
-    }
-    Ok(())
-}
-
 #[no_mangle]
 pub unsafe extern "C" fn FormatInstructionString(
     stream: &mut fmt::Write,
@@ -8987,20 +8957,19 @@ pub unsafe extern "C" fn FormatInstructionString(
             break;
         }
         if fmt[f] == '%' {
-            let mut width: u32 = 0u32;
+            let mut width: usize = 0;
             f += 1;
             if f >= fmt.len() {
                 break;
             }
             if fmt[f] == 'a' {
                 if width == 0 {
-                    width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>()
-                        .wrapping_mul(2) as (u32);
+                    width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>() * 2;
                 }
-                try!(WriteHex(stream, addr, width, false));
+                try!(write!(stream, "{:0width$x}", addr, width = width));
             } else if fmt[f] == 'b' {
                 for i in 0..instr.length {
-                    try!(WriteHex(stream, opcode[i] as (usize), 2, false));
+                    try!(write!(stream, "{:02x}", opcode[i]));
                 }
                 for _i in instr.length..(width as usize) {
                     try!(stream.write_str("  "));
@@ -9033,11 +9002,11 @@ pub unsafe extern "C" fn FormatInstructionString(
                         try!(stream.write_str(", "));
                     }
                     if instr.operands[i].operand == OperandType::IMM {
-                        try!(WriteHex(
+                        try!(write!(
                             stream,
-                            instr.operands[i].immediate as (usize),
-                            (instr.operands[i].size * 2) as u32,
-                            true,
+                            "{:#width$x}",
+                            instr.operands[i].immediate,
+                            width = (instr.operands[i].size * 2) as usize
                         ));
                     } else if instr.operands[i].operand == OperandType::MEM {
                         let mut plus: bool = false;
@@ -9082,33 +9051,16 @@ pub unsafe extern "C" fn FormatInstructionString(
                             if plus && (instr.operands[i].immediate >= -0x80) &&
                                 (instr.operands[i].immediate < 0)
                             {
-                                try!(stream.write_char('-'));
-                                try!(WriteHex(
-                                    stream,
-                                    -instr.operands[i].immediate as (usize),
-                                    2,
-                                    true,
-                                ));
+                                try!(write!(stream, "-{:#02x}", -instr.operands[i].immediate));
                             } else if plus && (instr.operands[i].immediate > 0) &&
                                        (instr.operands[i].immediate <= 0x7f)
                             {
-                                try!(stream.write_char('+'));
-                                try!(WriteHex(
-                                    stream,
-                                    instr.operands[i].immediate as (usize),
-                                    2,
-                                    true,
-                                ));
+                                try!(write!(stream, "+{:#02x}", instr.operands[i].immediate));
                             } else {
                                 if plus {
                                     try!(stream.write_char('+'));
                                 }
-                                try!(WriteHex(
-                                    stream,
-                                    instr.operands[i].immediate as (usize),
-                                    8,
-                                    true,
-                                ));
+                                try!(write!(stream, "{:#08x}", instr.operands[i].immediate));
                             }
                         }
                         try!(stream.write_char(']'));
