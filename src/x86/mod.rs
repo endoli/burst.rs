@@ -137,7 +137,7 @@ impl Default for DecodeState {
 struct InstructionEncoding {
     pub operation: u16,
     pub flags: u16,
-    pub func: unsafe extern "C" fn(&mut DecodeState),
+    pub func: unsafe fn(&mut DecodeState),
 }
 
 static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
@@ -7296,11 +7296,11 @@ static FPU_REG_LIST: [OperandType; 16] = [
     OperandType::REG_ST7,
 ];
 
-unsafe extern "C" fn InvalidDecode(state: &mut DecodeState) {
+unsafe fn InvalidDecode(state: &mut DecodeState) {
     state.invalid = true;
 }
 
-unsafe extern "C" fn Read8(state: &mut DecodeState) -> u8 {
+unsafe fn Read8(state: &mut DecodeState) -> u8 {
     if state.len < 1 {
         state.invalid = true;
         state.insufficientLength = true;
@@ -7317,7 +7317,7 @@ unsafe extern "C" fn Read8(state: &mut DecodeState) -> u8 {
     }
 }
 
-unsafe extern "C" fn GetFinalOpSize(state: &mut DecodeState) -> u16 {
+unsafe fn GetFinalOpSize(state: &mut DecodeState) -> u16 {
     if state.flags & 0x100u32 != 0 {
         1u16
     } else {
@@ -7325,7 +7325,7 @@ unsafe extern "C" fn GetFinalOpSize(state: &mut DecodeState) -> u16 {
     }
 }
 
-unsafe extern "C" fn ProcessEncoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
+unsafe fn ProcessEncoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
     (*state.result).operation = InstructionOperation::from_i32((*encoding).operation as i32);
     state.flags = (*encoding).flags as u32;
     if state.using64 && (state.flags & 0x4000 != 0) {
@@ -7383,15 +7383,11 @@ unsafe extern "C" fn ProcessEncoding(state: &mut DecodeState, encoding: &Instruc
     }
 }
 
-unsafe extern "C" fn ProcessOpcode(
-    state: &mut DecodeState,
-    map: &[InstructionEncoding],
-    opcode: u8,
-) {
+unsafe fn ProcessOpcode(state: &mut DecodeState, map: &[InstructionEncoding], opcode: u8) {
     ProcessEncoding(state, &map[opcode as usize]);
 }
 
-unsafe extern "C" fn ProcessSparseOpcode(
+unsafe fn ProcessSparseOpcode(
     state: &mut DecodeState,
     map: &[SparseInstructionEncoding],
     opcode: u8,
@@ -7402,13 +7398,13 @@ unsafe extern "C" fn ProcessSparseOpcode(
     }
 }
 
-unsafe extern "C" fn SetOperandToImm8(state: &mut DecodeState, oper: *mut InstructionOperand) {
+unsafe fn SetOperandToImm8(state: &mut DecodeState, oper: *mut InstructionOperand) {
     (*oper).operand = OperandType::IMM;
     (*oper).size = 1u16;
     (*oper).immediate = Read8(state) as (isize);
 }
 
-unsafe extern "C" fn DecodeTwoByte(state: &mut DecodeState) {
+unsafe fn DecodeTwoByte(state: &mut DecodeState) {
     let opcode: u8 = Read8(state);
     if opcode == 0x38 {
         let next_opcode = Read8(state);
@@ -7425,7 +7421,7 @@ unsafe extern "C" fn DecodeTwoByte(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn Peek8(state: &mut DecodeState) -> u8 {
+unsafe fn Peek8(state: &mut DecodeState) -> u8 {
     if state.len < 1 {
         state.invalid = true;
         state.insufficientLength = true;
@@ -7436,7 +7432,7 @@ unsafe extern "C" fn Peek8(state: &mut DecodeState) -> u8 {
     }
 }
 
-unsafe extern "C" fn DecodeFpu(state: &mut DecodeState) {
+unsafe fn DecodeFpu(state: &mut DecodeState) {
     let modRM = Peek8(state);
     let reg = modRM >> 3 & 7;
     let op = (*state.result).operation as u8;
@@ -7448,13 +7444,13 @@ unsafe extern "C" fn DecodeFpu(state: &mut DecodeState) {
     ProcessEncoding(state, &map[reg as usize]);
 }
 
-unsafe extern "C" fn DecodeNoOperands(_state: &mut DecodeState) {}
+unsafe fn DecodeNoOperands(_state: &mut DecodeState) {}
 
-unsafe extern "C" fn GetByteRegList(state: &DecodeState) -> &'static [OperandType] {
+unsafe fn GetByteRegList(state: &DecodeState) -> &'static [OperandType] {
     if state.rex { &REG8_LIST64 } else { &REG8_LIST }
 }
 
-unsafe extern "C" fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
+unsafe fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [OperandType] {
     match state.finalOpSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -7464,7 +7460,7 @@ unsafe extern "C" fn GetRegListForFinalOpSize(state: &DecodeState) -> &'static [
     }
 }
 
-unsafe extern "C" fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
+unsafe fn GetRegListForAddrSize(state: &DecodeState) -> &'static [OperandType] {
     match state.addrSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -7473,7 +7469,7 @@ unsafe extern "C" fn GetRegListForAddrSize(state: &DecodeState) -> &'static [Ope
     }
 }
 
-unsafe extern "C" fn Read32(state: &mut DecodeState) -> u32 {
+unsafe fn Read32(state: &mut DecodeState) -> u32 {
     let val: u32;
     if state.len < 4 {
         state.invalid = true;
@@ -7488,15 +7484,15 @@ unsafe extern "C" fn Read32(state: &mut DecodeState) -> u32 {
     }
 }
 
-unsafe extern "C" fn ReadSigned32(state: &mut DecodeState) -> isize {
+unsafe fn ReadSigned32(state: &mut DecodeState) -> isize {
     Read32(state) as (i32) as (isize)
 }
 
-unsafe extern "C" fn ReadSigned8(state: &mut DecodeState) -> isize {
+unsafe fn ReadSigned8(state: &mut DecodeState) -> isize {
     Read8(state) as (i8) as (isize)
 }
 
-unsafe extern "C" fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) -> SegmentRegister {
+unsafe fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) -> SegmentRegister {
     if (*state.result).segment == SegmentRegister::SEG_DEFAULT {
         seg
     } else {
@@ -7512,7 +7508,7 @@ struct RMDef {
     pub segment: SegmentRegister,
 }
 
-unsafe extern "C" fn SetMemOperand(
+unsafe fn SetMemOperand(
     state: &DecodeState,
     oper: *mut InstructionOperand,
     def: &RMDef,
@@ -7525,7 +7521,7 @@ unsafe extern "C" fn SetMemOperand(
     (*oper).segment = GetFinalSegment(state, def.segment);
 }
 
-unsafe extern "C" fn Read16(state: &mut DecodeState) -> u16 {
+unsafe fn Read16(state: &mut DecodeState) -> u16 {
     let val: u16;
     if state.len < 2 {
         state.invalid = true;
@@ -7540,11 +7536,11 @@ unsafe extern "C" fn Read16(state: &mut DecodeState) -> u16 {
     }
 }
 
-unsafe extern "C" fn ReadSigned16(state: &mut DecodeState) -> isize {
+unsafe fn ReadSigned16(state: &mut DecodeState) -> isize {
     Read16(state) as (i16) as (isize)
 }
 
-unsafe extern "C" fn DecodeRM(
+unsafe fn DecodeRM(
     state: &mut DecodeState,
     mut rmOper: *mut InstructionOperand,
     regList: &[OperandType],
@@ -7699,7 +7695,7 @@ unsafe extern "C" fn DecodeRM(
     }
 }
 
-unsafe extern "C" fn DecodeRMReg(
+unsafe fn DecodeRMReg(
     state: &mut DecodeState,
     rmOper: *mut InstructionOperand,
     rmRegList: &[OperandType],
@@ -7717,7 +7713,7 @@ unsafe extern "C" fn DecodeRMReg(
     }
 }
 
-unsafe extern "C" fn DecodeRegRM(state: &mut DecodeState) {
+unsafe fn DecodeRegRM(state: &mut DecodeState) {
     let regList = GetRegListForFinalOpSize(state);
     let size = match state.flags & 0x3 {
         0 => state.finalOpSize,
@@ -7743,7 +7739,7 @@ unsafe extern "C" fn DecodeRegRM(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn ReadFinalOpSize(state: &mut DecodeState) -> isize {
+unsafe fn ReadFinalOpSize(state: &mut DecodeState) -> isize {
     if state.flags & 0x400 != 0 {
         ReadSigned8(state)
     } else {
@@ -7757,13 +7753,13 @@ unsafe extern "C" fn ReadFinalOpSize(state: &mut DecodeState) -> isize {
     }
 }
 
-unsafe extern "C" fn SetOperandToImm(state: &mut DecodeState, oper: *mut InstructionOperand) {
+unsafe fn SetOperandToImm(state: &mut DecodeState, oper: *mut InstructionOperand) {
     (*oper).operand = OperandType::IMM;
     (*oper).size = state.finalOpSize;
     (*oper).immediate = ReadFinalOpSize(state);
 }
 
-unsafe extern "C" fn DecodeRegRMImm(state: &mut DecodeState) {
+unsafe fn DecodeRegRMImm(state: &mut DecodeState) {
     let regList = GetRegListForFinalOpSize(state);
     let operand0 = state.operand0;
     let operand1 = state.operand1;
@@ -7783,7 +7779,7 @@ unsafe extern "C" fn DecodeRegRMImm(state: &mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeRMRegImm8(state: &mut DecodeState) {
+unsafe fn DecodeRMRegImm8(state: &mut DecodeState) {
     let regList = GetRegListForFinalOpSize(state);
     let operand0 = state.operand0;
     let operand1 = state.operand1;
@@ -7803,7 +7799,7 @@ unsafe extern "C" fn DecodeRMRegImm8(state: &mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeRMRegCL(state: &mut DecodeState) {
+unsafe fn DecodeRMRegCL(state: &mut DecodeState) {
     let regList = GetRegListForFinalOpSize(state);
     let operand0 = state.operand0;
     let operand1 = state.operand1;
@@ -7821,23 +7817,20 @@ unsafe extern "C" fn DecodeRMRegCL(state: &mut DecodeState) {
     (*state.result).operands[2].size = 1;
 }
 
-unsafe extern "C" fn SetOperandToEaxFinalOpSize(
-    state: &DecodeState,
-    oper: *mut InstructionOperand,
-) {
+unsafe fn SetOperandToEaxFinalOpSize(state: &DecodeState, oper: *mut InstructionOperand) {
     let regList = GetRegListForFinalOpSize(state);
     (*oper).operand = regList[0];
     (*oper).size = state.finalOpSize;
 }
 
-unsafe extern "C" fn DecodeEaxImm(state: &mut DecodeState) {
+unsafe fn DecodeEaxImm(state: &mut DecodeState) {
     let operand0 = state.operand0;
     SetOperandToEaxFinalOpSize(state, operand0);
     let operand1 = state.operand1;
     SetOperandToImm(state, operand1);
 }
 
-unsafe extern "C" fn DecodePushPopSeg(state: &mut DecodeState) {
+unsafe fn DecodePushPopSeg(state: &mut DecodeState) {
     let offset: i32 = if *state.opcode.offset(-1) >= 0xa0 {
         -16
     } else {
@@ -7850,23 +7843,23 @@ unsafe extern "C" fn DecodePushPopSeg(state: &mut DecodeState) {
     (*state.operand0).size = state.opSize;
 }
 
-unsafe extern "C" fn SetOperandToOpReg(state: &DecodeState, oper: *mut InstructionOperand) {
+unsafe fn SetOperandToOpReg(state: &DecodeState, oper: *mut InstructionOperand) {
     let regList = GetRegListForFinalOpSize(state);
     let regOffset: usize = if state.rexRM1 { 8 } else { 0 };
     (*oper).operand = regList[(*state.opcode.offset(-1) as usize & 7) + regOffset];
     (*oper).size = state.finalOpSize;
 }
 
-unsafe extern "C" fn DecodeOpReg(state: &mut DecodeState) {
+unsafe fn DecodeOpReg(state: &mut DecodeState) {
     SetOperandToOpReg(state, state.operand0);
 }
 
-unsafe extern "C" fn DecodeEaxOpReg(state: &mut DecodeState) {
+unsafe fn DecodeEaxOpReg(state: &mut DecodeState) {
     SetOperandToEaxFinalOpSize(state, state.operand0);
     SetOperandToOpReg(state, state.operand1);
 }
 
-unsafe extern "C" fn Read64(state: &mut DecodeState) -> usize {
+unsafe fn Read64(state: &mut DecodeState) -> usize {
     if state.len < 8 {
         state.invalid = true;
         state.insufficientLength = true;
@@ -7880,7 +7873,7 @@ unsafe extern "C" fn Read64(state: &mut DecodeState) -> usize {
     }
 }
 
-unsafe extern "C" fn DecodeOpRegImm(state: &mut DecodeState) {
+unsafe fn DecodeOpRegImm(state: &mut DecodeState) {
     SetOperandToOpReg(state, state.operand0);
     (*state.operand1).operand = OperandType::IMM;
     (*state.operand1).size = state.finalOpSize;
@@ -7891,36 +7884,32 @@ unsafe extern "C" fn DecodeOpRegImm(state: &mut DecodeState) {
     };
 }
 
-unsafe extern "C" fn DecodeNop(state: &mut DecodeState) {
+unsafe fn DecodeNop(state: &mut DecodeState) {
     if state.rexRM1 {
         (*state.result).operation = InstructionOperation::XCHG;
         DecodeEaxOpReg(state);
     }
 }
 
-unsafe extern "C" fn DecodeImm(state: &mut DecodeState) {
+unsafe fn DecodeImm(state: &mut DecodeState) {
     let operand0 = state.operand0;
     SetOperandToImm(state, operand0);
 }
 
-unsafe extern "C" fn SetOperandToImm16(state: &mut DecodeState, oper: *mut InstructionOperand) {
+unsafe fn SetOperandToImm16(state: &mut DecodeState, oper: *mut InstructionOperand) {
     (*oper).operand = OperandType::IMM;
     (*oper).size = 2;
     (*oper).immediate = Read16(state) as (isize);
 }
 
-unsafe extern "C" fn DecodeImm16Imm8(state: &mut DecodeState) {
+unsafe fn DecodeImm16Imm8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     SetOperandToImm16(state, operand0);
     let operand1 = state.operand1;
     SetOperandToImm8(state, operand1);
 }
 
-unsafe extern "C" fn SetOperandToEsEdi(
-    state: &DecodeState,
-    oper: *mut InstructionOperand,
-    size: u16,
-) {
+unsafe fn SetOperandToEsEdi(state: &DecodeState, oper: *mut InstructionOperand, size: u16) {
     let addrRegList = GetRegListForAddrSize(state);
     (*oper).operand = OperandType::MEM;
     (*oper).components[0] = addrRegList[7];
@@ -7928,17 +7917,13 @@ unsafe extern "C" fn SetOperandToEsEdi(
     (*oper).segment = SegmentRegister::SEG_ES;
 }
 
-unsafe extern "C" fn DecodeEdiDx(state: &mut DecodeState) {
+unsafe fn DecodeEdiDx(state: &mut DecodeState) {
     SetOperandToEsEdi(state, state.operand0, state.finalOpSize);
     (*state.operand1).operand = OperandType::REG_DX;
     (*state.operand1).size = 2u16;
 }
 
-unsafe extern "C" fn SetOperandToDsEsi(
-    state: &DecodeState,
-    oper: *mut InstructionOperand,
-    size: u16,
-) {
+unsafe fn SetOperandToDsEsi(state: &DecodeState, oper: *mut InstructionOperand, size: u16) {
     let addrRegList = GetRegListForAddrSize(state);
     (*oper).operand = OperandType::MEM;
     (*oper).components[0usize] = addrRegList[6];
@@ -7946,13 +7931,13 @@ unsafe extern "C" fn SetOperandToDsEsi(
     (*oper).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
 }
 
-unsafe extern "C" fn DecodeDxEsi(state: &mut DecodeState) {
+unsafe fn DecodeDxEsi(state: &mut DecodeState) {
     (*state.operand0).operand = OperandType::REG_DX;
     (*state.operand0).size = 2u16;
     SetOperandToDsEsi(state, state.operand1, state.finalOpSize);
 }
 
-unsafe extern "C" fn ReadSignedFinalOpSize(state: &mut DecodeState) -> isize {
+unsafe fn ReadSignedFinalOpSize(state: &mut DecodeState) -> isize {
     match state.finalOpSize {
         4 | 8 => ReadSigned32(state),
         2 => ReadSigned16(state),
@@ -7961,7 +7946,7 @@ unsafe extern "C" fn ReadSignedFinalOpSize(state: &mut DecodeState) -> isize {
     }
 }
 
-unsafe extern "C" fn DecodeRelImm(state: &mut DecodeState) {
+unsafe fn DecodeRelImm(state: &mut DecodeState) {
     (*state.operand0).operand = OperandType::IMM;
     (*state.operand0).size = state.opSize;
     (*state.operand0).immediate = ReadSignedFinalOpSize(state);
@@ -7973,7 +7958,7 @@ unsafe extern "C" fn DecodeRelImm(state: &mut DecodeState) {
         )) as (isize);
 }
 
-unsafe extern "C" fn UpdateOperationForAddrSize(state: &mut DecodeState) {
+unsafe fn UpdateOperationForAddrSize(state: &mut DecodeState) {
     if state.addrSize == 4 {
         (*state.result).operation =
             InstructionOperation::from_i32((*state.result).operation as i32 + 1);
@@ -7983,12 +7968,12 @@ unsafe extern "C" fn UpdateOperationForAddrSize(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeRelImmAddrSize(state: &mut DecodeState) {
+unsafe fn DecodeRelImmAddrSize(state: &mut DecodeState) {
     DecodeRelImm(state);
     UpdateOperationForAddrSize(state);
 }
 
-unsafe extern "C" fn DecodeGroupRM(state: &mut DecodeState) {
+unsafe fn DecodeGroupRM(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetRegListForFinalOpSize(state);
     let regSize = state.finalOpSize;
@@ -8004,32 +7989,32 @@ unsafe extern "C" fn DecodeGroupRM(state: &mut DecodeState) {
                                                                                          usize];
 }
 
-unsafe extern "C" fn DecodeGroupRMImm(state: &mut DecodeState) {
+unsafe fn DecodeGroupRMImm(state: &mut DecodeState) {
     DecodeGroupRM(state);
     let operand1 = state.operand1;
     SetOperandToImm(state, operand1);
 }
 
-unsafe extern "C" fn DecodeGroupRMImm8V(state: &mut DecodeState) {
+unsafe fn DecodeGroupRMImm8V(state: &mut DecodeState) {
     DecodeGroupRM(state);
     let operand1 = state.operand1;
     SetOperandToImm8(state, operand1);
 }
 
-unsafe extern "C" fn DecodeGroupRMOne(state: &mut DecodeState) {
+unsafe fn DecodeGroupRMOne(state: &mut DecodeState) {
     DecodeGroupRM(state);
     (*state.operand1).operand = OperandType::IMM;
     (*state.operand1).size = 1;
     (*state.operand1).immediate = 1;
 }
 
-unsafe extern "C" fn DecodeGroupRMCl(state: &mut DecodeState) {
+unsafe fn DecodeGroupRMCl(state: &mut DecodeState) {
     DecodeGroupRM(state);
     (*state.operand1).operand = OperandType::REG_CL;
     (*state.operand1).size = 1;
 }
 
-unsafe extern "C" fn DecodeGroupF6F7(state: &mut DecodeState) {
+unsafe fn DecodeGroupF6F7(state: &mut DecodeState) {
     DecodeGroupRM(state);
     if (*state.result).operation == InstructionOperation::TEST {
         let operand1 = state.operand1;
@@ -8042,7 +8027,7 @@ unsafe extern "C" fn DecodeGroupF6F7(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeGroupFF(state: &mut DecodeState) {
+unsafe fn DecodeGroupFF(state: &mut DecodeState) {
     if state.using64 {
         let rm: u8 = Peek8(state);
         let regField: u8 = rm >> 3 & 7;
@@ -8069,7 +8054,7 @@ unsafe extern "C" fn DecodeGroupFF(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeGroup0F00(state: &mut DecodeState) {
+unsafe fn DecodeGroup0F00(state: &mut DecodeState) {
     let rm: u8 = Peek8(state);
     let regField: u8 = rm >> 3 & 7;
     if regField >= 2 {
@@ -8078,7 +8063,7 @@ unsafe extern "C" fn DecodeGroup0F00(state: &mut DecodeState) {
     DecodeGroupRM(state);
 }
 
-unsafe extern "C" fn DecodeGroup0F01(state: &mut DecodeState) {
+unsafe fn DecodeGroup0F01(state: &mut DecodeState) {
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
     let regField: u8 = rm >> 3 & 7;
@@ -8097,7 +8082,7 @@ unsafe extern "C" fn DecodeGroup0F01(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeGroup0FAE(state: &mut DecodeState) {
+unsafe fn DecodeGroup0FAE(state: &mut DecodeState) {
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
     let regField: u8 = rm >> 3 & 7;
@@ -8116,7 +8101,7 @@ unsafe extern "C" fn DecodeGroup0FAE(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn Decode0FB8(state: &mut DecodeState) {
+unsafe fn Decode0FB8(state: &mut DecodeState) {
     if state.rep != RepPrefix::REP_PREFIX_REPE {
         if state.using64 {
             state.opSize = if state.opPrefix { 4 } else { 8 };
@@ -8128,7 +8113,7 @@ unsafe extern "C" fn Decode0FB8(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
+unsafe fn GetRegListForOpSize(state: &DecodeState) -> &'static [OperandType] {
     match state.opSize {
         8 => &REG64_LIST,
         4 => &REG32_LIST,
@@ -8137,7 +8122,7 @@ unsafe extern "C" fn GetRegListForOpSize(state: &DecodeState) -> &'static [Opera
     }
 }
 
-unsafe extern "C" fn DecodeRMSRegV(state: &mut DecodeState) {
+unsafe fn DecodeRMSRegV(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetRegListForOpSize(state);
     let regSize = state.opSize;
@@ -8160,27 +8145,27 @@ unsafe extern "C" fn DecodeRMSRegV(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeRM8(state: &mut DecodeState) {
+unsafe fn DecodeRM8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetByteRegList(state);
     DecodeRM(state, operand0, regList, 1, ptr::null_mut());
 }
 
-unsafe extern "C" fn DecodeRMV(state: &mut DecodeState) {
+unsafe fn DecodeRMV(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let regList = GetRegListForOpSize(state);
     let regSize = state.opSize;
     DecodeRM(state, operand0, regList, regSize, ptr::null_mut());
 }
 
-unsafe extern "C" fn DecodeFarImm(state: &mut DecodeState) {
+unsafe fn DecodeFarImm(state: &mut DecodeState) {
     let operand1 = state.operand1;
     SetOperandToImm(state, operand1);
     let operand0 = state.operand0;
     SetOperandToImm16(state, operand0);
 }
 
-unsafe extern "C" fn ReadAddrSize(state: &mut DecodeState) -> isize {
+unsafe fn ReadAddrSize(state: &mut DecodeState) -> isize {
     match state.addrSize {
         4 | 8 => Read32(state) as isize,
         2 => Read16(state) as isize,
@@ -8188,35 +8173,35 @@ unsafe extern "C" fn ReadAddrSize(state: &mut DecodeState) -> isize {
     }
 }
 
-unsafe extern "C" fn SetOperandToImmAddr(state: &mut DecodeState, oper: *mut InstructionOperand) {
+unsafe fn SetOperandToImmAddr(state: &mut DecodeState, oper: *mut InstructionOperand) {
     (*oper).operand = OperandType::MEM;
     (*oper).immediate = ReadAddrSize(state);
     (*oper).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
     (*oper).size = state.finalOpSize;
 }
 
-unsafe extern "C" fn DecodeEaxAddr(state: &mut DecodeState) {
+unsafe fn DecodeEaxAddr(state: &mut DecodeState) {
     SetOperandToEaxFinalOpSize(state, state.operand0);
     let operand1 = state.operand1;
     SetOperandToImmAddr(state, operand1);
 }
 
-unsafe extern "C" fn DecodeEdiEsi(state: &mut DecodeState) {
+unsafe fn DecodeEdiEsi(state: &mut DecodeState) {
     SetOperandToEsEdi(state, state.operand0, state.finalOpSize);
     SetOperandToDsEsi(state, state.operand1, state.finalOpSize);
 }
 
-unsafe extern "C" fn DecodeEdiEax(state: &mut DecodeState) {
+unsafe fn DecodeEdiEax(state: &mut DecodeState) {
     SetOperandToEsEdi(state, state.operand0, state.finalOpSize);
     SetOperandToEaxFinalOpSize(state, state.operand1);
 }
 
-unsafe extern "C" fn DecodeEaxEsi(state: &mut DecodeState) {
+unsafe fn DecodeEaxEsi(state: &mut DecodeState) {
     SetOperandToEaxFinalOpSize(state, state.operand0);
     SetOperandToDsEsi(state, state.operand1, state.finalOpSize);
 }
 
-unsafe extern "C" fn DecodeAlEbxAl(state: &mut DecodeState) {
+unsafe fn DecodeAlEbxAl(state: &mut DecodeState) {
     let regList = GetRegListForAddrSize(state);
     (*state.operand0).operand = OperandType::REG_AL;
     (*state.operand0).size = 1;
@@ -8227,21 +8212,21 @@ unsafe extern "C" fn DecodeAlEbxAl(state: &mut DecodeState) {
     (*state.operand1).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
 }
 
-unsafe extern "C" fn DecodeEaxImm8(state: &mut DecodeState) {
+unsafe fn DecodeEaxImm8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     SetOperandToEaxFinalOpSize(state, operand0);
     let operand1 = state.operand1;
     SetOperandToImm8(state, operand1);
 }
 
-unsafe extern "C" fn DecodeEaxDx(state: &mut DecodeState) {
+unsafe fn DecodeEaxDx(state: &mut DecodeState) {
     let operand0 = state.operand0;
     SetOperandToEaxFinalOpSize(state, operand0);
     (*state.operand1).operand = OperandType::REG_DX;
     (*state.operand1).size = 2;
 }
 
-unsafe extern "C" fn Decode3DNow(state: &mut DecodeState) {
+unsafe fn Decode3DNow(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     DecodeRMReg(
@@ -8261,7 +8246,7 @@ unsafe extern "C" fn Decode3DNow(state: &mut DecodeState) {
         }
 }
 
-unsafe extern "C" fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
+unsafe fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
     if state.opPrefix {
         state.opPrefix = false;
         1
@@ -8276,7 +8261,7 @@ unsafe extern "C" fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
     }
 }
 
-unsafe extern "C" fn GetOperandForSSEEntryType(
+unsafe fn GetOperandForSSEEntryType(
     state: &DecodeState,
     entry_type: SSETableOperandType,
     mut operandIndex: u8,
@@ -8291,7 +8276,7 @@ unsafe extern "C" fn GetOperandForSSEEntryType(
     }
 }
 
-unsafe extern "C" fn GetRegListForSSEEntryType(
+unsafe fn GetRegListForSSEEntryType(
     state: &mut DecodeState,
     entry_type: SSETableOperandType,
 ) -> &'static [OperandType] {
@@ -8310,10 +8295,7 @@ unsafe extern "C" fn GetRegListForSSEEntryType(
     }
 }
 
-unsafe extern "C" fn GetSizeForSSEEntryType(
-    state: &DecodeState,
-    entry_type: SSETableOperandType,
-) -> u16 {
+unsafe fn GetSizeForSSEEntryType(state: &DecodeState, entry_type: SSETableOperandType) -> u16 {
     match entry_type {
         SSETableOperandType::GPR_32_OR_64 => if state.opSize == 8 { 8 } else { 4 },
         SSETableOperandType::MMX_64 |
@@ -8325,17 +8307,14 @@ unsafe extern "C" fn GetSizeForSSEEntryType(
     }
 }
 
-unsafe extern "C" fn UpdateOperationForSSEEntryType(
-    state: &DecodeState,
-    entry_type: SSETableOperandType,
-) {
+unsafe fn UpdateOperationForSSEEntryType(state: &DecodeState, entry_type: SSETableOperandType) {
     if entry_type == SSETableOperandType::GPR_32_OR_64 && (state.opSize == 8) {
         (*state.result).operation =
             InstructionOperation::from_i32((*state.result).operation as (i32) + 1);
     }
 }
 
-unsafe extern "C" fn DecodeSSETable(state: &mut DecodeState) {
+unsafe fn DecodeSSETable(state: &mut DecodeState) {
     let entry_type = DecodeSSEPrefix(state) as usize;
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
@@ -8367,7 +8346,7 @@ unsafe extern "C" fn DecodeSSETable(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeSSETableImm8(state: &mut DecodeState) {
+unsafe fn DecodeSSETableImm8(state: &mut DecodeState) {
     DecodeSSETable(state);
     SetOperandToImm8(
         state,
@@ -8375,7 +8354,7 @@ unsafe extern "C" fn DecodeSSETableImm8(state: &mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeSSETableMem8(state: &mut DecodeState) {
+unsafe fn DecodeSSETableMem8(state: &mut DecodeState) {
     DecodeSSETable(state);
     if (*state.operand0).operand == OperandType::MEM {
         (*state.operand0).size = 1;
@@ -8385,7 +8364,7 @@ unsafe extern "C" fn DecodeSSETableMem8(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn GetSizeForSSEType(type_: u8) -> u16 {
+unsafe fn GetSizeForSSEType(type_: u8) -> u16 {
     match type_ {
         2 => 8,
         3 => 4,
@@ -8393,7 +8372,7 @@ unsafe extern "C" fn GetSizeForSSEType(type_: u8) -> u16 {
     }
 }
 
-unsafe extern "C" fn DecodeSSE(state: &mut DecodeState) {
+unsafe fn DecodeSSE(state: &mut DecodeState) {
     let type_: u8 = DecodeSSEPrefix(state);
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
@@ -8417,7 +8396,7 @@ unsafe extern "C" fn DecodeSSE(state: &mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeSSESingle(state: &mut DecodeState) {
+unsafe fn DecodeSSESingle(state: &mut DecodeState) {
     let type_: u8 = DecodeSSEPrefix(state);
     if type_ == 1 || type_ == 2 {
         state.invalid = true;
@@ -8439,7 +8418,7 @@ unsafe extern "C" fn DecodeSSESingle(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeSSEPacked(state: &mut DecodeState) {
+unsafe fn DecodeSSEPacked(state: &mut DecodeState) {
     let type_: u8 = DecodeSSEPrefix(state);
     if type_ == 2 || type_ == 3 {
         state.invalid = true;
@@ -8461,7 +8440,7 @@ unsafe extern "C" fn DecodeSSEPacked(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMMX(state: &mut DecodeState) {
+unsafe fn DecodeMMX(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     if state.opPrefix {
@@ -8487,7 +8466,7 @@ unsafe extern "C" fn DecodeMMX(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMMXSSEOnly(state: &mut DecodeState) {
+unsafe fn DecodeMMXSSEOnly(state: &mut DecodeState) {
     if state.opPrefix {
         let operand0 = state.operand0;
         let operand1 = state.operand1;
@@ -8505,7 +8484,7 @@ unsafe extern "C" fn DecodeMMXSSEOnly(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
+unsafe fn DecodeMMXGroup(state: &mut DecodeState) {
     let mut regField: u8 = 0;
     if state.opPrefix {
         let operand0 = state.operand0;
@@ -8534,14 +8513,14 @@ unsafe extern "C" fn DecodeMMXGroup(state: &mut DecodeState) {
     SetOperandToImm8(state, operand1);
 }
 
-unsafe extern "C" fn DecodePinsrw(state: &mut DecodeState) {
+unsafe fn DecodePinsrw(state: &mut DecodeState) {
     DecodeSSETableImm8(state);
     if (*state.operand1).operand == OperandType::MEM {
         (*state.operand1).size = 2;
     }
 }
 
-unsafe extern "C" fn DecodeRegCR(state: &mut DecodeState) {
+unsafe fn DecodeRegCR(state: &mut DecodeState) {
     if state.opSize == 2 {
         state.opSize = 4;
     }
@@ -8561,7 +8540,7 @@ unsafe extern "C" fn DecodeRegCR(state: &mut DecodeState) {
     (*state.result).operation = InstructionOperation::MOV;
 }
 
-unsafe extern "C" fn DecodeMovSXZX8(state: &mut DecodeState) {
+unsafe fn DecodeMovSXZX8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     let rmRegList = GetByteRegList(state);
@@ -8570,7 +8549,7 @@ unsafe extern "C" fn DecodeMovSXZX8(state: &mut DecodeState) {
     DecodeRMReg(state, operand1, rmRegList, 1, operand0, regList, regSize);
 }
 
-unsafe extern "C" fn DecodeMovSXZX16(state: &mut DecodeState) {
+unsafe fn DecodeMovSXZX16(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let operand1 = state.operand1;
     let regList = GetRegListForOpSize(state);
@@ -8578,7 +8557,7 @@ unsafe extern "C" fn DecodeMovSXZX16(state: &mut DecodeState) {
     DecodeRMReg(state, operand1, &REG16_LIST, 2, operand0, regList, regSize);
 }
 
-unsafe extern "C" fn DecodeMem16(state: &mut DecodeState) {
+unsafe fn DecodeMem16(state: &mut DecodeState) {
     let operand0 = state.operand0;
     DecodeRM(state, operand0, &REG32_LIST, 2, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
@@ -8586,7 +8565,7 @@ unsafe extern "C" fn DecodeMem16(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMem32(state: &mut DecodeState) {
+unsafe fn DecodeMem32(state: &mut DecodeState) {
     let operand0 = state.operand0;
     DecodeRM(state, operand0, &REG32_LIST, 4, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
@@ -8594,7 +8573,7 @@ unsafe extern "C" fn DecodeMem32(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMem64(state: &mut DecodeState) {
+unsafe fn DecodeMem64(state: &mut DecodeState) {
     let operand0 = state.operand0;
     DecodeRM(state, operand0, &REG32_LIST, 8, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
@@ -8602,7 +8581,7 @@ unsafe extern "C" fn DecodeMem64(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMem80(state: &mut DecodeState) {
+unsafe fn DecodeMem80(state: &mut DecodeState) {
     let operand0 = state.operand0;
     DecodeRM(state, operand0, &REG32_LIST, 10, ptr::null_mut());
     if (*state.operand0).operand != OperandType::MEM {
@@ -8610,7 +8589,7 @@ unsafe extern "C" fn DecodeMem80(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMemFloatEnv(state: &mut DecodeState) {
+unsafe fn DecodeMemFloatEnv(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rmSize = if state.opSize == 2 { 14 } else { 28 };
     DecodeRM(state, operand0, &REG32_LIST, rmSize, ptr::null_mut());
@@ -8619,7 +8598,7 @@ unsafe extern "C" fn DecodeMemFloatEnv(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMemFloatSave(state: &mut DecodeState) {
+unsafe fn DecodeMemFloatSave(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rmSize = if state.opSize == 2 { 94 } else { 108 };
     DecodeRM(state, operand0, &REG32_LIST, rmSize, ptr::null_mut());
@@ -8628,30 +8607,30 @@ unsafe extern "C" fn DecodeMemFloatSave(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeFPUReg(state: &mut DecodeState) {
+unsafe fn DecodeFPUReg(state: &mut DecodeState) {
     let operand0 = state.operand0;
     DecodeRM(state, operand0, &FPU_REG_LIST, 10, ptr::null_mut());
 }
 
-unsafe extern "C" fn DecodeFPURegST0(state: &mut DecodeState) {
+unsafe fn DecodeFPURegST0(state: &mut DecodeState) {
     DecodeFPUReg(state);
     (*state.operand1).operand = OperandType::REG_ST0;
     (*state.operand1).size = 10;
 }
 
-unsafe extern "C" fn DecodeRegGroupNoOperands(state: &mut DecodeState) {
+unsafe fn DecodeRegGroupNoOperands(state: &mut DecodeState) {
     let rmByte: u8 = Read8(state);
     (*state.result).operation = GROUP_OPERATIONS[(*state.result).operation as usize][(rmByte & 7) as
                                                                                          usize];
 }
 
-unsafe extern "C" fn DecodeRegGroupAX(state: &mut DecodeState) {
+unsafe fn DecodeRegGroupAX(state: &mut DecodeState) {
     DecodeRegGroupNoOperands(state);
     (*state.operand0).operand = OperandType::REG_AX;
     (*state.operand0).size = 2u16;
 }
 
-unsafe extern "C" fn DecodeCmpXch8B(state: &mut DecodeState) {
+unsafe fn DecodeCmpXch8B(state: &mut DecodeState) {
     let rm: u8 = Peek8(state);
     let regField: u8 = rm >> 3 & 7;
     if regField == 1 {
@@ -8686,7 +8665,7 @@ unsafe extern "C" fn DecodeCmpXch8B(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeMovNti(state: &mut DecodeState) {
+unsafe fn DecodeMovNti(state: &mut DecodeState) {
     if state.opSize == 2 {
         state.opSize = 4;
     }
@@ -8700,7 +8679,7 @@ unsafe extern "C" fn DecodeMovNti(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn DecodeCrc32(state: &mut DecodeState) {
+unsafe fn DecodeCrc32(state: &mut DecodeState) {
     let srcRegList = GetRegListForFinalOpSize(state);
     let destRegList = if (*state).opSize == 8 {
         &REG64_LIST
@@ -8722,7 +8701,7 @@ unsafe extern "C" fn DecodeCrc32(state: &mut DecodeState) {
     );
 }
 
-unsafe extern "C" fn DecodeArpl(state: &mut DecodeState) {
+unsafe fn DecodeArpl(state: &mut DecodeState) {
     if state.using64 {
         let regList = GetRegListForFinalOpSize(state);
         (*state.result).operation = InstructionOperation::MOVSXD;
@@ -8746,7 +8725,7 @@ unsafe extern "C" fn DecodeArpl(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn ClearOperand(oper: &mut InstructionOperand) {
+unsafe fn ClearOperand(oper: &mut InstructionOperand) {
     oper.operand = OperandType::NONE;
     oper.components[0] = OperandType::NONE;
     oper.components[1] = OperandType::NONE;
@@ -8754,7 +8733,7 @@ unsafe extern "C" fn ClearOperand(oper: &mut InstructionOperand) {
     oper.immediate = 0;
 }
 
-unsafe extern "C" fn InitDisassemble(state: &mut DecodeState) {
+unsafe fn InitDisassemble(state: &mut DecodeState) {
     ClearOperand(&mut (*(*state).result).operands[0]);
     ClearOperand(&mut (*(*state).result).operands[1]);
     ClearOperand(&mut (*(*state).result).operands[2]);
@@ -8773,7 +8752,7 @@ unsafe extern "C" fn InitDisassemble(state: &mut DecodeState) {
     state.origLen = state.len;
 }
 
-unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
+unsafe fn ProcessPrefixes(state: &mut DecodeState) {
     let mut rex: u8 = 0;
     let mut addrPrefix: bool = false;
     loop {
@@ -8831,7 +8810,7 @@ unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
     }
 }
 
-unsafe extern "C" fn FinishDisassemble(state: &mut DecodeState) {
+unsafe fn FinishDisassemble(state: &mut DecodeState) {
     (*state.result).length = ((state.opcode as (isize)).wrapping_sub(
         state.opcodeStart as (isize),
     ) / ::std::mem::size_of::<u8>() as (isize)) as (usize);
@@ -8848,8 +8827,7 @@ unsafe extern "C" fn FinishDisassemble(state: &mut DecodeState) {
     }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn Disassemble16(
+pub unsafe fn Disassemble16(
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
@@ -8872,8 +8850,7 @@ pub unsafe extern "C" fn Disassemble16(
     !state.invalid
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn Disassemble32(
+pub unsafe fn Disassemble32(
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
@@ -8896,8 +8873,7 @@ pub unsafe extern "C" fn Disassemble32(
     !state.invalid
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn Disassemble64(
+pub unsafe fn Disassemble64(
     opcode: &[u8],
     addr: usize,
     maxLen: usize,
@@ -8932,7 +8908,7 @@ fn WriteOperand(stream: &mut fmt::Write, type_: OperandType, scale: u8, plus: bo
     Ok(())
 }
 
-unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
+unsafe fn GetSizeString(size: u16) -> &'static str {
     match size {
         16 => "oword ",
         10 => "tword ",
@@ -8945,8 +8921,7 @@ unsafe extern "C" fn GetSizeString(size: u16) -> &'static str {
     }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn FormatInstructionString(
+pub unsafe fn FormatInstructionString(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9083,8 +9058,7 @@ pub unsafe extern "C" fn FormatInstructionString(
     Ok(())
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn DisassembleToString16(
+pub unsafe fn DisassembleToString16(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9099,8 +9073,7 @@ pub unsafe extern "C" fn DisassembleToString16(
     }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn DisassembleToString32(
+pub unsafe fn DisassembleToString32(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
@@ -9115,8 +9088,7 @@ pub unsafe extern "C" fn DisassembleToString32(
     }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn DisassembleToString64(
+pub unsafe fn DisassembleToString64(
     stream: &mut fmt::Write,
     fmt: &str,
     opcode: &[u8],
