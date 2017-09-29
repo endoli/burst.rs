@@ -8781,6 +8781,9 @@ unsafe extern "C" fn ProcessPrefixes(state: &mut DecodeState) {
             break;
         }
         let prefix: u8 = Read8(state);
+        if state.invalid {
+            break;
+        }
         if prefix >= 0x26 && (prefix <= 0x3e) && (prefix & 7 == 6) {
             (*state.result).segment = SegmentRegister::from_i32(
                 SegmentRegister::SEG_ES as i32 + ((prefix as i32 >> 3) - 4),
