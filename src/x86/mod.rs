@@ -8318,19 +8318,19 @@ unsafe fn DecodeSSETable(state: &mut DecodeState) {
     let entry_type = DecodeSSEPrefix(state) as usize;
     let rm: u8 = Peek8(state);
     let modField: u8 = rm >> 6 & 3;
-    let entry: *const SSETableEntry = &SSE_TABLE[(*state.result).operation as usize];
+    let entry = &SSE_TABLE[(*state.result).operation as usize];
     let opEntry = if modField == 3 {
-        &(*entry).regOps[entry_type]
+        &entry.regOps[entry_type]
     } else {
-        &(*entry).memOps[entry_type]
+        &entry.memOps[entry_type]
     };
-    (*state.result).operation = (*opEntry).operation;
-    let operand1 = GetOperandForSSEEntryType(state, (*opEntry).rmType, 1u8);
-    let rmRegList = GetRegListForSSEEntryType(state, (*opEntry).rmType);
-    let rmRegSize = GetSizeForSSEEntryType(state, (*opEntry).rmType);
-    let operand0 = GetOperandForSSEEntryType(state, (*opEntry).regType, 0u8);
-    let regList = GetRegListForSSEEntryType(state, (*opEntry).regType);
-    let regSize = GetSizeForSSEEntryType(state, (*opEntry).regType);
+    (*state.result).operation = opEntry.operation;
+    let operand1 = GetOperandForSSEEntryType(state, opEntry.rmType, 1u8);
+    let rmRegList = GetRegListForSSEEntryType(state, opEntry.rmType);
+    let rmRegSize = GetSizeForSSEEntryType(state, opEntry.rmType);
+    let operand0 = GetOperandForSSEEntryType(state, opEntry.regType, 0u8);
+    let regList = GetRegListForSSEEntryType(state, opEntry.regType);
+    let regSize = GetSizeForSSEEntryType(state, opEntry.regType);
     DecodeRMReg(
         state,
         operand1,
@@ -8341,8 +8341,8 @@ unsafe fn DecodeSSETable(state: &mut DecodeState) {
         regSize,
     );
     if state.flags & 0x800u32 != 0 {
-        UpdateOperationForSSEEntryType(state, (*opEntry).regType);
-        UpdateOperationForSSEEntryType(state, (*opEntry).rmType);
+        UpdateOperationForSSEEntryType(state, opEntry.regType);
+        UpdateOperationForSSEEntryType(state, opEntry.rmType);
     }
 }
 
