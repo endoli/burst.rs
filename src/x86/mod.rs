@@ -8937,8 +8937,8 @@ pub fn FormatInstructionString(
                 }
                 try!(write!(stream, "{:0width$x}", addr, width = width));
             } else if fmt[f] == 'b' {
-                for i in 0..instr.length {
-                    try!(write!(stream, "{:02x}", opcode[i]));
+                for byte in opcode.iter().take(instr.length) {
+                    try!(write!(stream, "{:02x}", byte));
                 }
                 for _i in instr.length..(width as usize) {
                     try!(stream.write_str("  "));
