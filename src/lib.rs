@@ -5,4 +5,7 @@
 
 //! # Burst
 
+#![deny(trivial_numeric_casts, unstable_features,
+        unused_import_braces, unused_qualifications)]
+
 pub mod x86;
