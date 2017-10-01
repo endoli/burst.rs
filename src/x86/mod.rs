@@ -8538,8 +8538,8 @@ unsafe fn decode_reg_cr(state: &mut DecodeState) {
                                              usize];
     (*state.operand0).size = (*state).op_size;
     (*state.operand1).operand = OperandType::from_i32(
-        ((*state.result).operation as (i32) + (reg as (i32) >> 3 & 7) +
-             if state.rex_reg { 8 } else { 0 }) as (i32),
+        (*state.result).operation as (i32) + (reg as (i32) >> 3 & 7) +
+            if state.rex_reg { 8 } else { 0 },
     );
     (*state.operand1).size = state.op_size;
     (*state.result).operation = InstructionOperation::MOV;
@@ -8987,7 +8987,7 @@ pub fn format_instruction_string(
                 for byte in opcode.iter().take(instr.length) {
                     try!(write!(stream, "{:02x}", byte));
                 }
-                for _i in instr.length..(width as usize) {
+                for _i in instr.length..width {
                     try!(stream.write_str("  "));
                 }
             } else if fmt[f] == 'i' {
