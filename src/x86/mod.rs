@@ -149,6 +149,28 @@ impl Default for DecodeState {
     }
 }
 
+struct DecodeFlags;
+
+impl DecodeFlags {
+    const LOCK: u32 = 0x0020;
+    const REP: u32 = 0x0040;
+    const REP_COND: u32 = 0x0080;
+    const BYTE: u32 = 0x0100;
+    const FLIP_OPERANDS: u32 = 0x0200;
+    const IMM_SX: u32 = 0x0400;
+    const INC_OPERATION_FOR_64: u32 = 0x0800;
+    const OPERATION_OP_SIZE: u32 = 0x1000;
+    const FORCE_16BIT: u32 = 0x2000;
+    const INVALID_IN_64BIT: u32 = 0x400;
+    const DEFAULT_TO_64BIT: u32 = 0x8000;
+
+    const REG_RM_SIZE_MASK: u32 = 0x03;
+
+    const REG_RM_2X_SIZE: u32 = 0x01;
+    const REG_RM_FAR_SIZE: u32 = 0x02;
+    const REG_RM_NO_SIZE: u32 = 0x03;
+}
+
 #[repr(C)]
 struct InstructionEncoding {
     pub operation: u16,
@@ -7335,7 +7357,7 @@ unsafe fn read_8(state: &mut DecodeState) -> u8 {
 }
 
 fn get_final_op_size(state: &mut DecodeState) -> u16 {
-    if state.flags & 0x100u32 != 0 {
+    if state.flags & DecodeFlags::BYTE != 0 {
         1u16
     } else {
         state.op_size
@@ -7345,24 +7367,24 @@ fn get_final_op_size(state: &mut DecodeState) -> u16 {
 unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
     (*state.result).operation = InstructionOperation::from_i32((*encoding).operation as i32);
     state.flags = (*encoding).flags as u32;
-    if state.using64 && (state.flags & 0x4000 != 0) {
+    if state.using64 && (state.flags & DecodeFlags::INVALID_IN_64BIT != 0) {
         state.invalid = true;
     } else {
-        if state.using64 && (state.flags & 0x8000 != 0) {
+        if state.using64 && (state.flags & DecodeFlags::DEFAULT_TO_64BIT != 0) {
             state.op_size = if state.op_prefix { 4 } else { 8 };
         }
         state.final_op_size = get_final_op_size(state);
-        if state.flags & 0x200 != 0 {
+        if state.flags & DecodeFlags::FLIP_OPERANDS != 0 {
             state.operand0 = &mut (*state.result).operands[1] as (*mut InstructionOperand);
             state.operand1 = &mut (*state.result).operands[0] as (*mut InstructionOperand);
         } else {
             state.operand0 = &mut (*state.result).operands[0] as (*mut InstructionOperand);
             state.operand1 = &mut (*state.result).operands[1] as (*mut InstructionOperand);
         }
-        if state.flags & 0x2000 != 0 {
+        if state.flags & DecodeFlags::FORCE_16BIT != 0 {
             state.final_op_size = 2;
         }
-        if state.flags & 0x1000 != 0 {
+        if state.flags & DecodeFlags::OPERATION_OP_SIZE != 0 {
             if state.final_op_size == 4 {
                 (*state.result).operation =
                     InstructionOperation::from_i32((*state.result).operation as i32 + 1);
@@ -7371,11 +7393,11 @@ unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncodi
                     InstructionOperation::from_i32((*state.result).operation as i32 + 2);
             }
         }
-        if state.flags & 0x40 != 0 {
+        if state.flags & DecodeFlags::REP != 0 {
             if state.rep != RepPrefix::NONE {
                 (*state.result).flags |= 2;
             }
-        } else if state.flags & 0x80 != 0 {
+        } else if state.flags & DecodeFlags::REP_COND != 0 {
             if state.rep == RepPrefix::REPNE {
                 (*state.result).flags |= 4;
             } else if state.rep == RepPrefix::REPE {
@@ -7387,7 +7409,8 @@ unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncodi
             state.invalid = true;
         }
         if (*state.result).flags & 1 != 0 {
-            if state.flags & 0x20 == 0 {
+            // Ensure instruction allows lock and it has proper semantics
+            if state.flags & DecodeFlags::LOCK == 0 {
                 state.invalid = true;
             } else if (*state.result).operation == InstructionOperation::CMP {
                 state.invalid = true;
@@ -7732,11 +7755,11 @@ unsafe fn decode_rm_reg(
 
 unsafe fn decode_reg_rm(state: &mut DecodeState) {
     let reg_list = get_reg_list_for_final_op_size(state);
-    let size = match state.flags & 0x3 {
+    let size = match state.flags & DecodeFlags::REG_RM_SIZE_MASK {
         0 => state.final_op_size,
-        0x1 => state.final_op_size * 2,
-        0x2 => state.final_op_size + 2,
-        0x3 => 0,
+        DecodeFlags::REG_RM_2X_SIZE => state.final_op_size * 2,
+        DecodeFlags::REG_RM_FAR_SIZE => state.final_op_size + 2,
+        DecodeFlags::REG_RM_NO_SIZE => 0,
         _ => panic!("This isn't possible. This shouldn't be needed to suppress a warning."),
     };
     let operand0 = state.operand0;
@@ -7757,7 +7780,7 @@ unsafe fn decode_reg_rm(state: &mut DecodeState) {
 }
 
 unsafe fn read_final_op_size(state: &mut DecodeState) -> isize {
-    if state.flags & 0x400 != 0 {
+    if state.flags & DecodeFlags::IMM_SX != 0 {
         read_signed_8(state)
     } else {
         match state.final_op_size {
@@ -7849,6 +7872,7 @@ unsafe fn decode_eax_imm(state: &mut DecodeState) {
 
 unsafe fn decode_push_pop_seg(state: &mut DecodeState) {
     let offset: i32 = if *state.opcode.offset(-1) >= 0xa0 {
+        // FS/GS
         -16
     } else {
         0
@@ -8037,6 +8061,7 @@ unsafe fn decode_group_f6f7(state: &mut DecodeState) {
         let operand1 = state.operand1;
         set_operand_to_imm(state, operand1);
     }
+    // Check for valid locking semantics
     if (*state.result).flags & 1 != 0 && ((*state.result).operation != InstructionOperation::NOT) &&
         ((*state.result).operation != InstructionOperation::NEG)
     {
@@ -8046,6 +8071,7 @@ unsafe fn decode_group_f6f7(state: &mut DecodeState) {
 
 unsafe fn decode_group_ff(state: &mut DecodeState) {
     if state.using64 {
+        // Default to 64-bit for jumps and calls
         let rm: u8 = peek_8(state);
         let reg_field: u8 = rm >> 3 & 7;
         if reg_field >= 2 && reg_field <= 5 {
@@ -8056,6 +8082,7 @@ unsafe fn decode_group_ff(state: &mut DecodeState) {
         }
     }
     decode_group_rm(state);
+    // Check for valid jump/call semantics
     if (*state.result).operation == InstructionOperation::CALLF ||
         (*state.result).operation == InstructionOperation::JMPF
     {
@@ -8064,6 +8091,7 @@ unsafe fn decode_group_ff(state: &mut DecodeState) {
         }
         (*state.operand0).size += 2;
     }
+    // Check for valid locking semantics
     if (*state.result).flags & 1 != 0 && ((*state.result).operation != InstructionOperation::INC) &&
         ((*state.result).operation != InstructionOperation::DEC)
     {
@@ -8361,7 +8389,7 @@ unsafe fn decode_sse_table(state: &mut DecodeState) {
         reg_list,
         reg_size,
     );
-    if state.flags & 0x800u32 != 0 {
+    if state.flags & DecodeFlags::INC_OPERATION_FOR_64 != 0 {
         update_operation_for_sse_entry_type(state, op_entry.reg_type);
         update_operation_for_sse_entry_type(state, op_entry.rm_type);
     }
@@ -8749,6 +8777,7 @@ unsafe fn decode_crc_32(state: &mut DecodeState) {
 
 unsafe fn decode_arpl(state: &mut DecodeState) {
     if state.using64 {
+        // In 64-bit, ARPL is repurposed to MOVSXD
         let reg_list = get_reg_list_for_final_op_size(state);
         (*state.result).operation = InstructionOperation::MOVSXD;
         let operand0 = state.operand0;
@@ -8764,6 +8793,7 @@ unsafe fn decode_arpl(state: &mut DecodeState) {
             final_op_size,
         );
     } else {
+        // ARPL instruction
         state.operand0 = &mut (*state.result).operands[1] as (*mut InstructionOperand);
         state.operand1 = &mut (*state.result).operands[0] as (*mut InstructionOperand);
         state.final_op_size = 2;
@@ -8810,9 +8840,11 @@ unsafe fn process_prefixes(state: &mut DecodeState) {
             break;
         }
         if prefix >= 0x26 && (prefix <= 0x3e) && (prefix & 7 == 6) {
+            // Segment prefix
             (*state.result).segment =
                 SegmentRegister::from_i32(SegmentRegister::ES as i32 + ((prefix as i32 >> 3) - 4));
         } else if prefix == 0x64 || prefix == 0x65 {
+            // FS/GS prefix
             (*state.result).segment =
                 SegmentRegister::from_i32(SegmentRegister::ES as i32 + (prefix as i32 - 0x60));
         } else if prefix == 0x66 {
@@ -8829,13 +8861,16 @@ unsafe fn process_prefixes(state: &mut DecodeState) {
             state.rep = RepPrefix::REPE;
         } else {
             if !(state.using64 && (prefix >= 0x40) && (prefix <= 0x4f)) {
+                // Not a prefix, continue instruction processing.
                 state.opcode = state.opcode.offset(-1);
                 state.len = state.len.wrapping_add(1);
                 break;
             }
+            // REX prefix
             rex = prefix;
             continue;
         }
+        // Force ignore REX unless it is the last prefix
         rex = 0;
     }
     if state.op_prefix {
@@ -8845,6 +8880,7 @@ unsafe fn process_prefixes(state: &mut DecodeState) {
         state.addr_size = if state.addr_size == 4 { 2 } else { 4 };
     }
     if rex != 0 {
+        // REX prefix found before opcode
         state.rex = true;
         state.rex_rm_1 = rex & 1 != 0;
         state.rex_rm_2 = rex & 2 != 0;
