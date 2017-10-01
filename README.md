@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/endoli/burst.rs.svg?branch=master)](https://travis-ci.org/endoli/burst.rs)
 [![](http://meritbadge.herokuapp.com/burst)](https://crates.io/crates/burst)
 
+A disassembler that currently works with x86 and x86_64 code.
+
 Licensed under the 2-Clause BSD license.
 
 The x86 disassembler contained within this crate was
@@ -12,7 +14,7 @@ ported to Rust.
 ## Documentation
 
 The API is fully documented with examples:
-[https://endoli.github.io/burst.rs/](https://endoli.github.io/burst.rs/)
+[https://docs.rs/burst/](https://docs.rs/burst/)
 
 ## Installation
 

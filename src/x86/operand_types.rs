@@ -168,7 +168,7 @@ pub enum OperandType {
 }
 
 impl OperandType {
-    #[allow(missing_docs)]
+    /// Look up an `OperandType` given its `i32` value.
     pub fn from_i32(i: i32) -> Self {
         OPERAND_TYPE_TABLE[i as usize].value
     }

@@ -631,12 +631,12 @@ pub enum InstructionOperation {
 }
 
 impl InstructionOperation {
-    #[allow(missing_docs)]
+    /// Look up an `InstructionOperation` given its `i32` value.
     pub fn from_i32(i: i32) -> Self {
         INSTRUCTION_OPERATION_TABLE[i as usize].value
     }
 
-    #[allow(missing_docs)]
+    /// The mnemonic for this instruction operation.
     pub fn mnemonic(&self) -> &str {
         INSTRUCTION_OPERATION_TABLE[*self as usize].name
     }

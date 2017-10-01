@@ -3,6 +3,10 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
+//! Disassemble x86 and x86_64 code.
+//!
+//! This is based on a C library, asmx86.
+
 mod instruction_operations;
 mod operand_types;
 
@@ -26,7 +30,8 @@ pub enum SegmentRegister {
 }
 
 impl SegmentRegister {
-    pub fn from_i32(i: i32) -> Self {
+    /// Lookup a `SegmentRegister` given the `i32` value.
+    fn from_i32(i: i32) -> Self {
         match i {
             0 => SegmentRegister::ES,
             1 => SegmentRegister::CS,
@@ -46,6 +51,7 @@ impl Default for SegmentRegister {
     }
 }
 
+/// An operand for an `Instruction`.
 #[allow(missing_docs)]
 #[derive(Default, Debug)]
 #[repr(C)]
@@ -58,14 +64,23 @@ pub struct InstructionOperand {
     pub segment: SegmentRegister,
 }
 
+/// An instruction.
+///
+/// An instruction represents the full amount of information that
+/// we have about the instruction that has been disassembled from
+/// the binary opcode data.
 #[allow(missing_docs)]
 #[derive(Default, Debug)]
 #[repr(C)]
 pub struct Instruction {
+    /// Which `InstructionOperation` this instruction is.
     pub operation: InstructionOperation,
+    /// The operands for this instruction.
     pub operands: [InstructionOperand; 3],
     pub flags: u32,
     pub segment: SegmentRegister,
+    /// How many bytes in the binary opcode data are used by this
+    /// instruction.
     pub length: usize,
 }
 
@@ -8856,7 +8871,18 @@ unsafe fn finish_disassemble(state: &mut DecodeState) {
     }
 }
 
-#[allow(missing_docs)]
+/// Disassemble a single x86 instruction in 16 bit mode from a stream of
+/// opcodes.
+///
+/// Error handling with this function will improve in the near future.
+///
+/// ```
+/// use burst::x86::*;
+///
+/// let mut instr = Instruction::default();
+/// let data = [0u8, 0u8];
+/// disassemble_16(&data, 0, data.len(), &mut instr);
+/// ```
 pub fn disassemble_16(
     opcode: &[u8],
     addr: usize,
@@ -8882,7 +8908,18 @@ pub fn disassemble_16(
     }
 }
 
-#[allow(missing_docs)]
+/// Disassemble a single x86 instruction in 32 bit mode from a stream of
+/// opcodes.
+///
+/// Error handling with this function will improve in the near future.
+///
+/// ```
+/// use burst::x86::*;
+///
+/// let mut instr = Instruction::default();
+/// let data = [0u8, 0u8];
+/// disassemble_32(&data, 0, data.len(), &mut instr);
+/// ```
 pub fn disassemble_32(
     opcode: &[u8],
     addr: usize,
@@ -8908,7 +8945,18 @@ pub fn disassemble_32(
     }
 }
 
-#[allow(missing_docs)]
+/// Disassemble a single x86 instruction in 64 bit mode from a stream of
+/// opcodes.
+///
+/// Error handling with this function will improve in the near future.
+///
+/// ```
+/// use burst::x86::*;
+///
+/// let mut instr = Instruction::default();
+/// let data = [0u8, 0u8];
+/// disassemble_64(&data, 0, data.len(), &mut instr);
+/// ```
 pub fn disassemble_64(
     opcode: &[u8],
     addr: usize,
@@ -8964,7 +9012,35 @@ fn get_size_string(size: u16) -> &'static str {
     }
 }
 
-#[allow(missing_docs)]
+/// Write an `Instruction` to a stream.
+///
+/// The `fmt` string can contain these specifiers:
+///
+/// * `%a`: Shows the address of the instruction as passed
+///   in the `addr` parameter.
+/// * `%b`: Shows the bytes of the instruction. The `opcode`
+///   parameter must contain the same contents as the call to
+///   to the disassemble function that produced the instruction.
+/// * `%i`: Shows the operation mnemonic.
+/// * `%o`: Shows the operands.
+///
+/// In the future, this may be replaced by something that is more
+/// like the `std::fmt` features of the Rust standard library.
+///
+/// This currently doesn't support any configurable syntax support
+/// for AT&T style syntax.
+///
+/// ```
+/// use burst::x86::*;
+///
+/// let mut instr = Instruction::default();
+/// let data = [0u8, 0u8];
+/// disassemble_64(&data, 0, data.len(), &mut instr);
+///
+/// let mut out = String::new();
+/// format_instruction_string(&mut out, "%a %b %i %o", &data, 0, &instr);
+/// assert_eq!("0000000000000000 0000 add byte [rax], al", out);
+/// ```
 pub fn format_instruction_string(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9102,7 +9178,9 @@ pub fn format_instruction_string(
     Ok(())
 }
 
-#[allow(missing_docs)]
+/// Decodes and prints an instruction (in 16 bit mode).
+///
+/// This calls `disassemble_16` and then `format_instruction_string`.
 pub fn disassemble_to_string_16(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9118,7 +9196,9 @@ pub fn disassemble_to_string_16(
     }
 }
 
-#[allow(missing_docs)]
+/// Decodes and prints an instruction (in 32 bit mode).
+///
+/// This calls `disassemble_32` and then `format_instruction_string`.
 pub fn disassemble_to_string_32(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9134,7 +9214,9 @@ pub fn disassemble_to_string_32(
     }
 }
 
-#[allow(missing_docs)]
+/// Decodes and prints an instruction (in 64 bit mode).
+///
+/// This calls `disassemble_64` and then `format_instruction_string`.
 pub fn disassemble_to_string_64(
     stream: &mut fmt::Write,
     fmt: &str,

@@ -4,10 +4,10 @@ version = "0.0.1"
 authors = ["Bruce Mitchener <bruce.mitchener@gmail.com>"]
 license = "BSD"
 readme = "README.md"
-description = ""
+description = "A disassembler, currently supporting x86."
 keywords = ["disassemble", "assembly", "x86", "x86_64"]
 homepage = "https://github.com/endoli/burst.rs"
 repository = "https://github.com/endoli/burst.rs"
-documentation = "https://endoli.github.io/burst.rs/"
+documentation = "https://docs.rs/burst/"
 
 [dependencies]
