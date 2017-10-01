@@ -3,8 +3,7 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![allow(non_camel_case_types,
-         non_snake_case)]
+#![allow(non_snake_case)]
 
 mod instruction_operations;
 mod operand_types;
@@ -15,6 +14,7 @@ pub use self::operand_types::*;
 use std::fmt;
 use std::ptr;
 
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SegmentRegister {
@@ -69,6 +69,7 @@ pub struct Instruction {
     pub length: usize,
 }
 
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 enum RepPrefix {
@@ -4351,6 +4352,7 @@ struct SSETableEntry {
     pub memOps: [SSETableOperationEntry; 4],
 }
 
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 enum SSETableOperandType {

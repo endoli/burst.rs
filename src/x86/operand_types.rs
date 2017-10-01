@@ -3,6 +3,7 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum OperandType {
