@@ -18,25 +18,25 @@ use std::ptr;
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SegmentRegister {
-    SEG_ES = 0i32,
-    SEG_CS = 1i32,
-    SEG_SS = 2i32,
-    SEG_DS = 3i32,
-    SEG_FS = 4i32,
-    SEG_GS = 5i32,
-    SEG_DEFAULT = 7i32,
+    ES = 0i32,
+    CS = 1i32,
+    SS = 2i32,
+    DS = 3i32,
+    FS = 4i32,
+    GS = 5i32,
+    DEFAULT = 7i32,
 }
 
 impl SegmentRegister {
     pub fn from_i32(i: i32) -> Self {
         match i {
-            0 => SegmentRegister::SEG_ES,
-            1 => SegmentRegister::SEG_CS,
-            2 => SegmentRegister::SEG_SS,
-            3 => SegmentRegister::SEG_DS,
-            4 => SegmentRegister::SEG_FS,
-            5 => SegmentRegister::SEG_GS,
-            7 => SegmentRegister::SEG_DEFAULT,
+            0 => SegmentRegister::ES,
+            1 => SegmentRegister::CS,
+            2 => SegmentRegister::SS,
+            3 => SegmentRegister::DS,
+            4 => SegmentRegister::FS,
+            5 => SegmentRegister::GS,
+            7 => SegmentRegister::DEFAULT,
             _ => panic!("Unknown segment register {}", i),
         }
     }
@@ -44,7 +44,7 @@ impl SegmentRegister {
 
 impl Default for SegmentRegister {
     fn default() -> Self {
-        SegmentRegister::SEG_DEFAULT
+        SegmentRegister::DEFAULT
     }
 }
 
@@ -7495,7 +7495,7 @@ unsafe fn ReadSigned8(state: &mut DecodeState) -> isize {
 }
 
 unsafe fn GetFinalSegment(state: &DecodeState, seg: SegmentRegister) -> SegmentRegister {
-    if (*state.result).segment == SegmentRegister::SEG_DEFAULT {
+    if (*state.result).segment == SegmentRegister::DEFAULT {
         seg
     } else {
         (*state.result).segment
@@ -7565,47 +7565,47 @@ unsafe fn DecodeRM(
             RMDef {
                 first: OperandType::REG_BX,
                 second: OperandType::REG_SI,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
             RMDef {
                 first: OperandType::REG_BX,
                 second: OperandType::REG_DI,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
             RMDef {
                 first: OperandType::REG_BP,
                 second: OperandType::REG_SI,
-                segment: SegmentRegister::SEG_SS,
+                segment: SegmentRegister::SS,
             },
             RMDef {
                 first: OperandType::REG_BP,
                 second: OperandType::REG_DI,
-                segment: SegmentRegister::SEG_SS,
+                segment: SegmentRegister::SS,
             },
             RMDef {
                 first: OperandType::REG_SI,
                 second: OperandType::NONE,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
             RMDef {
                 first: OperandType::REG_DI,
                 second: OperandType::NONE,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
             RMDef {
                 first: OperandType::REG_BP,
                 second: OperandType::NONE,
-                segment: SegmentRegister::SEG_SS,
+                segment: SegmentRegister::SS,
             },
             RMDef {
                 first: OperandType::REG_BX,
                 second: OperandType::NONE,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
             RMDef {
                 first: OperandType::NONE,
                 second: OperandType::NONE,
-                segment: SegmentRegister::SEG_DS,
+                segment: SegmentRegister::DS,
             },
         ];
         if mod_ == 3 {
@@ -7637,7 +7637,7 @@ unsafe fn DecodeRM(
         let addrRegList = GetRegListForAddrSize(state);
         let rmReg1Offset: u8 = if state.rexRM1 { 8 } else { 0 };
         let rmReg2Offset: u8 = if state.rexRM2 { 8 } else { 0 };
-        let mut seg: SegmentRegister = SegmentRegister::SEG_DEFAULT;
+        let mut seg: SegmentRegister = SegmentRegister::DEFAULT;
         (*rmOper).operand = OperandType::MEM;
         if mod_ != 3 && rm == 4 {
             let sibByte: u8 = Read8(state);
@@ -7658,9 +7658,9 @@ unsafe fn DecodeRM(
                 (*rmOper).immediate = ReadSigned32(state);
             }
             if base + rmReg1Offset == 4 || base + rmReg1Offset == 5 {
-                seg = SegmentRegister::SEG_SS;
+                seg = SegmentRegister::SS;
             } else {
-                seg = SegmentRegister::SEG_DS;
+                seg = SegmentRegister::DS;
             }
         } else if mod_ == 3 {
             (*rmOper).operand = regList[(rm + rmReg1Offset) as usize];
@@ -7668,17 +7668,17 @@ unsafe fn DecodeRM(
             (*rmOper).components[0] = addrRegList[(rm + rmReg1Offset) as usize];
             (*rmOper).immediate = ReadSigned32(state);
             seg = if rm == 5 {
-                SegmentRegister::SEG_SS
+                SegmentRegister::SS
             } else {
-                SegmentRegister::SEG_DS
+                SegmentRegister::DS
             };
         } else if mod_ == 1 {
             (*rmOper).components[0] = addrRegList[(rm + rmReg1Offset) as usize];
             (*rmOper).immediate = ReadSigned8(state);
             seg = if rm == 5 {
-                SegmentRegister::SEG_SS
+                SegmentRegister::SS
             } else {
-                SegmentRegister::SEG_DS
+                SegmentRegister::DS
             };
         } else if mod_ == 0 {
             if rm == 5 {
@@ -7689,9 +7689,9 @@ unsafe fn DecodeRM(
             } else {
                 (*rmOper).components[0] = addrRegList[(rm + rmReg1Offset) as usize];
             }
-            seg = SegmentRegister::SEG_DS;
+            seg = SegmentRegister::DS;
         }
-        if seg != SegmentRegister::SEG_DEFAULT {
+        if seg != SegmentRegister::DEFAULT {
             (*rmOper).segment = GetFinalSegment(state, seg);
         }
     }
@@ -7916,7 +7916,7 @@ unsafe fn SetOperandToEsEdi(state: &DecodeState, oper: *mut InstructionOperand, 
     (*oper).operand = OperandType::MEM;
     (*oper).components[0] = addrRegList[7];
     (*oper).size = size;
-    (*oper).segment = SegmentRegister::SEG_ES;
+    (*oper).segment = SegmentRegister::ES;
 }
 
 unsafe fn DecodeEdiDx(state: &mut DecodeState) {
@@ -7930,7 +7930,7 @@ unsafe fn SetOperandToDsEsi(state: &DecodeState, oper: *mut InstructionOperand, 
     (*oper).operand = OperandType::MEM;
     (*oper).components[0usize] = addrRegList[6];
     (*oper).size = size;
-    (*oper).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
+    (*oper).segment = GetFinalSegment(state, SegmentRegister::DS);
 }
 
 unsafe fn DecodeDxEsi(state: &mut DecodeState) {
@@ -8178,7 +8178,7 @@ unsafe fn ReadAddrSize(state: &mut DecodeState) -> isize {
 unsafe fn SetOperandToImmAddr(state: &mut DecodeState, oper: *mut InstructionOperand) {
     (*oper).operand = OperandType::MEM;
     (*oper).immediate = ReadAddrSize(state);
-    (*oper).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
+    (*oper).segment = GetFinalSegment(state, SegmentRegister::DS);
     (*oper).size = state.finalOpSize;
 }
 
@@ -8211,7 +8211,7 @@ unsafe fn DecodeAlEbxAl(state: &mut DecodeState) {
     (*state.operand1).components[0] = regList[3];
     (*state.operand1).components[1] = OperandType::REG_AL;
     (*state.operand1).size = 1;
-    (*state.operand1).segment = GetFinalSegment(state, SegmentRegister::SEG_DS);
+    (*state.operand1).segment = GetFinalSegment(state, SegmentRegister::DS);
 }
 
 unsafe fn DecodeEaxImm8(state: &mut DecodeState) {
@@ -8741,7 +8741,7 @@ unsafe fn InitDisassemble(state: &mut DecodeState) {
     ClearOperand(&mut (*(*state).result).operands[2]);
     (*state.result).operation = InstructionOperation::INVALID;
     (*state.result).flags = 0;
-    (*state.result).segment = SegmentRegister::SEG_DEFAULT;
+    (*state.result).segment = SegmentRegister::DEFAULT;
     state.invalid = false;
     state.insufficientLength = false;
     state.opPrefix = false;
@@ -8766,12 +8766,11 @@ unsafe fn ProcessPrefixes(state: &mut DecodeState) {
             break;
         }
         if prefix >= 0x26 && (prefix <= 0x3e) && (prefix & 7 == 6) {
-            (*state.result).segment = SegmentRegister::from_i32(
-                SegmentRegister::SEG_ES as i32 + ((prefix as i32 >> 3) - 4),
-            );
+            (*state.result).segment =
+                SegmentRegister::from_i32(SegmentRegister::ES as i32 + ((prefix as i32 >> 3) - 4));
         } else if prefix == 0x64 || prefix == 0x65 {
             (*state.result).segment =
-                SegmentRegister::from_i32(SegmentRegister::SEG_ES as i32 + (prefix as i32 - 0x60));
+                SegmentRegister::from_i32(SegmentRegister::ES as i32 + (prefix as i32 - 0x60));
         } else if prefix == 0x66 {
             state.opPrefix = true;
             (*state.result).flags |= 16;
@@ -8981,8 +8980,8 @@ pub fn FormatInstructionString(
                     } else if instr.operands[i].operand == OperandType::MEM {
                         let mut plus: bool = false;
                         try!(stream.write_str(GetSizeString(instr.operands[i].size)));
-                        if instr.segment != SegmentRegister::SEG_DEFAULT ||
-                            instr.operands[i].segment == SegmentRegister::SEG_ES
+                        if instr.segment != SegmentRegister::DEFAULT ||
+                            instr.operands[i].segment == SegmentRegister::ES
                         {
                             try!(WriteOperand(
                                 stream,
