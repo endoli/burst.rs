@@ -2,7 +2,7 @@
 name = "burst"
 version = "0.0.1"
 authors = ["Bruce Mitchener <bruce.mitchener@gmail.com>"]
-license = "BSD"
+license = "BSD-2-Clause"
 readme = "README.md"
 description = "A disassembler, currently supporting x86."
 keywords = ["disassemble", "assembly", "x86", "x86_64"]
