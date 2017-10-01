@@ -73,9 +73,9 @@ pub struct Instruction {
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 enum RepPrefix {
-    REP_PREFIX_NONE = 0i32,
-    REP_PREFIX_REPNE,
-    REP_PREFIX_REPE,
+    NONE = 0i32,
+    REPNE,
+    REPE,
 }
 
 #[derive(Debug)]
@@ -123,7 +123,7 @@ impl Default for DecodeState {
             invalid: false,
             insufficientLength: false,
             opPrefix: false,
-            rep: RepPrefix::REP_PREFIX_NONE,
+            rep: RepPrefix::NONE,
             using64: false,
             rex: false,
             rexRM1: false,
@@ -7357,13 +7357,13 @@ unsafe fn ProcessEncoding(state: &mut DecodeState, encoding: &InstructionEncodin
             }
         }
         if state.flags & 0x40 != 0 {
-            if state.rep != RepPrefix::REP_PREFIX_NONE {
+            if state.rep != RepPrefix::NONE {
                 (*state.result).flags |= 2;
             }
         } else if state.flags & 0x80 != 0 {
-            if state.rep == RepPrefix::REP_PREFIX_REPNE {
+            if state.rep == RepPrefix::REPNE {
                 (*state.result).flags |= 4;
-            } else if state.rep == RepPrefix::REP_PREFIX_REPE {
+            } else if state.rep == RepPrefix::REPE {
                 (*state.result).flags |= 8;
             }
         }
@@ -8104,7 +8104,7 @@ unsafe fn DecodeGroup0FAE(state: &mut DecodeState) {
 }
 
 unsafe fn Decode0FB8(state: &mut DecodeState) {
-    if state.rep != RepPrefix::REP_PREFIX_REPE {
+    if state.rep != RepPrefix::REPE {
         if state.using64 {
             state.opSize = if state.opPrefix { 4 } else { 8 };
         }
@@ -8252,11 +8252,11 @@ unsafe fn DecodeSSEPrefix(state: &mut DecodeState) -> u8 {
     if state.opPrefix {
         state.opPrefix = false;
         1
-    } else if state.rep == RepPrefix::REP_PREFIX_REPNE {
-        state.rep = RepPrefix::REP_PREFIX_NONE;
+    } else if state.rep == RepPrefix::REPNE {
+        state.rep = RepPrefix::NONE;
         2
-    } else if state.rep == RepPrefix::REP_PREFIX_REPE {
-        state.rep = RepPrefix::REP_PREFIX_NONE;
+    } else if state.rep == RepPrefix::REPE {
+        state.rep = RepPrefix::NONE;
         3
     } else {
         0
@@ -8648,7 +8648,7 @@ unsafe fn DecodeCmpXch8B(state: &mut DecodeState) {
     } else if regField == 6 {
         if state.opPrefix {
             (*state.result).operation = InstructionOperation::VMCLEAR;
-        } else if state.rep == RepPrefix::REP_PREFIX_REPE {
+        } else if state.rep == RepPrefix::REPE {
             (*state.result).operation = InstructionOperation::VMXON;
         } else {
             (*state.result).operation = InstructionOperation::VMPTRLD;
@@ -8745,7 +8745,7 @@ unsafe fn InitDisassemble(state: &mut DecodeState) {
     state.invalid = false;
     state.insufficientLength = false;
     state.opPrefix = false;
-    state.rep = RepPrefix::REP_PREFIX_NONE;
+    state.rep = RepPrefix::NONE;
     state.ripRelFixup = ptr::null_mut();
     state.rex = false;
     state.rexReg = false;
@@ -8780,9 +8780,9 @@ unsafe fn ProcessPrefixes(state: &mut DecodeState) {
         } else if prefix == 0xf0 {
             (*state.result).flags |= 1;
         } else if prefix == 0xf2 {
-            state.rep = RepPrefix::REP_PREFIX_REPNE;
+            state.rep = RepPrefix::REPNE;
         } else if prefix == 0xf3 {
-            state.rep = RepPrefix::REP_PREFIX_REPE;
+            state.rep = RepPrefix::REPE;
         } else {
             if !(state.using64 && (prefix >= 0x40) && (prefix <= 0x4f)) {
                 state.opcode = state.opcode.offset(-1);
