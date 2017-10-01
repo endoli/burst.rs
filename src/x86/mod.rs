@@ -12,7 +12,7 @@ pub use self::operand_types::*;
 use std::fmt;
 use std::ptr;
 
-#[allow(non_camel_case_types)]
+#[allow(missing_docs, non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SegmentRegister {
@@ -46,6 +46,7 @@ impl Default for SegmentRegister {
     }
 }
 
+#[allow(missing_docs)]
 #[derive(Default, Debug)]
 #[repr(C)]
 pub struct InstructionOperand {
@@ -57,6 +58,7 @@ pub struct InstructionOperand {
     pub segment: SegmentRegister,
 }
 
+#[allow(missing_docs)]
 #[derive(Default, Debug)]
 #[repr(C)]
 pub struct Instruction {
@@ -8854,6 +8856,7 @@ unsafe fn finish_disassemble(state: &mut DecodeState) {
     }
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_16(
     opcode: &[u8],
     addr: usize,
@@ -8879,6 +8882,7 @@ pub fn disassemble_16(
     }
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_32(
     opcode: &[u8],
     addr: usize,
@@ -8904,6 +8908,7 @@ pub fn disassemble_32(
     }
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_64(
     opcode: &[u8],
     addr: usize,
@@ -8959,6 +8964,7 @@ fn get_size_string(size: u16) -> &'static str {
     }
 }
 
+#[allow(missing_docs)]
 pub fn format_instruction_string(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9096,6 +9102,7 @@ pub fn format_instruction_string(
     Ok(())
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_to_string_16(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9111,6 +9118,7 @@ pub fn disassemble_to_string_16(
     }
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_to_string_32(
     stream: &mut fmt::Write,
     fmt: &str,
@@ -9126,6 +9134,7 @@ pub fn disassemble_to_string_32(
     }
 }
 
+#[allow(missing_docs)]
 pub fn disassemble_to_string_64(
     stream: &mut fmt::Write,
     fmt: &str,

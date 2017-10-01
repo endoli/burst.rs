@@ -5,7 +5,9 @@
 
 //! # Burst
 
+#![warn(missing_docs)]
 #![deny(trivial_numeric_casts, unstable_features,
         unused_import_braces, unused_qualifications)]
 
+#[allow(missing_docs)]
 pub mod x86;

@@ -3,7 +3,7 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
-#[allow(non_camel_case_types)]
+#[allow(missing_docs, non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum OperandType {
@@ -168,6 +168,7 @@ pub enum OperandType {
 }
 
 impl OperandType {
+    #[allow(missing_docs)]
     pub fn from_i32(i: i32) -> Self {
         OPERAND_TYPE_TABLE[i as usize].value
     }

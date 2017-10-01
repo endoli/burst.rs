@@ -3,6 +3,7 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
+#[allow(missing_docs)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum InstructionOperation {
@@ -630,10 +631,12 @@ pub enum InstructionOperation {
 }
 
 impl InstructionOperation {
+    #[allow(missing_docs)]
     pub fn from_i32(i: i32) -> Self {
         INSTRUCTION_OPERATION_TABLE[i as usize].value
     }
 
+    #[allow(missing_docs)]
     pub fn mnemonic(&self) -> &str {
         INSTRUCTION_OPERATION_TABLE[*self as usize].name
     }
