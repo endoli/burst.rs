@@ -7336,11 +7336,11 @@ unsafe fn ProcessEncoding(state: &mut DecodeState, encoding: &InstructionEncodin
         }
         state.finalOpSize = GetFinalOpSize(state);
         if state.flags & 0x200 != 0 {
-            state.operand0 = &mut (*state.result).operands[1usize] as (*mut InstructionOperand);
-            state.operand1 = &mut (*state.result).operands[0usize] as (*mut InstructionOperand);
+            state.operand0 = &mut (*state.result).operands[1] as (*mut InstructionOperand);
+            state.operand1 = &mut (*state.result).operands[0] as (*mut InstructionOperand);
         } else {
-            state.operand0 = &mut (*state.result).operands[0usize] as (*mut InstructionOperand);
-            state.operand1 = &mut (*state.result).operands[1usize] as (*mut InstructionOperand);
+            state.operand0 = &mut (*state.result).operands[0] as (*mut InstructionOperand);
+            state.operand1 = &mut (*state.result).operands[1] as (*mut InstructionOperand);
         }
         if state.flags & 0x2000 != 0 {
             state.finalOpSize = 2;
@@ -8325,10 +8325,10 @@ unsafe fn DecodeSSETable(state: &mut DecodeState) {
         &entry.memOps[entry_type]
     };
     (*state.result).operation = opEntry.operation;
-    let operand1 = GetOperandForSSEEntryType(state, opEntry.rmType, 1u8);
+    let operand1 = GetOperandForSSEEntryType(state, opEntry.rmType, 1);
     let rmRegList = GetRegListForSSEEntryType(state, opEntry.rmType);
     let rmRegSize = GetSizeForSSEEntryType(state, opEntry.rmType);
-    let operand0 = GetOperandForSSEEntryType(state, opEntry.regType, 0u8);
+    let operand0 = GetOperandForSSEEntryType(state, opEntry.regType, 0);
     let regList = GetRegListForSSEEntryType(state, opEntry.regType);
     let regSize = GetSizeForSSEEntryType(state, opEntry.regType);
     DecodeRMReg(
@@ -8791,7 +8791,7 @@ unsafe fn ProcessPrefixes(state: &mut DecodeState) {
             rex = prefix;
             continue;
         }
-        rex = 0u8;
+        rex = 0;
     }
     if state.opPrefix {
         state.opSize = if state.opSize == 2 { 4 } else { 2 };
@@ -8811,9 +8811,8 @@ unsafe fn ProcessPrefixes(state: &mut DecodeState) {
 }
 
 unsafe fn FinishDisassemble(state: &mut DecodeState) {
-    (*state.result).length = ((state.opcode as (isize)).wrapping_sub(
-        state.opcodeStart as (isize),
-    ) / ::std::mem::size_of::<u8>() as (isize)) as (usize);
+    (*state.result).length = (state.opcode as usize).wrapping_sub(state.opcodeStart as usize) /
+        ::std::mem::size_of::<u8>();
     if !state.ripRelFixup.is_null() {
         *state.ripRelFixup = (*state.ripRelFixup as (usize)).wrapping_add(
             state.addr.wrapping_add(
