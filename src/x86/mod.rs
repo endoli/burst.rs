@@ -52,15 +52,51 @@ impl Default for SegmentRegister {
 }
 
 /// An operand for an `Instruction`.
-#[allow(missing_docs)]
+///
+/// The type of operand is given by the `operand` member. If the type is
+/// `OperandType::NONE`, none of the other members are defined.
+///
+/// If the operand type is not `OperandType::NONE`, then the `size` field
+/// is valid.
+///
+/// If the type is `OperandType::IMM`, then the operand is a constant
+/// integer contained in the `immediate` member.
+///
+/// If the type is `OperandType::MEM`, then the operand is a memory reference
+/// and the other members are used as defined.
+///
+/// The address of a memory reference is effectively the following formula,
+/// where references to the component array should look up the current value
+/// should look up the current value of the register or substitute zero if
+/// the value is `OperandType::NONE`:
+///
+/// ```math
+/// address = components[0] + components[1] * scale + immediate
+/// ```
+///
+/// TODO: Perhaps this should be an enumeration with separate values
+/// for invalid, immediate value, a memory reference or a register.
 #[derive(Default, Debug)]
 #[repr(C)]
 pub struct InstructionOperand {
+    /// The type of the operand, a register or one of a set of special values.
     pub operand: OperandType,
+    /// The address components of a memory operand.
     pub components: [OperandType; 2],
+    /// If this is a memory operand, then this value is used to scale
+    /// the second component.
     pub scale: u8,
+    /// The size of the operand in bytes. For register operands, this
+    /// is the size of the register. For memory operands, this is the
+    /// size of the memory access.
     pub size: u16,
+    /// The value of a constant integer when the operand is the `IMM`
+    /// type. When the operand is a memory reference, this contains
+    /// a constant offset for the memory reference.
     pub immediate: isize,
+    /// The segment register that will be used for a memory access. This
+    /// will always contain a segment register, as `SegmentRegister::DEFAULT`
+    /// is resolved to the default register.
     pub segment: SegmentRegister,
 }
 
@@ -69,7 +105,6 @@ pub struct InstructionOperand {
 /// An instruction represents the full amount of information that
 /// we have about the instruction that has been disassembled from
 /// the binary opcode data.
-#[allow(missing_docs)]
 #[derive(Default, Debug)]
 #[repr(C)]
 pub struct Instruction {
@@ -81,9 +116,15 @@ pub struct Instruction {
     ///
     /// [`X86Flag`]: struct.X86Flag.html
     pub flags: u32,
+    /// The segment prefix. This will be either `SegmentPrefix::DEFAULT`
+    /// or a segment register (like `SegmentPrefix::ES`).
     pub segment: SegmentRegister,
     /// How many bytes in the binary opcode data are used by this
     /// instruction.
+    ///
+    /// This can be used to continue disassembling at the next
+    /// instruction. An invalid instruction may have a value of
+    /// `0` here.
     pub length: usize,
 }
 
