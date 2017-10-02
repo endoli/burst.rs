@@ -7444,8 +7444,8 @@ fn get_final_op_size(state: &mut DecodeState) -> u16 {
 }
 
 unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
-    state.result.operation = InstructionOperation::from_i32((*encoding).operation as i32);
-    state.flags = (*encoding).flags as u32;
+    state.result.operation = InstructionOperation::from_i32(encoding.operation as i32);
+    state.flags = encoding.flags as u32;
     if state.using64 && (state.flags & DecodeFlags::INVALID_IN_64BIT != 0) {
         state.invalid = true;
     } else {
@@ -7483,7 +7483,7 @@ unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncodi
                 state.result.flags |= X86Flag::REPE;
             }
         }
-        ((*encoding).func)(state);
+        (encoding.func)(state);
         if state.result.operation == InstructionOperation::INVALID {
             state.invalid = true;
         }
