@@ -77,11 +77,42 @@ pub struct Instruction {
     pub operation: InstructionOperation,
     /// The operands for this instruction.
     pub operands: [InstructionOperand; 3],
+    /// A bit field that may contain the flags described by [`X86Flag`].
+    ///
+    /// [`X86Flag`]: struct.X86Flag.html
     pub flags: u32,
     pub segment: SegmentRegister,
     /// How many bytes in the binary opcode data are used by this
     /// instruction.
     pub length: usize,
+}
+
+/// Flags used by `Instruction`.
+pub struct X86Flag;
+
+impl X86Flag {
+    /// The lock prefix was provided to this instruction.
+    pub const LOCK: u32 = 1;
+    /// This instruction is an unconditional repeated string instruction.
+    pub const REP: u32 = 2;
+    /// The repeated string instruction is conditional and uses the `REPNE`
+    /// prefix.
+    pub const REPNE: u32 = 4;
+    /// The repeated string instruction is conditional and uses the `REPE`
+    /// prefix.
+    pub const REPE: u32 = 8;
+    /// The operand size prefix was used.
+    pub const OPSIZE: u32 = 16;
+    /// The address size prefix was used.
+    pub const ADDRSIZE: u32 = 32;
+
+    /// The instruction may be valid, but an insufficient number of bytes
+    /// were provided. When this flag is set, the disassembly should not
+    /// be considered a success.
+    pub const INSUFFICIENT_LENGTH: u32 = 0x8000_000;
+
+    /// The instruction is any repeated string instruction.
+    pub const ANY_REP: u32 = X86Flag::REP | X86Flag::REPE | X86Flag::REPNE;
 }
 
 #[allow(non_camel_case_types)]
@@ -7402,20 +7433,20 @@ unsafe fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncodi
         }
         if state.flags & DecodeFlags::REP != 0 {
             if state.rep != RepPrefix::NONE {
-                (*state.result).flags |= 2;
+                (*state.result).flags |= X86Flag::REP;
             }
         } else if state.flags & DecodeFlags::REP_COND != 0 {
             if state.rep == RepPrefix::REPNE {
-                (*state.result).flags |= 4;
+                (*state.result).flags |= X86Flag::REPNE;
             } else if state.rep == RepPrefix::REPE {
-                (*state.result).flags |= 8;
+                (*state.result).flags |= X86Flag::REPE;
             }
         }
         ((*encoding).func)(state);
         if (*state.result).operation == InstructionOperation::INVALID {
             state.invalid = true;
         }
-        if (*state.result).flags & 1 != 0 {
+        if (*state.result).flags & X86Flag::LOCK != 0 {
             // Ensure instruction allows lock and it has proper semantics
             if state.flags & DecodeFlags::LOCK == 0 {
                 state.invalid = true;
@@ -8069,7 +8100,8 @@ unsafe fn decode_group_f6f7(state: &mut DecodeState) {
         set_operand_to_imm(state, operand1);
     }
     // Check for valid locking semantics
-    if (*state.result).flags & 1 != 0 && ((*state.result).operation != InstructionOperation::NOT) &&
+    if (*state.result).flags & X86Flag::LOCK != 0 &&
+        ((*state.result).operation != InstructionOperation::NOT) &&
         ((*state.result).operation != InstructionOperation::NEG)
     {
         state.invalid = true;
@@ -8099,7 +8131,8 @@ unsafe fn decode_group_ff(state: &mut DecodeState) {
         (*state.operand0).size += 2;
     }
     // Check for valid locking semantics
-    if (*state.result).flags & 1 != 0 && ((*state.result).operation != InstructionOperation::INC) &&
+    if (*state.result).flags & X86Flag::LOCK != 0 &&
+        ((*state.result).operation != InstructionOperation::INC) &&
         ((*state.result).operation != InstructionOperation::DEC)
     {
         state.invalid = true;
@@ -8582,8 +8615,8 @@ unsafe fn decode_reg_cr(state: &mut DecodeState) {
     }
     let reg_list = get_reg_list_for_op_size(state);
     let reg = read_8(state);
-    if (*state.result).flags & 1 != 0 {
-        (*state.result).flags &= !1;
+    if (*state.result).flags & X86Flag::LOCK != 0 {
+        (*state.result).flags &= !X86Flag::LOCK;
         state.rex_reg = true;
     }
     (*state.operand0).operand = reg_list[((reg & 7) + if (*state).rex_rm_1 { 8 } else { 0 }) as
@@ -8856,12 +8889,12 @@ unsafe fn process_prefixes(state: &mut DecodeState) {
                 SegmentRegister::from_i32(SegmentRegister::ES as i32 + (prefix as i32 - 0x60));
         } else if prefix == 0x66 {
             state.op_prefix = true;
-            (*state.result).flags |= 16;
+            (*state.result).flags |= X86Flag::OPSIZE;
         } else if prefix == 0x67 {
             addr_prefix = true;
-            (*state.result).flags |= 32;
+            (*state.result).flags |= X86Flag::ADDRSIZE;
         } else if prefix == 0xf0 {
-            (*state.result).flags |= 1;
+            (*state.result).flags |= X86Flag::LOCK;
         } else if prefix == 0xf2 {
             state.rep = RepPrefix::REPNE;
         } else if prefix == 0xf3 {
@@ -8910,7 +8943,7 @@ unsafe fn finish_disassemble(state: &mut DecodeState) {
         ) as (isize);
     }
     if state.insufficient_length && (state.original_length < 15) {
-        (*state.result).flags |= 0x8000_0000;
+        (*state.result).flags |= X86Flag::INSUFFICIENT_LENGTH;
     }
 }
 
@@ -9116,17 +9149,17 @@ pub fn format_instruction_string(
                     try!(stream.write_str("  "));
                 }
             } else if fmt[f] == 'i' {
-                if instr.flags & (2 | 8 | 4) != 0 {
+                if instr.flags & X86Flag::ANY_REP != 0 {
                     try!(stream.write_str("rep"));
-                    if instr.flags & 4 != 0 {
+                    if instr.flags & X86Flag::REPNE != 0 {
                         try!(stream.write_char('n'));
                     }
-                    if instr.flags & (4 | 8) != 0 {
+                    if instr.flags & (X86Flag::REPNE | X86Flag::REPE) != 0 {
                         try!(stream.write_char('e'));
                     }
                     try!(stream.write_char('b'));
                 }
-                if instr.flags & 1 != 0 {
+                if instr.flags & X86Flag::LOCK != 0 {
                     try!(stream.write_str("lock "));
                 }
                 try!(stream.write_str(instr.operation.mnemonic()));
