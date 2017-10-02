@@ -150,7 +150,7 @@ impl X86Flag {
     /// The instruction may be valid, but an insufficient number of bytes
     /// were provided. When this flag is set, the disassembly should not
     /// be considered a success.
-    pub const INSUFFICIENT_LENGTH: u32 = 0x8000_000;
+    pub const INSUFFICIENT_LENGTH: u32 = 0x8000_0000;
 
     /// The instruction is any repeated string instruction.
     pub const ANY_REP: u32 = X86Flag::REP | X86Flag::REPE | X86Flag::REPNE;
