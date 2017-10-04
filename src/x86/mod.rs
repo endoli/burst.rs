@@ -7676,7 +7676,7 @@ unsafe fn decode_rm(
     }
     (*rm_oper).size = rm_size;
     if state.addr_size == 2 {
-        static mut RM16_COMPONENTS: [RMDef; 9] = [
+        static RM16_COMPONENTS: [RMDef; 9] = [
             RMDef {
                 first: OperandType::REG_BX,
                 second: OperandType::REG_SI,
