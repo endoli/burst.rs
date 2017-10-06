@@ -3,167 +3,326 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
-#[allow(missing_docs, non_camel_case_types)]
+/// The location used by an operand.
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum OperandType {
+    /// Invalid / no operand.
     NONE = 0i32,
+    /// An immediate operand.
     IMM,
+    /// A memory operand.
     MEM,
+    /// GPR. Accumulator register. 8 LSB bits of 16.
     REG_AL,
+    /// GPR. Counter register. 8 LSB bits of 16.
     REG_CL,
+    /// GPR. Data register. 8 LSB bits of 16.
     REG_DL,
+    /// GPR. Base register. 8 LSB bits of 16.
     REG_BL,
+    /// GPR. Accumulator register. 8 MSB bits of 16.
     REG_AH,
+    /// GPR. Counter register. 8 MSB bits of 16.
     REG_CH,
+    /// GPR. Data register. 8 MSB bits of 16.
     REG_DH,
+    /// GPR. Base register. 8 MSB bits of 16.
     REG_BH,
+    #[allow(missing_docs)]
     REG_SPL,
+    #[allow(missing_docs)]
     REG_BPL,
+    #[allow(missing_docs)]
     REG_SIL,
+    #[allow(missing_docs)]
     REG_DIL,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R8B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R9B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R10B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R11B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R12B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R13B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R14B,
+    /// x86_64 GPR. Lowermost 8 bits of 64.
     REG_R15B,
+    /// GPR. Accumulator register. 16 bits.
     REG_AX,
+    /// GPR. Counter register. 16 bits.
     REG_CX,
+    /// GPR. Data register. 16 bits.
     REG_DX,
+    /// GPR. Base register. 16 bits.
     REG_BX,
+    /// GPR. Stack pointer register. 16 bits.
     REG_SP,
+    /// GPR. Stack base pointer register. 16 bits.
     REG_BP,
+    /// GPR. Source index register. 16 bits.
     REG_SI,
+    /// GPR. Destination index register. 16 bits.
     REG_DI,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R8W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R9W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R10W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R11W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R12W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R13W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R14W,
+    /// x86_64 GPR. Lowermost 16 bits of 64.
     REG_R15W,
+    /// GPR. Accumulator register. 32 bits.
     REG_EAX,
+    /// GPR. Counter register. 32 bits.
     REG_ECX,
+    /// GPR. Data register. 32 bits.
     REG_EDX,
+    /// GPR. Base register. 32 bits.
     REG_EBX,
+    /// GPR. Stack pointer register. 32 bits.
     REG_ESP,
+    /// GPR. Stack base pointer register. 32 bits.
     REG_EBP,
+    /// GPR. Source index register. 32 bits.
     REG_ESI,
+    /// GPR. Destination index register. 32 bits.
     REG_EDI,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R8D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R9D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R10D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R11D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R12D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R13D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R14D,
+    /// x86_64 GPR. Lowermost 32 bits of 64.
     REG_R15D,
+    /// GPR. Accumulator register. 64 bits.
     REG_RAX,
+    /// GPR. Counter register. 64 bits.
     REG_RCX,
+    /// GPR. Data register. 64 bits.
     REG_RDX,
+    /// GPR. Base register. 64 bits.
     REG_RBX,
+    /// GPR. Stack pointer register. 64 bits.
     REG_RSP,
+    /// GPR. Stack base pointer register. 64 bits.
     REG_RBP,
+    /// GPR. Source index register. 64 bits.
     REG_RSI,
+    /// GPR. Destination index register. 64 bits.
     REG_RDI,
+    /// x86_64 GPR. 64 bits.
     REG_R8,
+    /// x86_64 GPR. 64 bits.
     REG_R9,
+    /// x86_64 GPR. 64 bits.
     REG_R10,
+    /// x86_64 GPR. 64 bits.
     REG_R11,
+    /// x86_64 GPR. 64 bits.
     REG_R12,
+    /// x86_64 GPR. 64 bits.
     REG_R13,
+    /// x86_64 GPR. 64 bits.
     REG_R14,
+    /// x86_64 GPR. 64 bits.
     REG_R15,
+    /// FPU register.
     REG_ST0,
+    /// FPU register.
     REG_ST1,
+    /// FPU register.
     REG_ST2,
+    /// FPU register.
     REG_ST3,
+    /// FPU register.
     REG_ST4,
+    /// FPU register.
     REG_ST5,
+    /// FPU register.
     REG_ST6,
+    /// FPU register.
     REG_ST7,
+    /// MMX register.
     REG_MM0,
+    /// MMX register.
     REG_MM1,
+    /// MMX register.
     REG_MM2,
+    /// MMX register.
     REG_MM3,
+    /// MMX register.
     REG_MM4,
+    /// MMX register.
     REG_MM5,
+    /// MMX register.
     REG_MM6,
+    /// MMX register.
     REG_MM7,
+    /// SSE register. 128 bits.
     REG_XMM0,
+    /// SSE register. 128 bits.
     REG_XMM1,
+    /// SSE register. 128 bits.
     REG_XMM2,
+    /// SSE register. 128 bits.
     REG_XMM3,
+    /// SSE register. 128 bits.
     REG_XMM4,
+    /// SSE register. 128 bits.
     REG_XMM5,
+    /// SSE register. 128 bits.
     REG_XMM6,
+    /// SSE register. 128 bits.
     REG_XMM7,
+    /// SSE register. 128 bits.
     REG_XMM8,
+    /// SSE register. 128 bits.
     REG_XMM9,
+    /// SSE register. 128 bits.
     REG_XMM10,
+    /// SSE register. 128 bits.
     REG_XMM11,
+    /// SSE register. 128 bits.
     REG_XMM12,
+    /// SSE register. 128 bits.
     REG_XMM13,
+    /// SSE register. 128 bits.
     REG_XMM14,
+    /// SSE register. 128 bits.
     REG_XMM15,
+    /// Control register.
     REG_CR0,
+    /// Control register.
     REG_CR1,
+    /// Control register.
     REG_CR2,
+    /// Control register.
     REG_CR3,
+    /// Control register.
     REG_CR4,
+    /// Control register.
     REG_CR5,
+    /// Control register.
     REG_CR6,
+    /// Control register.
     REG_CR7,
+    /// Control register.
     REG_CR8,
+    /// Control register.
     REG_CR9,
+    /// Control register.
     REG_CR10,
+    /// Control register.
     REG_CR11,
+    /// Control register.
     REG_CR12,
+    /// Control register.
     REG_CR13,
+    /// Control register.
     REG_CR14,
+    /// Control register.
     REG_CR15,
+    /// Debug register.
     REG_DR0,
+    /// Debug register.
     REG_DR1,
+    /// Debug register.
     REG_DR2,
+    /// Debug register.
     REG_DR3,
+    /// Debug register.
     REG_DR4,
+    /// Debug register.
     REG_DR5,
+    /// Debug register.
     REG_DR6,
+    /// Debug register.
     REG_DR7,
+    /// Debug register.
     REG_DR8,
+    /// Debug register.
     REG_DR9,
+    /// Debug register.
     REG_DR10,
+    /// Debug register.
     REG_DR11,
+    /// Debug register.
     REG_DR12,
+    /// Debug register.
     REG_DR13,
+    /// Debug register.
     REG_DR14,
+    /// Debug register.
     REG_DR15,
+    /// Task register.
     REG_TR0,
+    /// Task register.
     REG_TR1,
+    /// Task register.
     REG_TR2,
+    /// Task register.
     REG_TR3,
+    /// Task register.
     REG_TR4,
+    /// Task register.
     REG_TR5,
+    /// Task register.
     REG_TR6,
+    /// Task register.
     REG_TR7,
+    /// Task register.
     REG_TR8,
+    /// Task register.
     REG_TR9,
+    /// Task register.
     REG_TR10,
+    /// Task register.
     REG_TR11,
+    /// Task register.
     REG_TR12,
+    /// Task register.
     REG_TR13,
+    /// Task register.
     REG_TR14,
+    /// Task register.
     REG_TR15,
+    /// Segment register. Pointer to extra data.
     REG_ES,
+    /// Segment register. Pointer to the code.
     REG_CS,
+    /// Segment register. Pointer to the stack.
     REG_SS,
+    /// Segment register. Pointer to the data.
     REG_DS,
+    /// Segment register. Pointer to extra data. Used as a thread register on some platforms.
     REG_FS,
+    /// Segment register. Pointer to extra data. Used as a thread register on some platforms.
     REG_GS,
+    /// Instruction pointer. 64 bits.
     REG_RIP,
 }
 

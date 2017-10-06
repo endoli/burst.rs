@@ -16,17 +16,25 @@ pub use self::operand_types::*;
 use std::fmt;
 use std::ptr;
 
-#[allow(missing_docs, non_camel_case_types)]
+/// A segment register
+#[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
 pub enum SegmentRegister {
-    ES = 0i32,
-    CS = 1i32,
-    SS = 2i32,
-    DS = 3i32,
-    FS = 4i32,
-    GS = 5i32,
-    DEFAULT = 7i32,
+    /// Extra data segment register.
+    ES = 0,
+    /// Code segment register.
+    CS = 1,
+    /// Stack segment register.
+    SS = 2,
+    /// Data segment register.
+    DS = 3,
+    /// Extra data segment register. Used as a thread register on some platforms.
+    FS = 4,
+    /// Extra data segment register. Used as a thread register on some platforms.
+    GS = 5,
+    /// Default segment register.
+    DEFAULT = 7,
 }
 
 impl SegmentRegister {
