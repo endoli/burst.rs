@@ -8440,11 +8440,13 @@ fn decode_sse_prefix(state: &mut DecodeState) -> u8 {
 fn get_operand_for_sse_entry_type(
     state: &DecodeState,
     entry_type: SSETableOperandType,
-    mut operand_index: u8,
+    operand_index: u8,
 ) -> *mut InstructionOperand {
-    if entry_type == SSETableOperandType::SSE_128_FLIP {
-        operand_index = (1 - operand_index as i32) as u8;
-    }
+    let operand_index = if entry_type == SSETableOperandType::SSE_128_FLIP {
+        1 - operand_index
+    } else {
+        operand_index
+    };
     if operand_index == 0 {
         state.operand0
     } else {
