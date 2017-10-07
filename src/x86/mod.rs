@@ -7454,8 +7454,8 @@ fn get_final_op_size(state: &DecodeState) -> u16 {
 }
 
 fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
-    state.result.operation = InstructionOperation::from_i32(encoding.operation as i32);
-    state.flags = encoding.flags as u32;
+    state.result.operation = InstructionOperation::from_i32(i32::from(encoding.operation));
+    state.flags = u32::from(encoding.flags);
     if state.using64 && (state.flags & DecodeFlags::INVALID_IN_64BIT != 0) {
         state.invalid = true;
     } else {
@@ -7977,8 +7977,8 @@ fn decode_push_pop_seg(state: &mut DecodeState) {
             0
         };
         (*state.operand0).operand = OperandType::from_i32(
-            OperandType::REG_ES as i32 +
-                (*state.opcode.offset(-1) as i32 >> 3) + offset,
+            OperandType::REG_ES as i32 + i32::from((*state.opcode.offset(-1)) >> 3) +
+                offset,
         );
         (*state.operand0).size = state.op_size;
     }
@@ -8307,7 +8307,7 @@ fn decode_rms_reg_v(state: &mut DecodeState) {
     }
     unsafe {
         (*state.operand1).operand =
-            OperandType::from_i32(OperandType::REG_ES as (i32) + reg_field as (i32));
+            OperandType::from_i32(OperandType::REG_ES as i32 + i32::from(reg_field));
         (*state.operand1).size = 2;
         if state.result.operands[0].operand == OperandType::REG_CS {
             state.invalid = true;
@@ -8553,7 +8553,7 @@ fn decode_sse(state: &mut DecodeState) {
     let rm: u8 = peek_8(state);
     let mod_field: u8 = rm >> 6 & 3;
     state.result.operation =
-        InstructionOperation::from_i32(state.result.operation as (i32) + type_ as i32);
+        InstructionOperation::from_i32(state.result.operation as i32 + i32::from(type_));
     let size: u16 = if mod_field == 3 {
         16
     } else {
@@ -8578,7 +8578,7 @@ fn decode_sse_single(state: &mut DecodeState) {
         state.invalid = true;
     } else {
         state.result.operation =
-            InstructionOperation::from_i32(state.result.operation as (i32) + (type_ as (i32) & 1));
+            InstructionOperation::from_i32(state.result.operation as i32 + i32::from((type_) & 1));
         let operand0 = state.operand0;
         let operand1 = state.operand1;
         decode_rm_reg(
@@ -8599,7 +8599,7 @@ fn decode_sse_packed(state: &mut DecodeState) {
         state.invalid = true;
     } else {
         state.result.operation =
-            InstructionOperation::from_i32(state.result.operation as (i32) + (type_ as (i32) & 1));
+            InstructionOperation::from_i32(state.result.operation as i32 + i32::from((type_) & 1));
         let operand0 = state.operand0;
         let operand1 = state.operand1;
         decode_rm_reg(
@@ -8711,7 +8711,7 @@ fn decode_reg_cr(state: &mut DecodeState) {
                                                  usize];
         (*state.operand0).size = (*state).op_size;
         (*state.operand1).operand = OperandType::from_i32(
-            state.result.operation as (i32) + (reg as (i32) >> 3 & 7) +
+            state.result.operation as i32 + (i32::from(reg) >> 3 & 7) +
                 if state.rex_reg { 8 } else { 0 },
         );
         (*state.operand1).size = state.op_size;
@@ -8990,12 +8990,14 @@ fn process_prefixes(state: &mut DecodeState) {
         }
         if prefix >= 0x26 && (prefix <= 0x3e) && (prefix & 7 == 6) {
             // Segment prefix
+            let prefix = i32::from(prefix);
             state.result.segment =
-                SegmentRegister::from_i32(SegmentRegister::ES as i32 + ((prefix as i32 >> 3) - 4));
+                SegmentRegister::from_i32(SegmentRegister::ES as i32 + ((prefix >> 3) - 4));
         } else if prefix == 0x64 || prefix == 0x65 {
             // FS/GS prefix
+            let prefix = i32::from(prefix);
             state.result.segment =
-                SegmentRegister::from_i32(SegmentRegister::ES as i32 + (prefix as i32 - 0x60));
+                SegmentRegister::from_i32(SegmentRegister::ES as i32 + (prefix - 0x60));
         } else if prefix == 0x66 {
             state.op_prefix = true;
             state.result.flags |= X86Flag::OPSIZE;
