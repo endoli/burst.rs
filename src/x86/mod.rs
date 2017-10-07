@@ -7445,7 +7445,7 @@ fn read_8(state: &mut DecodeState) -> u8 {
     }
 }
 
-fn get_final_op_size(state: &mut DecodeState) -> u16 {
+fn get_final_op_size(state: &DecodeState) -> u16 {
     if state.flags & DecodeFlags::BYTE != 0 {
         1u16
     } else {
@@ -8453,7 +8453,7 @@ fn get_operand_for_sse_entry_type(
 }
 
 fn get_reg_list_for_sse_entry_type(
-    state: &mut DecodeState,
+    state: &DecodeState,
     entry_type: SSETableOperandType,
 ) -> &'static [OperandType] {
     if entry_type == SSETableOperandType::GPR_32_OR_64 {
