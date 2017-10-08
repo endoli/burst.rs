@@ -84,7 +84,7 @@ impl Default for SegmentRegister {
 ///
 /// TODO: Perhaps this should be an enumeration with separate values
 /// for invalid, immediate value, a memory reference or a register.
-#[derive(Default, Debug)]
+#[derive(Debug)]
 #[repr(C)]
 pub struct InstructionOperand {
     /// The type of the operand, a register or one of a set of special values.
@@ -106,6 +106,19 @@ pub struct InstructionOperand {
     /// will always contain a segment register, as `SegmentRegister::DEFAULT`
     /// is resolved to the default register.
     pub segment: SegmentRegister,
+}
+
+impl Default for InstructionOperand {
+    fn default() -> Self {
+        InstructionOperand {
+            operand: OperandType::NONE,
+            components: [OperandType::NONE, OperandType::NONE],
+            scale: 1,
+            size: 0,
+            immediate: 0,
+            segment: SegmentRegister::DEFAULT,
+        }
+    }
 }
 
 /// An instruction.
