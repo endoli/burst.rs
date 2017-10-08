@@ -13,6 +13,7 @@ mod operand_types;
 pub use self::instruction_operations::*;
 pub use self::operand_types::*;
 
+use std::cmp;
 use std::fmt;
 use std::ptr;
 
@@ -8965,33 +8966,6 @@ fn decode_arpl(state: &mut DecodeState) {
     }
 }
 
-fn clear_operand(oper: &mut InstructionOperand) {
-    oper.operand = OperandType::NONE;
-    oper.components[0] = OperandType::NONE;
-    oper.components[1] = OperandType::NONE;
-    oper.scale = 1;
-    oper.immediate = 0;
-}
-
-fn init_disassemble(state: &mut DecodeState) {
-    clear_operand(&mut state.result.operands[0]);
-    clear_operand(&mut state.result.operands[1]);
-    clear_operand(&mut state.result.operands[2]);
-    state.result.operation = InstructionOperation::INVALID;
-    state.result.flags = 0;
-    state.result.segment = SegmentRegister::DEFAULT;
-    state.invalid = false;
-    state.insufficient_length = false;
-    state.op_prefix = false;
-    state.rep = RepPrefix::NONE;
-    state.rip_rel_fixup = ptr::null_mut();
-    state.rex = false;
-    state.rex_reg = false;
-    state.rex_rm_1 = false;
-    state.rex_rm_2 = false;
-    state.original_length = state.len;
-}
-
 fn process_prefixes(state: &mut DecodeState) {
     let mut rex: u8 = 0;
     let mut addr_prefix: bool = false;
@@ -9088,15 +9062,18 @@ fn finish_disassemble(state: &mut DecodeState) {
 /// }
 /// ```
 pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
-    let mut state = DecodeState::default();
-    state.opcode_start = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if max_length > 15 { 15 } else { max_length };
-    state.addr_size = 2;
-    state.op_size = 2;
-    state.using64 = false;
-    init_disassemble(&mut state);
+    let max_length = cmp::min(max_length, 15);
+    let mut state = DecodeState {
+        opcode_start: opcode.as_ptr(),
+        opcode: opcode.as_ptr(),
+        addr: addr,
+        len: max_length,
+        original_length: max_length,
+        addr_size: 2,
+        op_size: 2,
+        using64: false,
+        ..Default::default()
+    };
     process_prefixes(&mut state);
     let next_opcode = read_8(&mut state);
     process_opcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
@@ -9120,15 +9097,18 @@ pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<I
 /// }
 /// ```
 pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
-    let mut state = DecodeState::default();
-    state.opcode_start = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if max_length > 15 { 15 } else { max_length };
-    state.addr_size = 4;
-    state.op_size = 4;
-    state.using64 = false;
-    init_disassemble(&mut state);
+    let max_length = cmp::min(max_length, 15);
+    let mut state = DecodeState {
+        opcode_start: opcode.as_ptr(),
+        opcode: opcode.as_ptr(),
+        addr: addr,
+        len: max_length,
+        original_length: max_length,
+        addr_size: 4,
+        op_size: 4,
+        using64: false,
+        ..Default::default()
+    };
     process_prefixes(&mut state);
     let next_opcode = read_8(&mut state);
     process_opcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
@@ -9152,15 +9132,18 @@ pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<I
 /// }
 /// ```
 pub fn disassemble_64(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
-    let mut state = DecodeState::default();
-    state.opcode_start = opcode.as_ptr();
-    state.opcode = opcode.as_ptr();
-    state.addr = addr;
-    state.len = if max_length > 15 { 15 } else { max_length };
-    state.addr_size = 8;
-    state.op_size = 4;
-    state.using64 = true;
-    init_disassemble(&mut state);
+    let max_length = cmp::min(max_length, 15);
+    let mut state = DecodeState {
+        opcode_start: opcode.as_ptr(),
+        opcode: opcode.as_ptr(),
+        addr: addr,
+        len: max_length,
+        original_length: max_length,
+        addr_size: 8,
+        op_size: 4,
+        using64: true,
+        ..Default::default()
+    };
     process_prefixes(&mut state);
     let next_opcode = read_8(&mut state);
     process_opcode(&mut state, &MAIN_OPCODE_MAP, next_opcode);
