@@ -150,6 +150,13 @@ pub struct Instruction {
     pub length: usize,
 }
 
+impl Instruction {
+    /// The mnemonic for this instruction.
+    pub fn mnemonic(&self) -> &str {
+        self.operation.mnemonic()
+    }
+}
+
 /// Flags used by `Instruction`.
 pub struct X86Flag;
 
