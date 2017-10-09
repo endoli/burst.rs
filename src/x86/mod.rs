@@ -9201,6 +9201,8 @@ fn get_size_string(size: u16) -> &'static str {
 /// * `%b`: Shows the bytes of the instruction. The `opcode`
 ///   parameter must contain the same contents as the call to
 ///   to the disassemble function that produced the instruction.
+///   If `%b` is not used, then the `opcode` parameter may be
+///   `None`.
 /// * `%i`: Shows the operation mnemonic.
 /// * `%o`: Shows the operands.
 ///
@@ -9216,14 +9218,14 @@ fn get_size_string(size: u16) -> &'static str {
 /// let data = [0u8, 0u8];
 /// if let Ok(instr) = disassemble_64(&data, 0, data.len()) {
 ///     let mut out = String::new();
-///     format_instruction_string(&mut out, "%a %b %i %o", &data, 0, &instr);
+///     format_instruction_string(&mut out, "%a %b %i %o", Some(&data), 0, &instr);
 ///     assert_eq!("0000000000000000 0000 add byte [rax], al", out);
 /// }
 /// ```
 pub fn format_instruction_string(
     stream: &mut fmt::Write,
     fmt: &str,
-    opcode: &[u8],
+    opcode: Option<&[u8]>,
     addr: usize,
     instr: &Instruction,
 ) -> fmt::Result {
@@ -9245,11 +9247,13 @@ pub fn format_instruction_string(
                 }
                 try!(write!(stream, "{:0width$x}", addr, width = width));
             } else if fmt[f] == 'b' {
-                for byte in opcode.iter().take(instr.length) {
-                    try!(write!(stream, "{:02x}", byte));
-                }
-                for _i in instr.length..width {
-                    try!(stream.write_str("  "));
+                if let Some(opcode) = opcode {
+                    for byte in opcode.iter().take(instr.length) {
+                        try!(write!(stream, "{:02x}", byte));
+                    }
+                    for _i in instr.length..width {
+                        try!(stream.write_str("  "));
+                    }
                 }
             } else if fmt[f] == 'i' {
                 if instr.flags & X86Flag::ANY_REP != 0 {
