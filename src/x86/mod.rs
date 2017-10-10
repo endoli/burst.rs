@@ -89,7 +89,7 @@ impl Default for SegmentRegister {
 /// for invalid, immediate value, a memory reference or a register.
 #[derive(Debug)]
 #[repr(C)]
-pub struct InstructionOperand {
+pub struct X86Operand {
     /// The type of the operand, a register or one of a set of special values.
     pub operand: OperandType,
     /// The address components of a memory operand.
@@ -111,9 +111,9 @@ pub struct InstructionOperand {
     pub segment: SegmentRegister,
 }
 
-impl Default for InstructionOperand {
+impl Default for X86Operand {
     fn default() -> Self {
-        InstructionOperand {
+        X86Operand {
             operand: OperandType::NONE,
             components: [OperandType::NONE, OperandType::NONE],
             scale: 1,
@@ -135,7 +135,7 @@ pub struct X86Instruction {
     /// Which `InstructionOperation` this instruction is.
     pub operation: InstructionOperation,
     /// The operands for this instruction.
-    pub operands: [InstructionOperand; 3],
+    pub operands: [X86Operand; 3],
     /// A bit field that may contain the flags described by [`X86Flag`].
     ///
     /// [`X86Flag`]: struct.X86Flag.html
@@ -154,7 +154,7 @@ pub struct X86Instruction {
 
 impl Instruction for X86Instruction {
     type Operation = InstructionOperation;
-    type Operand = InstructionOperand;
+    type Operand = X86Operand;
 
     fn operation(&self) -> InstructionOperation {
         self.operation
@@ -164,7 +164,7 @@ impl Instruction for X86Instruction {
         self.operation.mnemonic()
     }
 
-    fn operands(&self) -> &[InstructionOperand] {
+    fn operands(&self) -> &[X86Operand] {
         &self.operands
     }
 
@@ -214,8 +214,8 @@ enum RepPrefix {
 #[repr(C)]
 struct DecodeState {
     result: X86Instruction,
-    operand0: *mut InstructionOperand,
-    operand1: *mut InstructionOperand,
+    operand0: *mut X86Operand,
+    operand1: *mut X86Operand,
     opcode_start: *const u8,
     opcode: *const u8,
     addr: usize,
@@ -7501,11 +7501,11 @@ fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
         }
         state.final_op_size = get_final_op_size(state);
         if state.flags & DecodeFlags::FLIP_OPERANDS != 0 {
-            state.operand0 = &mut state.result.operands[1] as (*mut InstructionOperand);
-            state.operand1 = &mut state.result.operands[0] as (*mut InstructionOperand);
+            state.operand0 = &mut state.result.operands[1] as (*mut X86Operand);
+            state.operand1 = &mut state.result.operands[0] as (*mut X86Operand);
         } else {
-            state.operand0 = &mut state.result.operands[0] as (*mut InstructionOperand);
-            state.operand1 = &mut state.result.operands[1] as (*mut InstructionOperand);
+            state.operand0 = &mut state.result.operands[0] as (*mut X86Operand);
+            state.operand1 = &mut state.result.operands[1] as (*mut X86Operand);
         }
         if state.flags & DecodeFlags::FORCE_16BIT != 0 {
             state.final_op_size = 2;
@@ -7560,7 +7560,7 @@ fn process_sparse_opcode(state: &mut DecodeState, map: &[SparseInstructionEncodi
     }
 }
 
-fn set_operand_to_imm_8(state: &mut DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_imm_8(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::IMM;
         (*oper).size = 1u16;
@@ -7576,7 +7576,7 @@ fn decode_two_byte(state: &mut DecodeState) {
     } else if opcode == 0x3a {
         let next_opcode = read_8(state);
         process_sparse_opcode(state, &THREE_BYTE_0F3A_MAP, next_opcode);
-        let operand = &mut state.result.operands[2] as *mut InstructionOperand;
+        let operand = &mut state.result.operands[2] as *mut X86Operand;
         set_operand_to_imm_8(state, operand);
     } else {
         process_opcode(state, &TWO_BYTE_OPCODE_MAP, opcode);
@@ -7672,7 +7672,7 @@ struct RMDef {
     pub segment: SegmentRegister,
 }
 
-fn set_mem_operand(state: &DecodeState, oper: *mut InstructionOperand, def: &RMDef, immed: isize) {
+fn set_mem_operand(state: &DecodeState, oper: *mut X86Operand, def: &RMDef, immed: isize) {
     unsafe {
         (*oper).operand = OperandType::MEM;
         (*oper).components[0] = def.first;
@@ -7705,7 +7705,7 @@ fn read_signed_16(state: &mut DecodeState) -> isize {
 
 fn decode_rm(
     state: &mut DecodeState,
-    mut rm_oper: *mut InstructionOperand,
+    mut rm_oper: *mut X86Operand,
     reg_list: &[OperandType],
     rm_size: u16,
     reg_oper: *mut u8,
@@ -7713,13 +7713,13 @@ fn decode_rm(
     let rm_byte: u8 = read_8(state);
     let mod_: u8 = rm_byte >> 6;
     let mut rm: u8 = rm_byte & 7;
-    let mut temp = InstructionOperand::default();
+    let mut temp = X86Operand::default();
     unsafe {
         if !reg_oper.is_null() {
             *reg_oper = rm_byte >> 3 & 7;
         }
         if rm_oper.is_null() {
-            rm_oper = &mut temp as (*mut InstructionOperand);
+            rm_oper = &mut temp as (*mut X86Operand);
         }
         (*rm_oper).size = rm_size;
     }
@@ -7868,10 +7868,10 @@ fn decode_rm(
 
 fn decode_rm_reg(
     state: &mut DecodeState,
-    rm_oper: *mut InstructionOperand,
+    rm_oper: *mut X86Operand,
     rm_reg_list: &[OperandType],
     rm_size: u16,
-    reg_oper: *mut InstructionOperand,
+    reg_oper: *mut X86Operand,
     reg_list: &[OperandType],
     reg_size: u16,
 ) {
@@ -7928,7 +7928,7 @@ fn read_final_op_size(state: &mut DecodeState) -> isize {
     }
 }
 
-fn set_operand_to_imm(state: &mut DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_imm(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::IMM;
         (*oper).size = state.final_op_size;
@@ -7950,7 +7950,7 @@ fn decode_reg_rm_imm(state: &mut DecodeState) {
         reg_list,
         final_op_size,
     );
-    let imm_operand = &mut state.result.operands[2] as (*mut InstructionOperand);
+    let imm_operand = &mut state.result.operands[2] as (*mut X86Operand);
     set_operand_to_imm(state, imm_operand);
 }
 
@@ -7968,7 +7968,7 @@ fn decode_rm_reg_imm_8(state: &mut DecodeState) {
         reg_list,
         final_op_size,
     );
-    let imm_operand = &mut state.result.operands[2] as (*mut InstructionOperand);
+    let imm_operand = &mut state.result.operands[2] as (*mut X86Operand);
     set_operand_to_imm_8(state, imm_operand);
 }
 
@@ -7990,7 +7990,7 @@ fn decode_rm_reg_cl(state: &mut DecodeState) {
     state.result.operands[2].size = 1;
 }
 
-fn set_operand_to_eax_final_op_size(state: &DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_eax_final_op_size(state: &DecodeState, oper: *mut X86Operand) {
     let reg_list = get_reg_list_for_final_op_size(state);
     unsafe {
         (*oper).operand = reg_list[0];
@@ -8021,7 +8021,7 @@ fn decode_push_pop_seg(state: &mut DecodeState) {
     }
 }
 
-fn set_operand_to_op_reg(state: &DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_op_reg(state: &DecodeState, oper: *mut X86Operand) {
     let reg_list = get_reg_list_for_final_op_size(state);
     let reg_offset: usize = if state.rex_rm_1 { 8 } else { 0 };
     unsafe {
@@ -8080,7 +8080,7 @@ fn decode_imm(state: &mut DecodeState) {
     set_operand_to_imm(state, operand0);
 }
 
-fn set_operand_to_imm_16(state: &mut DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_imm_16(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::IMM;
         (*oper).size = 2;
@@ -8095,7 +8095,7 @@ fn decode_imm_16_imm_8(state: &mut DecodeState) {
     set_operand_to_imm_8(state, operand1);
 }
 
-fn set_operand_to_es_edi(state: &DecodeState, oper: *mut InstructionOperand, size: u16) {
+fn set_operand_to_es_edi(state: &DecodeState, oper: *mut X86Operand, size: u16) {
     let addr_reg_list = get_reg_list_for_addr_size(state);
     unsafe {
         (*oper).operand = OperandType::MEM;
@@ -8113,7 +8113,7 @@ fn decode_edi_dx(state: &mut DecodeState) {
     }
 }
 
-fn set_operand_to_ds_esi(state: &DecodeState, oper: *mut InstructionOperand, size: u16) {
+fn set_operand_to_ds_esi(state: &DecodeState, oper: *mut X86Operand, size: u16) {
     let addr_reg_list = get_reg_list_for_addr_size(state);
     unsafe {
         (*oper).operand = OperandType::MEM;
@@ -8380,7 +8380,7 @@ fn read_addr_size(state: &mut DecodeState) -> isize {
     }
 }
 
-fn set_operand_to_imm_addr(state: &mut DecodeState, oper: *mut InstructionOperand) {
+fn set_operand_to_imm_addr(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::MEM;
         (*oper).immediate = read_addr_size(state);
@@ -8478,7 +8478,7 @@ fn get_operand_for_sse_entry_type(
     state: &DecodeState,
     entry_type: SSETableOperandType,
     operand_index: u8,
-) -> *mut InstructionOperand {
+) -> *mut X86Operand {
     let operand_index = if entry_type == SSETableOperandType::SSE_128_FLIP {
         1 - operand_index
     } else {
@@ -8563,7 +8563,7 @@ fn decode_sse_table(state: &mut DecodeState) {
 
 fn decode_see_table_imm_8(state: &mut DecodeState) {
     decode_sse_table(state);
-    let operand = &mut state.result.operands[2] as (*mut InstructionOperand);
+    let operand = &mut state.result.operands[2] as (*mut X86Operand);
     set_operand_to_imm_8(state, operand);
 }
 
@@ -8982,8 +8982,8 @@ fn decode_arpl(state: &mut DecodeState) {
         );
     } else {
         // ARPL instruction
-        state.operand0 = &mut state.result.operands[1] as (*mut InstructionOperand);
-        state.operand1 = &mut state.result.operands[0] as (*mut InstructionOperand);
+        state.operand0 = &mut state.result.operands[1] as (*mut X86Operand);
+        state.operand1 = &mut state.result.operands[0] as (*mut X86Operand);
         state.final_op_size = 2;
         decode_reg_rm(state);
     }
