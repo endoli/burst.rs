@@ -5,9 +5,10 @@
 
 //! # Burst
 //!
-//! Burst is a library supporting disassembling binary code
+//! Burst is a library supporting decomposing binary code
 //! into instructions, while maintaining detailed information
-//! about the instructions, their flags, and the operands.
+//! about the instructions, their flags, and the operands. The
+//! result is a structure rather than textual strings.
 //!
 //! While Burst currently only supports x86 and x86_64 code,
 //! this will change in the near future and we anticipate adding
