@@ -129,7 +129,7 @@ impl Default for InstructionOperand {
 /// the binary opcode data.
 #[derive(Default, Debug)]
 #[repr(C)]
-pub struct Instruction {
+pub struct X86Instruction {
     /// Which `InstructionOperation` this instruction is.
     pub operation: InstructionOperation,
     /// The operands for this instruction.
@@ -150,7 +150,7 @@ pub struct Instruction {
     pub length: usize,
 }
 
-impl Instruction {
+impl X86Instruction {
     /// The mnemonic for this instruction.
     pub fn mnemonic(&self) -> &str {
         self.operation.mnemonic()
@@ -197,7 +197,7 @@ enum RepPrefix {
 #[derive(Debug)]
 #[repr(C)]
 struct DecodeState {
-    result: Instruction,
+    result: X86Instruction,
     operand0: *mut InstructionOperand,
     operand1: *mut InstructionOperand,
     opcode_start: *const u8,
@@ -224,7 +224,7 @@ struct DecodeState {
 impl Default for DecodeState {
     fn default() -> Self {
         DecodeState {
-            result: Instruction::default(),
+            result: X86Instruction::default(),
             operand0: ptr::null_mut(),
             operand1: ptr::null_mut(),
             opcode_start: ptr::null(),
@@ -9068,7 +9068,7 @@ fn finish_disassemble(state: &mut DecodeState) {
 ///     // ...
 /// }
 /// ```
-pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
+pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<X86Instruction, ()> {
     let max_length = cmp::min(max_length, 15);
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
@@ -9103,7 +9103,7 @@ pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<I
 ///     // ...
 /// }
 /// ```
-pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
+pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<X86Instruction, ()> {
     let max_length = cmp::min(max_length, 15);
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
@@ -9138,7 +9138,7 @@ pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<I
 ///     // ...
 /// }
 /// ```
-pub fn disassemble_64(opcode: &[u8], addr: usize, max_length: usize) -> Result<Instruction, ()> {
+pub fn disassemble_64(opcode: &[u8], addr: usize, max_length: usize) -> Result<X86Instruction, ()> {
     let max_length = cmp::min(max_length, 15);
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
@@ -9227,7 +9227,7 @@ pub fn format_instruction_string(
     fmt: &str,
     opcode: Option<&[u8]>,
     addr: usize,
-    instr: &Instruction,
+    instr: &X86Instruction,
 ) -> fmt::Result {
     let fmt = fmt.chars().collect::<Vec<_>>();
     let mut f = 0;
