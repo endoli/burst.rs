@@ -17,6 +17,8 @@ use std::cmp;
 use std::fmt;
 use std::ptr;
 
+use Instruction;
+
 /// A segment register
 #[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
@@ -150,10 +152,24 @@ pub struct X86Instruction {
     pub length: usize,
 }
 
-impl X86Instruction {
-    /// The mnemonic for this instruction.
-    pub fn mnemonic(&self) -> &str {
+impl Instruction for X86Instruction {
+    type Operation = InstructionOperation;
+    type Operand = InstructionOperand;
+
+    fn operation(&self) -> InstructionOperation {
+        self.operation
+    }
+
+    fn mnemonic(&self) -> &str {
         self.operation.mnemonic()
+    }
+
+    fn operands(&self) -> &[InstructionOperand] {
+        &self.operands
+    }
+
+    fn length(&self) -> usize {
+        self.length
     }
 }
 

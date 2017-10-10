@@ -50,3 +50,33 @@
         unused_import_braces, unused_qualifications)]
 
 pub mod x86;
+
+/// An instruction.
+///
+/// An instruction represents the full amount of information that
+/// we have about the instruction that has been disassembled from
+/// the binary opcode data.
+pub trait Instruction {
+    /// The type of the operation for this instruction.
+    type Operation;
+
+    /// The type of the operands for this instruction.
+    type Operand;
+
+    /// The operation carried out by this instruction.
+    fn operation(&self) -> Self::Operation;
+
+    /// The mnemonic for this instruction.
+    fn mnemonic(&self) -> &str;
+
+    /// The operands for this instruction.
+    fn operands(&self) -> &[Self::Operand];
+
+    /// How many bytes in the binary opcode data are used by this
+    /// instruction.
+    ///
+    /// This can be used to continue disassembling at the next
+    /// instruction. An invalid instruction may have a value of
+    /// `0` here.
+    fn length(&self) -> usize;
+}
