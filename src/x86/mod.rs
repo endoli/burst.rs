@@ -17,7 +17,7 @@ use std::cmp;
 use std::fmt;
 use std::ptr;
 
-use Instruction;
+use {Instruction, Operand, Operation};
 
 /// A segment register
 #[allow(non_camel_case_types)]
@@ -110,6 +110,8 @@ pub struct X86Operand {
     /// is resolved to the default register.
     pub segment: SegmentRegister,
 }
+
+impl Operand for X86Operand {}
 
 impl Default for X86Operand {
     fn default() -> Self {

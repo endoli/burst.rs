@@ -3,6 +3,8 @@
 // file may not be copied, modified, or distributed
 // except according to those terms.
 
+use Operation;
+
 #[allow(missing_docs)]
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(i32)]
@@ -635,9 +637,10 @@ impl InstructionOperation {
     pub fn from_i32(i: i32) -> Self {
         INSTRUCTION_OPERATION_TABLE[i as usize].value
     }
+}
 
-    /// The mnemonic for this instruction operation.
-    pub fn mnemonic(&self) -> &str {
+impl Operation for InstructionOperation {
+    fn mnemonic(&self) -> &str {
         INSTRUCTION_OPERATION_TABLE[*self as usize].name
     }
 }

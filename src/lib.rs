@@ -51,17 +51,30 @@
 
 pub mod x86;
 
-/// An instruction.
+/// An instruction operation.
+///
+/// This is description of the actual CPU operation that the
+/// instruction carries out.
+pub trait Operation {
+    /// The mnemonic for this instruction.
+    fn mnemonic(&self) -> &str;
+}
+
+/// An operand for an `Instruction`.
+pub trait Operand {}
+
+/// An decoded instruction, including an `Operation` and its
+/// `Operand`s.
 ///
 /// An instruction represents the full amount of information that
 /// we have about the instruction that has been disassembled from
 /// the binary opcode data.
 pub trait Instruction {
     /// The type of the operation for this instruction.
-    type Operation;
+    type Operation: Operation;
 
     /// The type of the operands for this instruction.
-    type Operand;
+    type Operand: Operand;
 
     /// The operation carried out by this instruction.
     fn operation(&self) -> Self::Operation;
