@@ -18,5 +18,13 @@ git = "https://github.com/rust-fuzz/libfuzzer-sys.git"
 members = ["."]
 
 [[bin]]
-name = "disassemble64"
-path = "fuzz_targets/disassemble64.rs"
+name = "x86_disassemble_64"
+path = "fuzz_targets/x86_disassemble_64.rs"
+
+[[bin]]
+name = "x86_disassemble_32"
+path = "fuzz_targets/x86_disassemble_32.rs"
+
+[[bin]]
+name = "x86_disassemble_16"
+path = "fuzz_targets/x86_disassemble_16.rs"
