@@ -7710,16 +7710,14 @@ fn decode_rm(
     mut rm_oper: *mut X86Operand,
     reg_list: &[OperandType],
     rm_size: u16,
-    reg_oper: *mut u8,
+    reg_oper: &mut u8,
 ) {
     let rm_byte: u8 = read_8(state);
     let mod_: u8 = rm_byte >> 6;
     let mut rm: u8 = rm_byte & 7;
     let mut temp = X86Operand::default();
+    *reg_oper = rm_byte >> 3 & 7;
     unsafe {
-        if !reg_oper.is_null() {
-            *reg_oper = rm_byte >> 3 & 7;
-        }
         if rm_oper.is_null() {
             rm_oper = &mut temp as (*mut X86Operand);
         }
@@ -7878,7 +7876,7 @@ fn decode_rm_reg(
     reg_size: u16,
 ) {
     let mut reg: u8 = 0;
-    decode_rm(state, rm_oper, rm_reg_list, rm_size, &mut reg as (*mut u8));
+    decode_rm(state, rm_oper, rm_reg_list, rm_size, &mut reg);
     unsafe {
         if !reg_oper.is_null() {
             let reg_offset: u8 = if state.rex_reg { 8 } else { 0 };
@@ -8174,13 +8172,7 @@ fn decode_group_rm(state: &mut DecodeState) {
     let reg_list = get_reg_list_for_final_op_size(state);
     let reg_size = state.final_op_size;
     let mut reg_field: u8 = 0;
-    decode_rm(
-        state,
-        operand0,
-        reg_list,
-        reg_size,
-        &mut reg_field as (*mut u8),
-    );
+    decode_rm(state, operand0, reg_list, reg_size, &mut reg_field);
     state.result.operation = GROUP_OPERATIONS[state.result.operation as usize][reg_field as usize];
 }
 
@@ -8334,13 +8326,7 @@ fn decode_rms_reg_v(state: &mut DecodeState) {
     let reg_list = get_reg_list_for_op_size(state);
     let reg_size = state.op_size;
     let mut reg_field: u8 = 0;
-    decode_rm(
-        state,
-        operand0,
-        reg_list,
-        reg_size,
-        &mut reg_field as (*mut u8),
-    );
+    decode_rm(state, operand0, reg_list, reg_size, &mut reg_field);
     if reg_field >= 6 {
         state.invalid = true;
     }
@@ -8357,14 +8343,16 @@ fn decode_rms_reg_v(state: &mut DecodeState) {
 fn decode_rm8(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let reg_list = get_byte_reg_list(state);
-    decode_rm(state, operand0, reg_list, 1, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, reg_list, 1, &mut _ignore);
 }
 
 fn decode_rmv(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let reg_list = get_reg_list_for_op_size(state);
     let reg_size = state.op_size;
-    decode_rm(state, operand0, reg_list, reg_size, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, reg_list, reg_size, &mut _ignore);
 }
 
 fn decode_far_imm(state: &mut DecodeState) {
@@ -8703,24 +8691,12 @@ fn decode_mmx_group(state: &mut DecodeState) {
     let mut reg_field: u8 = 0;
     if state.op_prefix {
         let operand0 = state.operand0;
-        decode_rm(
-            state,
-            operand0,
-            &XMM_REG_LIST,
-            16,
-            &mut reg_field as (*mut u8),
-        );
+        decode_rm(state, operand0, &XMM_REG_LIST, 16, &mut reg_field);
         state.result.operation =
             MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as (usize)][1];
     } else {
         let operand0 = state.operand0;
-        decode_rm(
-            state,
-            operand0,
-            &MMX_REG_LIST,
-            8,
-            &mut reg_field as (*mut u8),
-        );
+        decode_rm(state, operand0, &MMX_REG_LIST, 8, &mut reg_field);
         state.result.operation =
             MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as (usize)][0];
     }
@@ -8795,7 +8771,8 @@ fn decode_mov_sxzx16(state: &mut DecodeState) {
 
 fn decode_mem_16(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    decode_rm(state, operand0, &REG32_LIST, 2, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, 2, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8805,7 +8782,8 @@ fn decode_mem_16(state: &mut DecodeState) {
 
 fn decode_mem_32(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    decode_rm(state, operand0, &REG32_LIST, 4, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, 4, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8815,7 +8793,8 @@ fn decode_mem_32(state: &mut DecodeState) {
 
 fn decode_mem_64(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    decode_rm(state, operand0, &REG32_LIST, 8, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, 8, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8825,7 +8804,8 @@ fn decode_mem_64(state: &mut DecodeState) {
 
 fn decode_mem_80(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    decode_rm(state, operand0, &REG32_LIST, 10, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, 10, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8836,7 +8816,8 @@ fn decode_mem_80(state: &mut DecodeState) {
 fn decode_mem_float_env(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rm_size = if state.op_size == 2 { 14 } else { 28 };
-    decode_rm(state, operand0, &REG32_LIST, rm_size, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, rm_size, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8847,7 +8828,8 @@ fn decode_mem_float_env(state: &mut DecodeState) {
 fn decode_mem_float_save(state: &mut DecodeState) {
     let operand0 = state.operand0;
     let rm_size = if state.op_size == 2 { 94 } else { 108 };
-    decode_rm(state, operand0, &REG32_LIST, rm_size, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &REG32_LIST, rm_size, &mut _ignore);
     unsafe {
         if (*state.operand0).operand != OperandType::MEM {
             state.invalid = true;
@@ -8857,7 +8839,8 @@ fn decode_mem_float_save(state: &mut DecodeState) {
 
 fn decode_fpu_reg(state: &mut DecodeState) {
     let operand0 = state.operand0;
-    decode_rm(state, operand0, &FPU_REG_LIST, 10, ptr::null_mut());
+    let mut _ignore: u8 = 0;
+    decode_rm(state, operand0, &FPU_REG_LIST, 10, &mut _ignore);
 }
 
 fn decode_fpu_reg_st0(state: &mut DecodeState) {
@@ -8894,7 +8877,8 @@ fn decode_cmp_xch_8b(state: &mut DecodeState) {
         let operand0 = state.operand0;
         let rm_size = state.op_size * 2;
         let reg_list = get_reg_list_for_op_size(state);
-        decode_rm(state, operand0, reg_list, rm_size, ptr::null_mut());
+        let mut _ignore: u8 = 0;
+        decode_rm(state, operand0, reg_list, rm_size, &mut _ignore);
     } else if reg_field == 6 {
         if state.op_prefix {
             state.result.operation = InstructionOperation::VMCLEAR;
@@ -8904,11 +8888,13 @@ fn decode_cmp_xch_8b(state: &mut DecodeState) {
             state.result.operation = InstructionOperation::VMPTRLD;
         }
         let operand0 = state.operand0;
-        decode_rm(state, operand0, &REG64_LIST, 8, ptr::null_mut());
+        let mut _ignore: u8 = 0;
+        decode_rm(state, operand0, &REG64_LIST, 8, &mut _ignore);
     } else if reg_field == 7 {
         state.result.operation = InstructionOperation::VMPTRST;
         let operand0 = state.operand0;
-        decode_rm(state, operand0, &REG64_LIST, 8, ptr::null_mut());
+        let mut _ignore: u8 = 0;
+        decode_rm(state, operand0, &REG64_LIST, 8, &mut _ignore);
     } else {
         state.invalid = true;
     }
