@@ -9077,7 +9077,7 @@ pub fn disassemble_16(opcode: &[u8], addr: usize, max_length: usize) -> Result<X
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
         opcode: opcode.as_ptr(),
-        addr: addr,
+        addr,
         len: max_length,
         original_length: max_length,
         addr_size: 2,
@@ -9112,7 +9112,7 @@ pub fn disassemble_32(opcode: &[u8], addr: usize, max_length: usize) -> Result<X
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
         opcode: opcode.as_ptr(),
-        addr: addr,
+        addr,
         len: max_length,
         original_length: max_length,
         addr_size: 4,
@@ -9147,7 +9147,7 @@ pub fn disassemble_64(opcode: &[u8], addr: usize, max_length: usize) -> Result<X
     let mut state = DecodeState {
         opcode_start: opcode.as_ptr(),
         opcode: opcode.as_ptr(),
-        addr: addr,
+        addr,
         len: max_length,
         original_length: max_length,
         addr_size: 8,
