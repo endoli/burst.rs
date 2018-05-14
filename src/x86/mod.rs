@@ -8981,7 +8981,7 @@ fn process_prefixes(state: &mut DecodeState) {
     let mut rex: u8 = 0;
     let mut addr_prefix: bool = false;
     loop {
-        if !!state.invalid {
+        if state.invalid {
             break;
         }
         let prefix: u8 = read_8(state);
@@ -9277,7 +9277,7 @@ pub fn format_instruction_string(
             } else if fmt[f] == 'o' {
                 let mut i: usize = 0;
                 loop {
-                    if !(i < 3) {
+                    if i >= 3 {
                         break;
                     }
                     if instr.operands[i].operand == OperandType::NONE {
