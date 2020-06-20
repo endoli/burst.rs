@@ -299,642 +299,642 @@ struct InstructionEncoding {
 
 static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADD as (u16),
+        operation: InstructionOperation::ADD as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OR as (u16),
+        operation: InstructionOperation::OR as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: decode_two_byte,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADC as (u16),
+        operation: InstructionOperation::ADC as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SBB as (u16),
+        operation: InstructionOperation::SBB as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AND as (u16),
+        operation: InstructionOperation::AND as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DAA as (u16),
+        operation: InstructionOperation::DAA as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUB as (u16),
+        operation: InstructionOperation::SUB as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DAS as (u16),
+        operation: InstructionOperation::DAS as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XOR as (u16),
+        operation: InstructionOperation::XOR as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AAA as (u16),
+        operation: InstructionOperation::AAA as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMP as (u16),
+        operation: InstructionOperation::CMP as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AAS as (u16),
+        operation: InstructionOperation::AAS as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INC as (u16),
+        operation: InstructionOperation::INC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DEC as (u16),
+        operation: InstructionOperation::DEC as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSHA as (u16),
+        operation: InstructionOperation::PUSHA as u16,
         flags: (DecodeFlags::INVALID_IN_64BIT | DecodeFlags::OPERATION_OP_SIZE) as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POPA as (u16),
+        operation: InstructionOperation::POPA as u16,
         flags: (DecodeFlags::INVALID_IN_64BIT | DecodeFlags::OPERATION_OP_SIZE) as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BOUND as (u16),
+        operation: InstructionOperation::BOUND as u16,
         flags: DecodeFlags::REG_RM_2X_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ARPL as (u16),
+        operation: InstructionOperation::ARPL as u16,
         flags: 0,
         func: decode_arpl,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IMUL as (u16),
+        operation: InstructionOperation::IMUL as u16,
         flags: 0,
         func: decode_reg_rm_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: (DecodeFlags::IMM_SX | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IMUL as (u16),
+        operation: InstructionOperation::IMUL as u16,
         flags: DecodeFlags::IMM_SX as u16,
         func: decode_reg_rm_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INSB as (u16),
+        operation: InstructionOperation::INSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INSW as (u16),
+        operation: InstructionOperation::INSW as u16,
         flags: (DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUTSB as (u16),
+        operation: InstructionOperation::OUTSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_dx_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUTSW as (u16),
+        operation: InstructionOperation::OUTSW as u16,
         flags: (DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_dx_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JO as (u16),
+        operation: InstructionOperation::JO as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNO as (u16),
+        operation: InstructionOperation::JNO as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JB as (u16),
+        operation: InstructionOperation::JB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JAE as (u16),
+        operation: InstructionOperation::JAE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JE as (u16),
+        operation: InstructionOperation::JE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNE as (u16),
+        operation: InstructionOperation::JNE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JBE as (u16),
+        operation: InstructionOperation::JBE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JA as (u16),
+        operation: InstructionOperation::JA as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JS as (u16),
+        operation: InstructionOperation::JS as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNS as (u16),
+        operation: InstructionOperation::JNS as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JPE as (u16),
+        operation: InstructionOperation::JPE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JPO as (u16),
+        operation: InstructionOperation::JPO as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JL as (u16),
+        operation: InstructionOperation::JL as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JGE as (u16),
+        operation: InstructionOperation::JGE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JLE as (u16),
+        operation: InstructionOperation::JLE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JG as (u16),
+        operation: InstructionOperation::JG as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
@@ -959,306 +959,306 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::TEST as (u16),
+        operation: InstructionOperation::TEST as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::TEST as (u16),
+        operation: InstructionOperation::TEST as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_rms_reg_v,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LEA as (u16),
+        operation: InstructionOperation::LEA as u16,
         flags: DecodeFlags::REG_RM_NO_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_rms_reg_v,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rmv,
     },
     InstructionEncoding {
-        operation: InstructionOperation::NOP as (u16),
+        operation: InstructionOperation::NOP as u16,
         flags: 0,
         func: decode_nop,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XCHG as (u16),
+        operation: InstructionOperation::XCHG as u16,
         flags: 0,
         func: decode_eax_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CBW as (u16),
+        operation: InstructionOperation::CBW as u16,
         flags: DecodeFlags::OPERATION_OP_SIZE as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CWD as (u16),
+        operation: InstructionOperation::CWD as u16,
         flags: DecodeFlags::OPERATION_OP_SIZE as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CALLF as (u16),
+        operation: InstructionOperation::CALLF as u16,
         flags: DecodeFlags::INVALID_IN_64BIT as u16,
         func: decode_far_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::FWAIT as (u16),
+        operation: InstructionOperation::FWAIT as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSHF as (u16),
+        operation: InstructionOperation::PUSHF as u16,
         flags: (DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::OPERATION_OP_SIZE) as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POPF as (u16),
+        operation: InstructionOperation::POPF as u16,
         flags: (DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::OPERATION_OP_SIZE) as u16,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SAHF as (u16),
+        operation: InstructionOperation::SAHF as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LAHF as (u16),
+        operation: InstructionOperation::LAHF as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_addr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_eax_addr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_eax_addr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_eax_addr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVSB as (u16),
+        operation: InstructionOperation::MOVSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVSW as (u16),
+        operation: InstructionOperation::MOVSW as u16,
         flags: (DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMPSB as (u16),
+        operation: InstructionOperation::CMPSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS |
                     DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP_COND) as u16,
         func: decode_edi_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMPSW as (u16),
+        operation: InstructionOperation::CMPSW as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::OPERATION_OP_SIZE |
                     DecodeFlags::REP_COND) as u16,
         func: decode_edi_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::TEST as (u16),
+        operation: InstructionOperation::TEST as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::TEST as (u16),
+        operation: InstructionOperation::TEST as u16,
         flags: 0,
         func: decode_eax_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::STOSB as (u16),
+        operation: InstructionOperation::STOSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_eax,
     },
     InstructionEncoding {
-        operation: InstructionOperation::STOSW as (u16),
+        operation: InstructionOperation::STOSW as u16,
         flags: (DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_edi_eax,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LODSB as (u16),
+        operation: InstructionOperation::LODSB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_eax_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LODSW as (u16),
+        operation: InstructionOperation::LODSW as u16,
         flags: (DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP) as u16,
         func: decode_eax_esi,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SCASB as (u16),
+        operation: InstructionOperation::SCASB as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS |
                     DecodeFlags::OPERATION_OP_SIZE | DecodeFlags::REP_COND) as u16,
         func: decode_edi_eax,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SCASW as (u16),
+        operation: InstructionOperation::SCASW as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::OPERATION_OP_SIZE |
                     DecodeFlags::REP_COND) as u16,
         func: decode_edi_eax,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOV as (u16),
+        operation: InstructionOperation::MOV as u16,
         flags: 0,
         func: decode_op_reg_imm,
     },
@@ -1273,22 +1273,22 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm_imm_8v,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RETN as (u16),
+        operation: InstructionOperation::RETN as u16,
         flags: DecodeFlags::FORCE_16BIT as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RETN as (u16),
+        operation: InstructionOperation::RETN as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LES as (u16),
+        operation: InstructionOperation::LES as u16,
         flags: DecodeFlags::REG_RM_FAR_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LDS as (u16),
+        operation: InstructionOperation::LDS as u16,
         flags: DecodeFlags::REG_RM_FAR_SIZE as u16,
         func: decode_reg_rm,
     },
@@ -1303,42 +1303,42 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ENTER as (u16),
+        operation: InstructionOperation::ENTER as u16,
         flags: 0,
         func: decode_imm_16_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LEAVE as (u16),
+        operation: InstructionOperation::LEAVE as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RETF as (u16),
+        operation: InstructionOperation::RETF as u16,
         flags: DecodeFlags::FORCE_16BIT as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RETF as (u16),
+        operation: InstructionOperation::RETF as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INT3 as (u16),
+        operation: InstructionOperation::INT3 as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INT as (u16),
+        operation: InstructionOperation::INT as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INTO as (u16),
+        operation: InstructionOperation::INTO as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IRET as (u16),
+        operation: InstructionOperation::IRET as u16,
         flags: 0,
         func: decode_no_operands,
     },
@@ -1363,22 +1363,22 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm_cl,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AAM as (u16),
+        operation: InstructionOperation::AAM as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::AAD as (u16),
+        operation: InstructionOperation::AAD as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XLAT as (u16),
+        operation: InstructionOperation::XLAT as u16,
         flags: 0,
         func: decode_al_ebx_al,
     },
@@ -1423,112 +1423,112 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_fpu,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LOOPNE as (u16),
+        operation: InstructionOperation::LOOPNE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LOOPE as (u16),
+        operation: InstructionOperation::LOOPE as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LOOP as (u16),
+        operation: InstructionOperation::LOOP as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JCXZ as (u16),
+        operation: InstructionOperation::JCXZ as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm_addr_size,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IN as (u16),
+        operation: InstructionOperation::IN as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IN as (u16),
+        operation: InstructionOperation::IN as u16,
         flags: 0,
         func: decode_eax_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUT as (u16),
+        operation: InstructionOperation::OUT as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_eax_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUT as (u16),
+        operation: InstructionOperation::OUT as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_eax_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CALL as (u16),
+        operation: InstructionOperation::CALL as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JMP as (u16),
+        operation: InstructionOperation::JMP as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JMPF as (u16),
+        operation: InstructionOperation::JMPF as u16,
         flags: DecodeFlags::INVALID_IN_64BIT as u16,
         func: decode_far_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JMP as (u16),
+        operation: InstructionOperation::JMP as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IN as (u16),
+        operation: InstructionOperation::IN as u16,
         flags: DecodeFlags::BYTE as u16,
         func: decode_eax_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IN as (u16),
+        operation: InstructionOperation::IN as u16,
         flags: 0,
         func: decode_eax_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUT as (u16),
+        operation: InstructionOperation::OUT as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_eax_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::OUT as (u16),
+        operation: InstructionOperation::OUT as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_eax_dx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INT1 as (u16),
+        operation: InstructionOperation::INT1 as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::HLT as (u16),
+        operation: InstructionOperation::HLT as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMC as (u16),
+        operation: InstructionOperation::CMC as u16,
         flags: 0,
         func: decode_no_operands,
     },
@@ -1543,32 +1543,32 @@ static MAIN_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_f6f7,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CLC as (u16),
+        operation: InstructionOperation::CLC as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::STC as (u16),
+        operation: InstructionOperation::STC as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CLI as (u16),
+        operation: InstructionOperation::CLI as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::STI as (u16),
+        operation: InstructionOperation::STI as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CLD as (u16),
+        operation: InstructionOperation::CLD as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::STD as (u16),
+        operation: InstructionOperation::STD as u16,
         flags: 0,
         func: decode_no_operands,
     },
@@ -1596,57 +1596,57 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_0f01,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LAR as (u16),
+        operation: InstructionOperation::LAR as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LSL as (u16),
+        operation: InstructionOperation::LSL as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SYSCALL as (u16),
+        operation: InstructionOperation::SYSCALL as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CLTS as (u16),
+        operation: InstructionOperation::CLTS as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SYSRET as (u16),
+        operation: InstructionOperation::SYSRET as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVD as (u16),
+        operation: InstructionOperation::INVD as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::WBINVD as (u16),
+        operation: InstructionOperation::WBINVD as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::UD2 as (u16),
+        operation: InstructionOperation::UD2 as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
@@ -1656,7 +1656,7 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::FEMMS as (u16),
+        operation: InstructionOperation::FEMMS as u16,
         flags: 0,
         func: decode_no_operands,
     },
@@ -1746,45 +1746,45 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm,
     },
     InstructionEncoding {
-        operation: OperandType::REG_CR0 as (u16),
+        operation: OperandType::REG_CR0 as u16,
         flags: (DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: OperandType::REG_DR0 as (u16),
+        operation: OperandType::REG_DR0 as u16,
         flags: (DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: OperandType::REG_CR0 as (u16),
+        operation: OperandType::REG_CR0 as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as
             u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: OperandType::REG_DR0 as (u16),
+        operation: OperandType::REG_DR0 as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as
             u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: OperandType::REG_TR0 as (u16),
+        operation: OperandType::REG_TR0 as u16,
         flags: (DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: OperandType::REG_TR0 as (u16),
+        operation: OperandType::REG_TR0 as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::DEFAULT_TO_64BIT | DecodeFlags::LOCK) as
             u16,
         func: decode_reg_cr,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
@@ -1829,162 +1829,162 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::WRMSR as (u16),
+        operation: InstructionOperation::WRMSR as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RDTSC as (u16),
+        operation: InstructionOperation::RDTSC as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RDMSR as (u16),
+        operation: InstructionOperation::RDMSR as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RDPMC as (u16),
+        operation: InstructionOperation::RDPMC as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SYSENTER as (u16),
+        operation: InstructionOperation::SYSENTER as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SYSEXIT as (u16),
+        operation: InstructionOperation::SYSEXIT as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::GETSEC as (u16),
+        operation: InstructionOperation::GETSEC as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVO as (u16),
+        operation: InstructionOperation::CMOVO as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVNO as (u16),
+        operation: InstructionOperation::CMOVNO as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVB as (u16),
+        operation: InstructionOperation::CMOVB as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVAE as (u16),
+        operation: InstructionOperation::CMOVAE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVE as (u16),
+        operation: InstructionOperation::CMOVE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVNE as (u16),
+        operation: InstructionOperation::CMOVNE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVBE as (u16),
+        operation: InstructionOperation::CMOVBE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVA as (u16),
+        operation: InstructionOperation::CMOVA as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVS as (u16),
+        operation: InstructionOperation::CMOVS as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVNS as (u16),
+        operation: InstructionOperation::CMOVNS as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVPE as (u16),
+        operation: InstructionOperation::CMOVPE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVPO as (u16),
+        operation: InstructionOperation::CMOVPO as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVL as (u16),
+        operation: InstructionOperation::CMOVL as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVGE as (u16),
+        operation: InstructionOperation::CMOVGE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVLE as (u16),
+        operation: InstructionOperation::CMOVLE as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMOVG as (u16),
+        operation: InstructionOperation::CMOVG as u16,
         flags: 0,
         func: decode_reg_rm,
     },
@@ -1994,47 +1994,47 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SQRTPS as (u16),
+        operation: InstructionOperation::SQRTPS as u16,
         flags: 0,
         func: decode_sse,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RSQRTPS as (u16),
+        operation: InstructionOperation::RSQRTPS as u16,
         flags: 0,
         func: decode_sse_single,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RCPPS as (u16),
+        operation: InstructionOperation::RCPPS as u16,
         flags: 0,
         func: decode_sse_single,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ANDPS as (u16),
+        operation: InstructionOperation::ANDPS as u16,
         flags: 0,
         func: decode_sse_packed,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ANDNPS as (u16),
+        operation: InstructionOperation::ANDNPS as u16,
         flags: 0,
         func: decode_sse_packed,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ORPS as (u16),
+        operation: InstructionOperation::ORPS as u16,
         flags: 0,
         func: decode_sse_packed,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XORPS as (u16),
+        operation: InstructionOperation::XORPS as u16,
         flags: 0,
         func: decode_sse_packed,
     },
     InstructionEncoding {
-        operation: InstructionOperation::ADDPS as (u16),
+        operation: InstructionOperation::ADDPS as u16,
         flags: 0,
         func: decode_sse,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MULPS as (u16),
+        operation: InstructionOperation::MULPS as u16,
         flags: 0,
         func: decode_sse,
     },
@@ -2049,22 +2049,22 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SUBPS as (u16),
+        operation: InstructionOperation::SUBPS as u16,
         flags: 0,
         func: decode_sse,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MINPS as (u16),
+        operation: InstructionOperation::MINPS as u16,
         flags: 0,
         func: decode_sse,
     },
     InstructionEncoding {
-        operation: InstructionOperation::DIVPS as (u16),
+        operation: InstructionOperation::DIVPS as u16,
         flags: 0,
         func: decode_sse,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MAXPS as (u16),
+        operation: InstructionOperation::MAXPS as u16,
         flags: 0,
         func: decode_sse,
     },
@@ -2084,57 +2084,57 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PACKSSWB as (u16),
+        operation: InstructionOperation::PACKSSWB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPGTB as (u16),
+        operation: InstructionOperation::PCMPGTB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPGTW as (u16),
+        operation: InstructionOperation::PCMPGTW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPGTD as (u16),
+        operation: InstructionOperation::PCMPGTD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PACKUSWB as (u16),
+        operation: InstructionOperation::PACKUSWB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUNPCKHBW as (u16),
+        operation: InstructionOperation::PUNPCKHBW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUNPCKHWD as (u16),
+        operation: InstructionOperation::PUNPCKHWD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUNPCKHDQ as (u16),
+        operation: InstructionOperation::PUNPCKHDQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PACKSSDW as (u16),
+        operation: InstructionOperation::PACKSSDW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUNPCKLQDQ as (u16),
+        operation: InstructionOperation::PUNPCKLQDQ as u16,
         flags: 0,
         func: decode_mmx_sse_only,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUNPCKHQDQ as (u16),
+        operation: InstructionOperation::PUNPCKHQDQ as u16,
         flags: 0,
         func: decode_mmx_sse_only,
     },
@@ -2169,42 +2169,42 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_mmx_group,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPEQB as (u16),
+        operation: InstructionOperation::PCMPEQB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPEQW as (u16),
+        operation: InstructionOperation::PCMPEQW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PCMPEQD as (u16),
+        operation: InstructionOperation::PCMPEQD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::EMMS as (u16),
+        operation: InstructionOperation::EMMS as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::VMREAD as (u16),
+        operation: InstructionOperation::VMREAD as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::VMWRITE as (u16),
+        operation: InstructionOperation::VMWRITE as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::DEFAULT_TO_64BIT) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
@@ -2229,232 +2229,232 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JO as (u16),
+        operation: InstructionOperation::JO as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNO as (u16),
+        operation: InstructionOperation::JNO as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JB as (u16),
+        operation: InstructionOperation::JB as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JAE as (u16),
+        operation: InstructionOperation::JAE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JE as (u16),
+        operation: InstructionOperation::JE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNE as (u16),
+        operation: InstructionOperation::JNE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JBE as (u16),
+        operation: InstructionOperation::JBE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JA as (u16),
+        operation: InstructionOperation::JA as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JS as (u16),
+        operation: InstructionOperation::JS as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JNS as (u16),
+        operation: InstructionOperation::JNS as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JPE as (u16),
+        operation: InstructionOperation::JPE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JPO as (u16),
+        operation: InstructionOperation::JPO as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JL as (u16),
+        operation: InstructionOperation::JL as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JGE as (u16),
+        operation: InstructionOperation::JGE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JLE as (u16),
+        operation: InstructionOperation::JLE as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::JG as (u16),
+        operation: InstructionOperation::JG as u16,
         flags: DecodeFlags::DEFAULT_TO_64BIT as u16,
         func: decode_rel_imm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETO as (u16),
+        operation: InstructionOperation::SETO as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETNO as (u16),
+        operation: InstructionOperation::SETNO as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETB as (u16),
+        operation: InstructionOperation::SETB as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETAE as (u16),
+        operation: InstructionOperation::SETAE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETE as (u16),
+        operation: InstructionOperation::SETE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETNE as (u16),
+        operation: InstructionOperation::SETNE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETBE as (u16),
+        operation: InstructionOperation::SETBE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETA as (u16),
+        operation: InstructionOperation::SETA as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETS as (u16),
+        operation: InstructionOperation::SETS as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETNS as (u16),
+        operation: InstructionOperation::SETNS as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETPE as (u16),
+        operation: InstructionOperation::SETPE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETPO as (u16),
+        operation: InstructionOperation::SETPO as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETL as (u16),
+        operation: InstructionOperation::SETL as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETGE as (u16),
+        operation: InstructionOperation::SETGE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETLE as (u16),
+        operation: InstructionOperation::SETLE as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SETG as (u16),
+        operation: InstructionOperation::SETG as u16,
         flags: 0,
         func: decode_rm8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CPUID as (u16),
+        operation: InstructionOperation::CPUID as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BT as (u16),
+        operation: InstructionOperation::BT as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SHLD as (u16),
+        operation: InstructionOperation::SHLD as u16,
         flags: 0,
         func: decode_rm_reg_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SHLD as (u16),
+        operation: InstructionOperation::SHLD as u16,
         flags: 0,
         func: decode_rm_reg_cl,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PUSH as (u16),
+        operation: InstructionOperation::PUSH as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POP as (u16),
+        operation: InstructionOperation::POP as u16,
         flags: 0,
         func: decode_push_pop_seg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::RSM as (u16),
+        operation: InstructionOperation::RSM as u16,
         flags: 0,
         func: decode_no_operands,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BTS as (u16),
+        operation: InstructionOperation::BTS as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SHRD as (u16),
+        operation: InstructionOperation::SHRD as u16,
         flags: 0,
         func: decode_rm_reg_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::SHRD as (u16),
+        operation: InstructionOperation::SHRD as u16,
         flags: 0,
         func: decode_rm_reg_cl,
     },
@@ -2464,57 +2464,57 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_0fae,
     },
     InstructionEncoding {
-        operation: InstructionOperation::IMUL as (u16),
+        operation: InstructionOperation::IMUL as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMPXCHG as (u16),
+        operation: InstructionOperation::CMPXCHG as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMPXCHG as (u16),
+        operation: InstructionOperation::CMPXCHG as u16,
         flags: (DecodeFlags::FLIP_OPERANDS | DecodeFlags::LOCK) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LSS as (u16),
+        operation: InstructionOperation::LSS as u16,
         flags: DecodeFlags::REG_RM_FAR_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BTR as (u16),
+        operation: InstructionOperation::BTR as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LFS as (u16),
+        operation: InstructionOperation::LFS as u16,
         flags: DecodeFlags::REG_RM_FAR_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::LGS as (u16),
+        operation: InstructionOperation::LGS as u16,
         flags: DecodeFlags::REG_RM_FAR_SIZE as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVZX as (u16),
+        operation: InstructionOperation::MOVZX as u16,
         flags: 0,
         func: decode_mov_sxzx8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVZX as (u16),
+        operation: InstructionOperation::MOVZX as u16,
         flags: 0,
         func: decode_mov_sxzx16,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POPCNT as (u16),
+        operation: InstructionOperation::POPCNT as u16,
         flags: 0,
         func: decode_0fb8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
@@ -2524,37 +2524,37 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_group_rm_imm_8v,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BTC as (u16),
+        operation: InstructionOperation::BTC as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSF as (u16),
+        operation: InstructionOperation::BSF as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSR as (u16),
+        operation: InstructionOperation::BSR as u16,
         flags: 0,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVSX as (u16),
+        operation: InstructionOperation::MOVSX as u16,
         flags: 0,
         func: decode_mov_sxzx8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVSX as (u16),
+        operation: InstructionOperation::MOVSX as u16,
         flags: 0,
         func: decode_mov_sxzx16,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XADD as (u16),
+        operation: InstructionOperation::XADD as u16,
         flags: (DecodeFlags::BYTE | DecodeFlags::FLIP_OPERANDS) as u16,
         func: decode_reg_rm,
     },
     InstructionEncoding {
-        operation: InstructionOperation::XADD as (u16),
+        operation: InstructionOperation::XADD as u16,
         flags: DecodeFlags::FLIP_OPERANDS as u16,
         func: decode_reg_rm,
     },
@@ -2564,7 +2564,7 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_see_table_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::MOVNTI as (u16),
+        operation: InstructionOperation::MOVNTI as u16,
         flags: 0,
         func: decode_mov_nti,
     },
@@ -2584,47 +2584,47 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_see_table_imm_8,
     },
     InstructionEncoding {
-        operation: InstructionOperation::CMPXCH8B as (u16),
+        operation: InstructionOperation::CMPXCH8B as u16,
         flags: 0,
         func: decode_cmp_xch_8b,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
     InstructionEncoding {
-        operation: InstructionOperation::BSWAP as (u16),
+        operation: InstructionOperation::BSWAP as u16,
         flags: 0,
         func: decode_op_reg,
     },
@@ -2634,27 +2634,27 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSRLW as (u16),
+        operation: InstructionOperation::PSRLW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSRLD as (u16),
+        operation: InstructionOperation::PSRLD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSRLQ as (u16),
+        operation: InstructionOperation::PSRLQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDQ as (u16),
+        operation: InstructionOperation::PADDQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMULLW as (u16),
+        operation: InstructionOperation::PMULLW as u16,
         flags: 0,
         func: decode_mmx,
     },
@@ -2669,72 +2669,72 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBUSB as (u16),
+        operation: InstructionOperation::PSUBUSB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBUSW as (u16),
+        operation: InstructionOperation::PSUBUSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMINUB as (u16),
+        operation: InstructionOperation::PMINUB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PAND as (u16),
+        operation: InstructionOperation::PAND as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDUSB as (u16),
+        operation: InstructionOperation::PADDUSB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDUSW as (u16),
+        operation: InstructionOperation::PADDUSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMAXUB as (u16),
+        operation: InstructionOperation::PMAXUB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PANDN as (u16),
+        operation: InstructionOperation::PANDN as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PAVGB as (u16),
+        operation: InstructionOperation::PAVGB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSRAW as (u16),
+        operation: InstructionOperation::PSRAW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSRAD as (u16),
+        operation: InstructionOperation::PSRAD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PAVGW as (u16),
+        operation: InstructionOperation::PAVGW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMULHUW as (u16),
+        operation: InstructionOperation::PMULHUW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMULHW as (u16),
+        operation: InstructionOperation::PMULHW as u16,
         flags: 0,
         func: decode_mmx,
     },
@@ -2749,42 +2749,42 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBSB as (u16),
+        operation: InstructionOperation::PSUBSB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBSW as (u16),
+        operation: InstructionOperation::PSUBSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMINSW as (u16),
+        operation: InstructionOperation::PMINSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::POR as (u16),
+        operation: InstructionOperation::POR as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDSB as (u16),
+        operation: InstructionOperation::PADDSB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDSW as (u16),
+        operation: InstructionOperation::PADDSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMAXSW as (u16),
+        operation: InstructionOperation::PMAXSW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PXOR as (u16),
+        operation: InstructionOperation::PXOR as u16,
         flags: 0,
         func: decode_mmx,
     },
@@ -2794,32 +2794,32 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSLLW as (u16),
+        operation: InstructionOperation::PSLLW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSLLD as (u16),
+        operation: InstructionOperation::PSLLD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSLLQ as (u16),
+        operation: InstructionOperation::PSLLQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMULUDQ as (u16),
+        operation: InstructionOperation::PMULUDQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PMADDWD as (u16),
+        operation: InstructionOperation::PMADDWD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSADBW as (u16),
+        operation: InstructionOperation::PSADBW as u16,
         flags: 0,
         func: decode_mmx,
     },
@@ -2829,42 +2829,42 @@ static TWO_BYTE_OPCODE_MAP: [InstructionEncoding; 256] = [
         func: decode_sse_table,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBB as (u16),
+        operation: InstructionOperation::PSUBB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBW as (u16),
+        operation: InstructionOperation::PSUBW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBD as (u16),
+        operation: InstructionOperation::PSUBD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PSUBQ as (u16),
+        operation: InstructionOperation::PSUBQ as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDB as (u16),
+        operation: InstructionOperation::PADDB as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDW as (u16),
+        operation: InstructionOperation::PADDW as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::PADDD as (u16),
+        operation: InstructionOperation::PADDD as u16,
         flags: 0,
         func: decode_mmx,
     },
     InstructionEncoding {
-        operation: InstructionOperation::INVALID as (u16),
+        operation: InstructionOperation::INVALID as u16,
         flags: 0,
         func: invalid_decode,
     },
@@ -2880,7 +2880,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x0u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PSHUFB as (u16),
+            operation: InstructionOperation::PSHUFB as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2888,7 +2888,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x1u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHADDW as (u16),
+            operation: InstructionOperation::PHADDW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2896,7 +2896,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x2u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHADDD as (u16),
+            operation: InstructionOperation::PHADDD as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2904,7 +2904,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHADDSW as (u16),
+            operation: InstructionOperation::PHADDSW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2912,7 +2912,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x4u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMADDUBSW as (u16),
+            operation: InstructionOperation::PMADDUBSW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2920,7 +2920,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x5u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHSUBW as (u16),
+            operation: InstructionOperation::PHSUBW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2928,7 +2928,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x6u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHSUBD as (u16),
+            operation: InstructionOperation::PHSUBD as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2936,7 +2936,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x7u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHSUBSW as (u16),
+            operation: InstructionOperation::PHSUBSW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2944,7 +2944,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x8u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PSIGNB as (u16),
+            operation: InstructionOperation::PSIGNB as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2952,7 +2952,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x9u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PSIGNW as (u16),
+            operation: InstructionOperation::PSIGNW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2960,7 +2960,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0xau8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PSIGND as (u16),
+            operation: InstructionOperation::PSIGND as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2968,7 +2968,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0xbu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMULHRSW as (u16),
+            operation: InstructionOperation::PMULHRSW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -2976,7 +2976,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x10u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PBLENDVB as (u16),
+            operation: InstructionOperation::PBLENDVB as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -2984,7 +2984,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x14u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::BLENDVPS as (u16),
+            operation: InstructionOperation::BLENDVPS as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -2992,7 +2992,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x15u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::BLENDVPD as (u16),
+            operation: InstructionOperation::BLENDVPD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3000,7 +3000,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x17u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PTEST as (u16),
+            operation: InstructionOperation::PTEST as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3008,7 +3008,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x1cu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PABSB as (u16),
+            operation: InstructionOperation::PABSB as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -3016,7 +3016,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x1du8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PABSW as (u16),
+            operation: InstructionOperation::PABSW as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -3024,7 +3024,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x1eu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PABSD as (u16),
+            operation: InstructionOperation::PABSD as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -3080,7 +3080,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x28u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMULDQ as (u16),
+            operation: InstructionOperation::PMULDQ as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3088,7 +3088,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x29u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPEQQ as (u16),
+            operation: InstructionOperation::PCMPEQQ as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3104,7 +3104,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x2bu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PACKUSDW as (u16),
+            operation: InstructionOperation::PACKUSDW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3160,7 +3160,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x37u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPGTQ as (u16),
+            operation: InstructionOperation::PCMPGTQ as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3168,7 +3168,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x38u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMINSB as (u16),
+            operation: InstructionOperation::PMINSB as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3176,7 +3176,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x39u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMINSD as (u16),
+            operation: InstructionOperation::PMINSD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3184,7 +3184,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3au8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMINUW as (u16),
+            operation: InstructionOperation::PMINUW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3192,7 +3192,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3bu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMINUD as (u16),
+            operation: InstructionOperation::PMINUD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3200,7 +3200,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3cu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMAXSB as (u16),
+            operation: InstructionOperation::PMAXSB as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3208,7 +3208,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3du8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMAXSD as (u16),
+            operation: InstructionOperation::PMAXSD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3216,7 +3216,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3eu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMAXUW as (u16),
+            operation: InstructionOperation::PMAXUW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3224,7 +3224,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x3fu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMAXUD as (u16),
+            operation: InstructionOperation::PMAXUD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3232,7 +3232,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x40u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PMULLD as (u16),
+            operation: InstructionOperation::PMULLD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3240,7 +3240,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0x41u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PHMINPOSUW as (u16),
+            operation: InstructionOperation::PHMINPOSUW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3248,7 +3248,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0xf0u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::CRC32 as (u16),
+            operation: InstructionOperation::CRC32 as u16,
             flags: DecodeFlags::BYTE as u16,
             func: decode_crc_32,
         },
@@ -3256,7 +3256,7 @@ static THREE_BYTE_0F38_MAP: [SparseInstructionEncoding; 48] = [
     SparseInstructionEncoding {
         opcode: 0xf1u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::CRC32 as (u16),
+            operation: InstructionOperation::CRC32 as u16,
             flags: 0,
             func: decode_crc_32,
         },
@@ -3267,7 +3267,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x8u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::ROUNDPS as (u16),
+            operation: InstructionOperation::ROUNDPS as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3275,7 +3275,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x9u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::ROUNDPD as (u16),
+            operation: InstructionOperation::ROUNDPD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3299,7 +3299,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0xcu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::BLENDPS as (u16),
+            operation: InstructionOperation::BLENDPS as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3307,7 +3307,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0xdu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::BLENDPD as (u16),
+            operation: InstructionOperation::BLENDPD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3315,7 +3315,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0xeu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PBLENDW as (u16),
+            operation: InstructionOperation::PBLENDW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3323,7 +3323,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0xfu8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PALIGNR as (u16),
+            operation: InstructionOperation::PALIGNR as u16,
             flags: 0,
             func: decode_mmx,
         },
@@ -3387,7 +3387,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x40u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::DPPS as (u16),
+            operation: InstructionOperation::DPPS as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3395,7 +3395,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x41u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::DPPD as (u16),
+            operation: InstructionOperation::DPPD as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3403,7 +3403,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x42u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::MPSADBW as (u16),
+            operation: InstructionOperation::MPSADBW as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3411,7 +3411,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x60u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPESTRM as (u16),
+            operation: InstructionOperation::PCMPESTRM as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3419,7 +3419,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x61u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPESTRI as (u16),
+            operation: InstructionOperation::PCMPESTRI as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3427,7 +3427,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x62u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPISTRM as (u16),
+            operation: InstructionOperation::PCMPISTRM as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3435,7 +3435,7 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
     SparseInstructionEncoding {
         opcode: 0x63u8,
         encoding: InstructionEncoding {
-            operation: InstructionOperation::PCMPISTRI as (u16),
+            operation: InstructionOperation::PCMPISTRI as u16,
             flags: 0,
             func: decode_mmx_sse_only,
         },
@@ -3445,336 +3445,336 @@ static THREE_BYTE_0F3A_MAP: [SparseInstructionEncoding; 22] = [
 static FPU_MEM_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     [
         InstructionEncoding {
-            operation: InstructionOperation::FADD as (u16),
+            operation: InstructionOperation::FADD as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FMUL as (u16),
+            operation: InstructionOperation::FMUL as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOM as (u16),
+            operation: InstructionOperation::FCOM as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOMP as (u16),
+            operation: InstructionOperation::FCOMP as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUB as (u16),
+            operation: InstructionOperation::FSUB as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBR as (u16),
+            operation: InstructionOperation::FSUBR as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIV as (u16),
+            operation: InstructionOperation::FDIV as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVR as (u16),
+            operation: InstructionOperation::FDIVR as u16,
             flags: 0,
             func: decode_mem_32,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FLD as (u16),
+            operation: InstructionOperation::FLD as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FST as (u16),
+            operation: InstructionOperation::FST as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTP as (u16),
+            operation: InstructionOperation::FSTP as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FLDENV as (u16),
+            operation: InstructionOperation::FLDENV as u16,
             flags: 0,
             func: decode_mem_float_env,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FLDCW as (u16),
+            operation: InstructionOperation::FLDCW as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTENV as (u16),
+            operation: InstructionOperation::FSTENV as u16,
             flags: 0,
             func: decode_mem_float_env,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTCW as (u16),
+            operation: InstructionOperation::FSTCW as u16,
             flags: 0,
             func: decode_mem_16,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FIADD as (u16),
+            operation: InstructionOperation::FIADD as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIMUL as (u16),
+            operation: InstructionOperation::FIMUL as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FICOM as (u16),
+            operation: InstructionOperation::FICOM as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FICOMP as (u16),
+            operation: InstructionOperation::FICOMP as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISUB as (u16),
+            operation: InstructionOperation::FISUB as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISUBR as (u16),
+            operation: InstructionOperation::FISUBR as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIDIV as (u16),
+            operation: InstructionOperation::FIDIV as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIDIVR as (u16),
+            operation: InstructionOperation::FIDIVR as u16,
             flags: 0,
             func: decode_mem_32,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FILD as (u16),
+            operation: InstructionOperation::FILD as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTTP as (u16),
+            operation: InstructionOperation::FISTTP as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIST as (u16),
+            operation: InstructionOperation::FIST as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTP as (u16),
+            operation: InstructionOperation::FISTP as u16,
             flags: 0,
             func: decode_mem_32,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FLD as (u16),
+            operation: InstructionOperation::FLD as u16,
             flags: 0,
             func: decode_mem_80,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTP as (u16),
+            operation: InstructionOperation::FSTP as u16,
             flags: 0,
             func: decode_mem_80,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FADD as (u16),
+            operation: InstructionOperation::FADD as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FMUL as (u16),
+            operation: InstructionOperation::FMUL as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOM as (u16),
+            operation: InstructionOperation::FCOM as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOMP as (u16),
+            operation: InstructionOperation::FCOMP as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUB as (u16),
+            operation: InstructionOperation::FSUB as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBR as (u16),
+            operation: InstructionOperation::FSUBR as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIV as (u16),
+            operation: InstructionOperation::FDIV as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVR as (u16),
+            operation: InstructionOperation::FDIVR as u16,
             flags: 0,
             func: decode_mem_64,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FLD as (u16),
+            operation: InstructionOperation::FLD as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTTP as (u16),
+            operation: InstructionOperation::FISTTP as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FST as (u16),
+            operation: InstructionOperation::FST as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTP as (u16),
+            operation: InstructionOperation::FSTP as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FRSTOR as (u16),
+            operation: InstructionOperation::FRSTOR as u16,
             flags: 0,
             func: decode_mem_float_save,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSAVE as (u16),
+            operation: InstructionOperation::FSAVE as u16,
             flags: 0,
             func: decode_mem_float_save,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTSW as (u16),
+            operation: InstructionOperation::FSTSW as u16,
             flags: 0,
             func: decode_mem_16,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FIADD as (u16),
+            operation: InstructionOperation::FIADD as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIMUL as (u16),
+            operation: InstructionOperation::FIMUL as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FICOM as (u16),
+            operation: InstructionOperation::FICOM as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FICOMP as (u16),
+            operation: InstructionOperation::FICOMP as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISUB as (u16),
+            operation: InstructionOperation::FISUB as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISUBR as (u16),
+            operation: InstructionOperation::FISUBR as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIDIV as (u16),
+            operation: InstructionOperation::FIDIV as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIDIVR as (u16),
+            operation: InstructionOperation::FIDIVR as u16,
             flags: 0,
             func: decode_mem_16,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FILD as (u16),
+            operation: InstructionOperation::FILD as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTTP as (u16),
+            operation: InstructionOperation::FISTTP as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FIST as (u16),
+            operation: InstructionOperation::FIST as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTP as (u16),
+            operation: InstructionOperation::FISTP as u16,
             flags: 0,
             func: decode_mem_16,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FBLD as (u16),
+            operation: InstructionOperation::FBLD as u16,
             flags: 0,
             func: decode_mem_80,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FILD as (u16),
+            operation: InstructionOperation::FILD as u16,
             flags: 0,
             func: decode_mem_64,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FBSTP as (u16),
+            operation: InstructionOperation::FBSTP as u16,
             flags: 0,
             func: decode_mem_80,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FISTP as (u16),
+            operation: InstructionOperation::FISTP as u16,
             flags: 0,
             func: decode_mem_64,
         },
@@ -3784,54 +3784,54 @@ static FPU_MEM_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
 static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     [
         InstructionEncoding {
-            operation: InstructionOperation::FADD as (u16),
+            operation: InstructionOperation::FADD as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FMUL as (u16),
+            operation: InstructionOperation::FMUL as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOM as (u16),
+            operation: InstructionOperation::FCOM as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOMP as (u16),
+            operation: InstructionOperation::FCOMP as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUB as (u16),
+            operation: InstructionOperation::FSUB as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBR as (u16),
+            operation: InstructionOperation::FSUBR as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIV as (u16),
+            operation: InstructionOperation::FDIV as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVR as (u16),
+            operation: InstructionOperation::FDIVR as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FLD as (u16),
+            operation: InstructionOperation::FLD as u16,
             flags: 0,
             func: decode_fpu_reg,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FXCH as (u16),
+            operation: InstructionOperation::FXCH as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
@@ -3841,7 +3841,7 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
             func: decode_reg_group_no_operands,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
@@ -3868,27 +3868,27 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVB as (u16),
+            operation: InstructionOperation::FCMOVB as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVE as (u16),
+            operation: InstructionOperation::FCMOVE as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVBE as (u16),
+            operation: InstructionOperation::FCMOVBE as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVU as (u16),
+            operation: InstructionOperation::FCMOVU as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
@@ -3898,34 +3898,34 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
             func: decode_reg_group_no_operands,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVNB as (u16),
+            operation: InstructionOperation::FCMOVNB as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVNE as (u16),
+            operation: InstructionOperation::FCMOVNE as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVNBE as (u16),
+            operation: InstructionOperation::FCMOVNBE as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCMOVNU as (u16),
+            operation: InstructionOperation::FCMOVNU as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
@@ -3935,12 +3935,12 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
             func: decode_reg_group_no_operands,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FUCOMI as (u16),
+            operation: InstructionOperation::FUCOMI as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOMI as (u16),
+            operation: InstructionOperation::FCOMI as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
@@ -3952,79 +3952,79 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FADD as (u16),
+            operation: InstructionOperation::FADD as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FMUL as (u16),
+            operation: InstructionOperation::FMUL as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBR as (u16),
+            operation: InstructionOperation::FSUBR as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUB as (u16),
+            operation: InstructionOperation::FSUB as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVR as (u16),
+            operation: InstructionOperation::FDIVR as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIV as (u16),
+            operation: InstructionOperation::FDIV as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FFREE as (u16),
+            operation: InstructionOperation::FFREE as u16,
             flags: 0,
             func: decode_fpu_reg,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FST as (u16),
+            operation: InstructionOperation::FST as u16,
             flags: 0,
             func: decode_fpu_reg,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSTP as (u16),
+            operation: InstructionOperation::FSTP as u16,
             flags: 0,
             func: decode_fpu_reg,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FUCOM as (u16),
+            operation: InstructionOperation::FUCOM as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FUCOMP as (u16),
+            operation: InstructionOperation::FUCOMP as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
@@ -4036,17 +4036,17 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FADDP as (u16),
+            operation: InstructionOperation::FADDP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FMULP as (u16),
+            operation: InstructionOperation::FMULP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
@@ -4056,44 +4056,44 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
             func: decode_reg_group_no_operands,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBRP as (u16),
+            operation: InstructionOperation::FSUBRP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FSUBP as (u16),
+            operation: InstructionOperation::FSUBP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVRP as (u16),
+            operation: InstructionOperation::FDIVRP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FDIVP as (u16),
+            operation: InstructionOperation::FDIVP as u16,
             flags: 0,
             func: decode_fpu_reg_st0,
         },
     ],
     [
         InstructionEncoding {
-            operation: InstructionOperation::FFREEP as (u16),
+            operation: InstructionOperation::FFREEP as u16,
             flags: 0,
             func: decode_fpu_reg,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
         InstructionEncoding {
-            operation: InstructionOperation::INVALID as (u16),
+            operation: InstructionOperation::INVALID as u16,
             flags: 0,
             func: invalid_decode,
         },
@@ -4103,12 +4103,12 @@ static FPU_REG_OPCODE_MAP: [[InstructionEncoding; 8]; 8] = [
             func: decode_reg_group_ax,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FUCOMIP as (u16),
+            operation: InstructionOperation::FUCOMIP as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
         InstructionEncoding {
-            operation: InstructionOperation::FCOMIP as (u16),
+            operation: InstructionOperation::FCOMIP as u16,
             flags: DecodeFlags::FLIP_OPERANDS as u16,
             func: decode_fpu_reg_st0,
         },
@@ -7503,11 +7503,11 @@ fn process_encoding(state: &mut DecodeState, encoding: &InstructionEncoding) {
         }
         state.final_op_size = get_final_op_size(state);
         if state.flags & DecodeFlags::FLIP_OPERANDS != 0 {
-            state.operand0 = &mut state.result.operands[1] as (*mut X86Operand);
-            state.operand1 = &mut state.result.operands[0] as (*mut X86Operand);
+            state.operand0 = &mut state.result.operands[1] as *mut X86Operand;
+            state.operand1 = &mut state.result.operands[0] as *mut X86Operand;
         } else {
-            state.operand0 = &mut state.result.operands[0] as (*mut X86Operand);
-            state.operand1 = &mut state.result.operands[1] as (*mut X86Operand);
+            state.operand0 = &mut state.result.operands[0] as *mut X86Operand;
+            state.operand1 = &mut state.result.operands[1] as *mut X86Operand;
         }
         if state.flags & DecodeFlags::FORCE_16BIT != 0 {
             state.final_op_size = 2;
@@ -7566,7 +7566,7 @@ fn set_operand_to_imm_8(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::IMM;
         (*oper).size = 1u16;
-        (*oper).immediate = read_8(state) as (isize);
+        (*oper).immediate = read_8(state) as isize;
     }
 }
 
@@ -7642,7 +7642,7 @@ fn read_32(state: &mut DecodeState) -> u32 {
         0
     } else {
         unsafe {
-            val = *(state.opcode as (*mut u32));
+            val = *(state.opcode as *mut u32);
             state.opcode = state.opcode.offset(4);
             state.len = state.len.wrapping_sub(4);
             val
@@ -7651,11 +7651,11 @@ fn read_32(state: &mut DecodeState) -> u32 {
 }
 
 fn read_signed_32(state: &mut DecodeState) -> isize {
-    read_32(state) as (i32) as (isize)
+    read_32(state) as i32 as isize
 }
 
 fn read_signed_8(state: &mut DecodeState) -> isize {
-    read_8(state) as (i8) as (isize)
+    read_8(state) as i8 as isize
 }
 
 fn get_final_segment(state: &DecodeState, seg: SegmentRegister) -> SegmentRegister {
@@ -7693,7 +7693,7 @@ fn read_16(state: &mut DecodeState) -> u16 {
         0
     } else {
         unsafe {
-            val = *(state.opcode as (*mut u16));
+            val = *(state.opcode as *mut u16);
             state.opcode = state.opcode.offset(2);
             state.len = state.len.wrapping_sub(2);
             val
@@ -7702,7 +7702,7 @@ fn read_16(state: &mut DecodeState) -> u16 {
 }
 
 fn read_signed_16(state: &mut DecodeState) -> isize {
-    read_16(state) as (i16) as (isize)
+    read_16(state) as i16 as isize
 }
 
 fn decode_rm(
@@ -7719,7 +7719,7 @@ fn decode_rm(
     *reg_oper = rm_byte >> 3 & 7;
     unsafe {
         if rm_oper.is_null() {
-            rm_oper = &mut temp as (*mut X86Operand);
+            rm_oper = &mut temp as *mut X86Operand;
         }
         (*rm_oper).size = rm_size;
     }
@@ -7852,7 +7852,7 @@ fn decode_rm(
                 if rm == 5 {
                     (*rm_oper).immediate = read_signed_32(state);
                     if state.addr_size == 8 {
-                        state.rip_rel_fixup = &mut (*rm_oper).immediate as (*mut isize);
+                        state.rip_rel_fixup = &mut (*rm_oper).immediate as *mut isize;
                     }
                 } else {
                     (*rm_oper).components[0] = addr_reg_list[(rm + rm_reg_1_offset) as usize];
@@ -7950,7 +7950,7 @@ fn decode_reg_rm_imm(state: &mut DecodeState) {
         reg_list,
         final_op_size,
     );
-    let imm_operand = &mut state.result.operands[2] as (*mut X86Operand);
+    let imm_operand = &mut state.result.operands[2] as *mut X86Operand;
     set_operand_to_imm(state, imm_operand);
 }
 
@@ -7968,7 +7968,7 @@ fn decode_rm_reg_imm_8(state: &mut DecodeState) {
         reg_list,
         final_op_size,
     );
-    let imm_operand = &mut state.result.operands[2] as (*mut X86Operand);
+    let imm_operand = &mut state.result.operands[2] as *mut X86Operand;
     set_operand_to_imm_8(state, imm_operand);
 }
 
@@ -8084,7 +8084,7 @@ fn set_operand_to_imm_16(state: &mut DecodeState, oper: *mut X86Operand) {
     unsafe {
         (*oper).operand = OperandType::IMM;
         (*oper).size = 2;
-        (*oper).immediate = read_16(state) as (isize);
+        (*oper).immediate = read_16(state) as isize;
     }
 }
 
@@ -8146,11 +8146,11 @@ fn decode_rel_imm(state: &mut DecodeState) {
         (*state.operand0).size = state.op_size;
         (*state.operand0).immediate = read_signed_final_op_size(state);
         (*state.operand0).immediate =
-            ((*state.operand0).immediate as (usize)).wrapping_add(state.addr.wrapping_add(
-                ((state.opcode as (isize)).wrapping_sub(state.opcode_start as (isize)) /
-                     ::std::mem::size_of::<u8>() as (isize)) as
-                    (usize),
-            )) as (isize);
+            ((*state.operand0).immediate as usize).wrapping_add(state.addr.wrapping_add(
+                ((state.opcode as isize).wrapping_sub(state.opcode_start as isize) /
+                     ::std::mem::size_of::<u8>() as isize) as
+                    usize,
+            )) as isize;
     }
 }
 
@@ -8486,11 +8486,11 @@ fn get_reg_list_for_sse_entry_type(
     entry_type: SSETableOperandType,
 ) -> &'static [OperandType] {
     if entry_type == SSETableOperandType::GPR_32_OR_64 {
-        (if state.op_size == 8 {
+        if state.op_size == 8 {
              &REG64_LIST
          } else {
              &REG32_LIST
-         })
+         }
     } else if entry_type == SSETableOperandType::MMX_64 ||
                entry_type == SSETableOperandType::MMX_32
     {
@@ -8515,7 +8515,7 @@ fn get_size_for_sse_entry_type(state: &DecodeState, entry_type: SSETableOperandT
 fn update_operation_for_sse_entry_type(state: &mut DecodeState, entry_type: SSETableOperandType) {
     if entry_type == SSETableOperandType::GPR_32_OR_64 && (state.op_size == 8) {
         state.result.operation =
-            InstructionOperation::from_i32(state.result.operation as (i32) + 1);
+            InstructionOperation::from_i32(state.result.operation as i32 + 1);
     }
 }
 
@@ -8553,7 +8553,7 @@ fn decode_sse_table(state: &mut DecodeState) {
 
 fn decode_see_table_imm_8(state: &mut DecodeState) {
     decode_sse_table(state);
-    let operand = &mut state.result.operands[2] as (*mut X86Operand);
+    let operand = &mut state.result.operands[2] as *mut X86Operand;
     set_operand_to_imm_8(state, operand);
 }
 
@@ -8693,12 +8693,12 @@ fn decode_mmx_group(state: &mut DecodeState) {
         let operand0 = state.operand0;
         decode_rm(state, operand0, &XMM_REG_LIST, 16, &mut reg_field);
         state.result.operation =
-            MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as (usize)][1];
+            MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as usize][1];
     } else {
         let operand0 = state.operand0;
         decode_rm(state, operand0, &MMX_REG_LIST, 8, &mut reg_field);
         state.result.operation =
-            MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as (usize)][0];
+            MMX_GROUP_OPERATIONS[state.result.operation as usize][reg_field as usize][0];
     }
     let operand1 = state.operand1;
     set_operand_to_imm_8(state, operand1);
@@ -8970,8 +8970,8 @@ fn decode_arpl(state: &mut DecodeState) {
         );
     } else {
         // ARPL instruction
-        state.operand0 = &mut state.result.operands[1] as (*mut X86Operand);
-        state.operand1 = &mut state.result.operands[0] as (*mut X86Operand);
+        state.operand0 = &mut state.result.operands[1] as *mut X86Operand;
+        state.operand1 = &mut state.result.operands[0] as *mut X86Operand;
         state.final_op_size = 2;
         decode_reg_rm(state);
     }
@@ -9047,13 +9047,13 @@ fn finish_disassemble(state: &mut DecodeState) {
         ::std::mem::size_of::<u8>();
     if !state.rip_rel_fixup.is_null() {
         unsafe {
-            *state.rip_rel_fixup = (*state.rip_rel_fixup as (usize)).wrapping_add(
+            *state.rip_rel_fixup = (*state.rip_rel_fixup as usize).wrapping_add(
                 state.addr.wrapping_add(
                     state
                         .result
                         .length,
                 ),
-            ) as (isize);
+            ) as isize;
         }
     }
     if state.insufficient_length && (state.original_length < 15) {
@@ -9167,18 +9167,18 @@ pub fn disassemble_64(opcode: &[u8], addr: usize, max_length: usize) -> Result<X
 }
 
 fn write_operand(
-    stream: &mut fmt::Write,
+    stream: &mut dyn fmt::Write,
     type_: OperandType,
     scale: u8,
     plus: bool,
 ) -> fmt::Result {
     if plus {
-        try!(stream.write_char('+'));
+        stream.write_char('+')?;
     }
-    try!(stream.write_str(OPERAND_TYPE_TABLE[type_ as (usize)].name));
+    stream.write_str(OPERAND_TYPE_TABLE[type_ as usize].name)?;
     if scale != 1 {
-        try!(stream.write_char('*'));
-        try!(stream.write_char((scale + b'0') as char));
+        stream.write_char('*')?;
+        stream.write_char((scale + b'0') as char)?;
     }
     Ok(())
 }
@@ -9227,7 +9227,7 @@ fn get_size_string(size: u16) -> &'static str {
 /// }
 /// ```
 pub fn format_instruction_string(
-    stream: &mut fmt::Write,
+    stream: &mut dyn fmt::Write,
     fmt: &str,
     opcode: Option<&[u8]>,
     addr: usize,
@@ -9249,31 +9249,31 @@ pub fn format_instruction_string(
                 if width == 0 {
                     width = ::std::mem::size_of::<*mut ::std::os::raw::c_void>() * 2;
                 }
-                try!(write!(stream, "{:0width$x}", addr, width = width));
+                write!(stream, "{:0width$x}", addr, width = width)?;
             } else if fmt[f] == 'b' {
                 if let Some(opcode) = opcode {
                     for byte in opcode.iter().take(instr.length) {
-                        try!(write!(stream, "{:02x}", byte));
+                        write!(stream, "{:02x}", byte)?;
                     }
                     for _i in instr.length..width {
-                        try!(stream.write_str("  "));
+                        stream.write_str("  ")?;
                     }
                 }
             } else if fmt[f] == 'i' {
                 if instr.flags & X86Flag::ANY_REP != 0 {
-                    try!(stream.write_str("rep"));
+                    stream.write_str("rep")?;
                     if instr.flags & X86Flag::REPNE != 0 {
-                        try!(stream.write_char('n'));
+                        stream.write_char('n')?;
                     }
                     if instr.flags & (X86Flag::REPNE | X86Flag::REPE) != 0 {
-                        try!(stream.write_char('e'));
+                        stream.write_char('e')?;
                     }
-                    try!(stream.write_char('b'));
+                    stream.write_char('b')?;
                 }
                 if instr.flags & X86Flag::LOCK != 0 {
-                    try!(stream.write_str("lock "));
+                    stream.write_str("lock ")?;
                 }
-                try!(stream.write_str(instr.operation.mnemonic()));
+                stream.write_str(instr.operation.mnemonic())?;
             } else if fmt[f] == 'o' {
                 let mut i: usize = 0;
                 loop {
@@ -9284,49 +9284,49 @@ pub fn format_instruction_string(
                         break;
                     }
                     if i != 0 {
-                        try!(stream.write_str(", "));
+                        stream.write_str(", ")?;
                     }
                     if instr.operands[i].operand == OperandType::IMM {
-                        try!(write!(
+                        write!(
                             stream,
                             "{:#width$x}",
                             instr.operands[i].immediate,
                             width = (instr.operands[i].size * 2) as usize
-                        ));
+                        )?;
                     } else if instr.operands[i].operand == OperandType::MEM {
                         let mut plus: bool = false;
-                        try!(stream.write_str(get_size_string(instr.operands[i].size)));
+                        stream.write_str(get_size_string(instr.operands[i].size))?;
                         if instr.segment != SegmentRegister::DEFAULT ||
                             instr.operands[i].segment == SegmentRegister::ES
                         {
-                            try!(write_operand(
+                            write_operand(
                                 stream,
                                 OperandType::from_i32(
-                                    instr.operands[i].segment as (i32) +
-                                        OperandType::REG_ES as (i32),
+                                    instr.operands[i].segment as i32 +
+                                        OperandType::REG_ES as i32,
                                 ),
                                 1,
                                 false,
-                            ));
-                            try!(stream.write_char(':'));
+                            )?;
+                            stream.write_char(':')?;
                         }
-                        try!(stream.write_char('['));
+                        stream.write_char('[')?;
                         if instr.operands[i].components[0] != OperandType::NONE {
-                            try!(write_operand(
+                            write_operand(
                                 stream,
                                 instr.operands[i].components[0],
                                 1,
                                 false,
-                            ));
+                            )?;
                             plus = true;
                         }
                         if instr.operands[i].components[1] != OperandType::NONE {
-                            try!(write_operand(
+                            write_operand(
                                 stream,
                                 instr.operands[i].components[1],
                                 instr.operands[i].scale,
                                 plus,
-                            ));
+                            )?;
                             plus = true;
                         }
                         if instr.operands[i].immediate != 0 ||
@@ -9336,29 +9336,29 @@ pub fn format_instruction_string(
                             if plus && (instr.operands[i].immediate >= -0x80) &&
                                 (instr.operands[i].immediate < 0)
                             {
-                                try!(write!(stream, "-{:#02x}", -instr.operands[i].immediate));
+                                write!(stream, "-{:#02x}", -instr.operands[i].immediate)?;
                             } else if plus && (instr.operands[i].immediate > 0) &&
                                        (instr.operands[i].immediate <= 0x7f)
                             {
-                                try!(write!(stream, "+{:#02x}", instr.operands[i].immediate));
+                                write!(stream, "+{:#02x}", instr.operands[i].immediate)?;
                             } else {
                                 if plus {
-                                    try!(stream.write_char('+'));
+                                    stream.write_char('+')?;
                                 }
-                                try!(write!(stream, "{:#08x}", instr.operands[i].immediate));
+                                write!(stream, "{:#08x}", instr.operands[i].immediate)?;
                             }
                         }
-                        try!(stream.write_char(']'));
+                        stream.write_char(']')?;
                     } else {
-                        try!(write_operand(stream, instr.operands[i].operand, 1, false));
+                        write_operand(stream, instr.operands[i].operand, 1, false)?;
                     }
                     i += 1;
                 }
             } else if !(fmt[f] >= '0' && fmt[f] <= '9') {
-                try!(stream.write_char(fmt[f]));
+                stream.write_char(fmt[f])?;
             }
         } else {
-            try!(stream.write_char(fmt[f]));
+            stream.write_char(fmt[f])?;
         }
         f += 1;
     }
