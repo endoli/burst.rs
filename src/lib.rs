@@ -29,7 +29,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! burst = "0.0.2"
+//! burst = "0.0.3"
 //! ```
 //!
 //! Then, let `rustc` know that you're going to use this crate at the
